@@ -1,0 +1,11 @@
+{
+  "jobfraud": {
+    "xsd_valid": true,
+    "n_cases": 14562,
+    "agreement": {
+      "jobfraud_decision": 1.0,
+      "jobfraud_gate": 1.0,
+      "jobfraud_route": 1.0
+    }
+  }
+}

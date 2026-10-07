@@ -107,6 +107,7 @@ def main() -> None:
         res.gate["table"].to_csv(out / "gates.csv", index=False)
         for g, c in res.gate["curves"].items():
             c.to_csv(out / f"risk_coverage_{g}.csv", index=False)
+        res.variant_sup["gates"].to_csv(out / "gates_sup.csv", index=False)
         res.calibration["reliability_raw"].to_csv(out / "reliability_raw.csv", index=False)
         res.calibration["reliability_iso"].to_csv(out / "reliability_iso.csv", index=False)
         res.baselines["learning_curves"].to_csv(out / "learning_curves.csv", index=False)
@@ -132,11 +133,13 @@ def main() -> None:
             "distillation": {k: v for k, v in res.distillation.items() if k not in ("sweep", "curve")},
             "verification": res.verification, "calibration": {k: v for k, v in res.calibration.items() if "reliability" not in k},
             "gate": {"aurc": res.gate["aurc"], "validity": res.gate["validity"],
+                     "critical_class": res.gate["critical_class"],
                      "agreement_rate_test": res.gate["agreement_rate_test"],
                      "accuracy_when_agree": res.gate["accuracy_when_agree"],
                      "accuracy_when_disagree": res.gate["accuracy_when_disagree"]},
             "baselines": {k: v for k, v in res.baselines.items() if k != "learning_curves"},
             "operational": res.operational, "xml_roundtrip_agreement": roundtrip,
+            "dmn_sup": {k: v for k, v in res.variant_sup.items() if k not in ("gates", "table")},
             "config": asdict(cfg),
         }
         (out / "summary.json").write_text(json.dumps(summary, indent=2, default=_jsonable))
@@ -145,6 +148,10 @@ def main() -> None:
               f"kappa={d['fidelity_test']['kappa']:.3f} acc(dmn)={d['accuracy_test']['accuracy']:.3f} "
               f"acc(jev)={summary['baselines']['jev_holistic']['accuracy']:.3f} roundtrip={roundtrip:.3f}")
         print(res.gate["table"].query("gate != 'none' and agreement").to_string(index=False))
+        vs = res.variant_sup
+        print(f"[{name}] DMN-Sup: rules={vs['n_rules']} inputs={vs['n_inputs']} acc={vs['accuracy_test']['accuracy']:.3f} "
+              f"agree(jev)={vs['agreement_with_jev_test']:.3f}")
+        print(vs["gates"].query("gate == 'learned'").to_string(index=False))
 
 
 if __name__ == "__main__":

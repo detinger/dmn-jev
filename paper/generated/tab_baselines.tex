@@ -1,17 +1,23 @@
-\begin{tabular}{@{}llrrrc@{}}
+\begin{tabular}{@{}llrrrrc@{}}
 \toprule
-Task & Method & Labels & Acc. (\%) & Macro-F1 & Auditable logic \\
+Task & Method & Labels & Acc. (\%) & Bal. acc. (\%) & Recall$_+$ (\%) & Auditable logic \\
 \midrule
-Monetary relief & Majority class & 4,799 & 83.2 & 0.454 & -- \\
- & Jev holistic & 0 & 48.3 & 0.465 & no \\
- & Jev + DMN (distilled, ours) & 0 & 41.2 & 0.405 & yes \\
- & Jev + DMN (supervised) & 4,799 & 83.2 & 0.454 & yes \\
- & TF-IDF + logistic regression & 4,799 & 83.1 & 0.503 & no \\
+Monetary relief & Majority class & 4,799 & 83.2 & 50.0 & 0.0 & -- \\
+ & Jev holistic & 0 & 48.3 & 64.7 & 89.2 & no \\
+ & Jev + DMN, distilled (ours) & 0 & 46.7 & 61.9 & 84.8 & yes \\
+ & Jev + DMN, supervised (DMN-Sup) & 4,799 & 61.1 & 66.7 & 75.1 & yes \\
+ & TF-IDF + logistic regression & 4,799 & 83.1 & 52.1 & 5.6 & no \\
 \midrule
-Complaint routing & Majority class & 6,000 & 12.5 & 0.028 & -- \\
- & Jev holistic & 0 & 70.8 & 0.715 & no \\
- & Jev + DMN (distilled, ours) & 0 & 71.9 & 0.725 & yes \\
- & Jev + DMN (supervised) & 6,000 & 74.9 & 0.744 & yes \\
- & TF-IDF + logistic regression & 6,000 & 74.0 & 0.735 & no \\
+Complaint routing & Majority class & 6,000 & 12.5 & 12.5 & -- & -- \\
+ & Jev holistic & 0 & 70.8 & 70.8 & -- & no \\
+ & Jev + DMN, distilled (ours) & 0 & 72.4 & 72.4 & -- & yes \\
+ & Jev + DMN, supervised (DMN-Sup) & 6,000 & 75.0 & 75.0 & -- & yes \\
+ & TF-IDF + logistic regression & 6,000 & 74.0 & 74.0 & -- & no \\
+\midrule
+Job-posting fraud & Majority class & 8,736 & 95.8 & 50.0 & 0.0 & -- \\
+ & Jev holistic & 0 & 86.8 & 61.2 & 33.3 & no \\
+ & Jev + DMN, distilled (ours) & 0 & 82.7 & 58.3 & 31.7 & yes \\
+ & Jev + DMN, supervised (DMN-Sup) & 8,736 & 78.6 & 76.0 & 73.2 & yes \\
+ & TF-IDF + logistic regression & 8,736 & 97.3 & 67.5 & 35.0 & no \\
 \bottomrule
 \end{tabular}

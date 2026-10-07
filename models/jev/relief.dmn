@@ -12,9 +12,6 @@
     <informationRequirement id="ir_money_lost_to_relief_decision">
       <requiredInput href="#input_money_lost" />
     </informationRequirement>
-    <informationRequirement id="ir_refund_requested_to_relief_decision">
-      <requiredInput href="#input_refund_requested" />
-    </informationRequirement>
     <authorityRequirement id="ar_ks_teacher_to_relief_decision">
       <requiredAuthority href="#ks_teacher" />
     </authorityRequirement>
@@ -22,11 +19,6 @@
       <input id="in_relief_decision_0" label="Money lost">
         <inputExpression id="expr_relief_decision_0" typeRef="boolean">
           <text>money_lost</text>
-        </inputExpression>
-      </input>
-      <input id="in_relief_decision_1" label="Refund requested">
-        <inputExpression id="expr_relief_decision_1" typeRef="boolean">
-          <text>refund_requested</text>
         </inputExpression>
       </input>
       <output id="out_relief_decision" name="relief_decision" label="Monetary relief" typeRef="string">
@@ -40,51 +32,28 @@
         <inputEntry id="ie_relief_decision_1_0">
           <text>false</text>
         </inputEntry>
-        <inputEntry id="ie_relief_decision_1_1">
-          <text>false</text>
-        </inputEntry>
         <outputEntry id="oe_relief_decision_1">
           <text>"no_relief"</text>
         </outputEntry>
         <annotationEntry>
-          <text>1410</text>
+          <text>1808</text>
         </annotationEntry>
         <annotationEntry>
-          <text>0.945</text>
+          <text>0.885</text>
         </annotationEntry>
       </rule>
       <rule id="rule_relief_decision_2">
         <inputEntry id="ie_relief_decision_2_0">
-          <text>-</text>
-        </inputEntry>
-        <inputEntry id="ie_relief_decision_2_1">
           <text>true</text>
         </inputEntry>
         <outputEntry id="oe_relief_decision_2">
           <text>"relief"</text>
         </outputEntry>
         <annotationEntry>
-          <text>2681</text>
+          <text>2991</text>
         </annotationEntry>
         <annotationEntry>
-          <text>0.906</text>
-        </annotationEntry>
-      </rule>
-      <rule id="rule_relief_decision_3">
-        <inputEntry id="ie_relief_decision_3_0">
-          <text>true</text>
-        </inputEntry>
-        <inputEntry id="ie_relief_decision_3_1">
-          <text>false</text>
-        </inputEntry>
-        <outputEntry id="oe_relief_decision_3">
-          <text>"relief"</text>
-        </outputEntry>
-        <annotationEntry>
-          <text>708</text>
-        </annotationEntry>
-        <annotationEntry>
-          <text>0.730</text>
+          <text>0.842</text>
         </annotationEntry>
       </rule>
     </decisionTable>
@@ -111,7 +80,7 @@
           <text>800</text>
         </annotationEntry>
         <annotationEntry>
-          <text>0.456</text>
+          <text>0.646</text>
         </annotationEntry>
       </rule>
     </decisionTable>
@@ -206,10 +175,6 @@
     <description>Jev typed answer to: The consumer says they lost money or were charged money that they believe they should not have paid.</description>
     <variable id="var_money_lost" name="money_lost" typeRef="boolean" />
   </inputData>
-  <inputData id="input_refund_requested" name="Refund requested">
-    <description>Jev typed answer to: The consumer asks the company for a refund, a reimbursement, a credit to their account, or the return of their money.</description>
-    <variable id="var_refund_requested" name="refund_requested" typeRef="boolean" />
-  </inputData>
   <inputData id="input_relief_holistic" name="Jev decision (Monetary relief)">
     <description>Jev holistic answer to: Based on the complaint, the company should refund or reimburse money to the consumer.</description>
     <variable id="var_relief_holistic" name="relief_holistic" typeRef="t_relief_holistic" />
@@ -223,56 +188,49 @@
   <dmndi:DMNDI>
     <dmndi:DMNDiagram id="DMNDiagram_1">
       <dmndi:DMNShape id="shape_decision_relief_route" dmnElementRef="decision_relief_route">
-        <dc:Bounds x="210" y="0" width="180" height="80" />
+        <dc:Bounds x="105" y="0" width="180" height="80" />
       </dmndi:DMNShape>
       <dmndi:DMNShape id="shape_decision_relief_decision" dmnElementRef="decision_relief_decision">
-        <dc:Bounds x="105" y="200" width="180" height="80" />
+        <dc:Bounds x="0" y="200" width="180" height="80" />
       </dmndi:DMNShape>
       <dmndi:DMNShape id="shape_decision_relief_gate" dmnElementRef="decision_relief_gate">
-        <dc:Bounds x="315" y="200" width="180" height="80" />
+        <dc:Bounds x="210" y="200" width="180" height="80" />
       </dmndi:DMNShape>
       <dmndi:DMNShape id="shape_input_money_lost" dmnElementRef="input_money_lost">
         <dc:Bounds x="0" y="400" width="180" height="80" />
       </dmndi:DMNShape>
-      <dmndi:DMNShape id="shape_input_refund_requested" dmnElementRef="input_refund_requested">
+      <dmndi:DMNShape id="shape_input_relief_holistic" dmnElementRef="input_relief_holistic">
         <dc:Bounds x="210" y="400" width="180" height="80" />
       </dmndi:DMNShape>
-      <dmndi:DMNShape id="shape_input_relief_holistic" dmnElementRef="input_relief_holistic">
-        <dc:Bounds x="420" y="400" width="180" height="80" />
-      </dmndi:DMNShape>
       <dmndi:DMNShape id="shape_ks_teacher" dmnElementRef="ks_teacher">
-        <dc:Bounds x="660" y="200" width="180" height="80" />
+        <dc:Bounds x="450" y="200" width="180" height="80" />
       </dmndi:DMNShape>
       <dmndi:DMNShape id="shape_ks_calibration" dmnElementRef="ks_calibration">
-        <dc:Bounds x="870" y="200" width="180" height="80" />
+        <dc:Bounds x="660" y="200" width="180" height="80" />
       </dmndi:DMNShape>
       <dmndi:DMNEdge id="edge_ir_money_lost_to_relief_decision" dmnElementRef="ir_money_lost_to_relief_decision">
         <di:waypoint x="90" y="400" />
-        <di:waypoint x="195" y="280" />
-      </dmndi:DMNEdge>
-      <dmndi:DMNEdge id="edge_ir_refund_requested_to_relief_decision" dmnElementRef="ir_refund_requested_to_relief_decision">
-        <di:waypoint x="300" y="400" />
-        <di:waypoint x="195" y="280" />
+        <di:waypoint x="90" y="280" />
       </dmndi:DMNEdge>
       <dmndi:DMNEdge id="edge_ar_ks_teacher_to_relief_decision" dmnElementRef="ar_ks_teacher_to_relief_decision">
-        <di:waypoint x="660" y="240" />
-        <di:waypoint x="285" y="240" />
+        <di:waypoint x="450" y="240" />
+        <di:waypoint x="180" y="240" />
       </dmndi:DMNEdge>
       <dmndi:DMNEdge id="edge_ar_ks_calibration_to_relief_gate" dmnElementRef="ar_ks_calibration_to_relief_gate">
-        <di:waypoint x="870" y="240" />
-        <di:waypoint x="495" y="240" />
+        <di:waypoint x="660" y="240" />
+        <di:waypoint x="390" y="240" />
       </dmndi:DMNEdge>
       <dmndi:DMNEdge id="edge_ir_relief_decision_to_relief_route" dmnElementRef="ir_relief_decision_to_relief_route">
-        <di:waypoint x="195" y="200" />
-        <di:waypoint x="300" y="80" />
+        <di:waypoint x="90" y="200" />
+        <di:waypoint x="195" y="80" />
       </dmndi:DMNEdge>
       <dmndi:DMNEdge id="edge_ir_relief_gate_to_relief_route" dmnElementRef="ir_relief_gate_to_relief_route">
-        <di:waypoint x="405" y="200" />
-        <di:waypoint x="300" y="80" />
+        <di:waypoint x="300" y="200" />
+        <di:waypoint x="195" y="80" />
       </dmndi:DMNEdge>
       <dmndi:DMNEdge id="edge_ir_relief_holistic_to_relief_route" dmnElementRef="ir_relief_holistic_to_relief_route">
-        <di:waypoint x="510" y="400" />
-        <di:waypoint x="300" y="80" />
+        <di:waypoint x="300" y="400" />
+        <di:waypoint x="195" y="80" />
       </dmndi:DMNEdge>
     </dmndi:DMNDiagram>
   </dmndi:DMNDI>

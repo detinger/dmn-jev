@@ -1,3 +1,2 @@
-easy_money (confidence),Confidence gate,support,purity
-> 0.7,auto,1377,0.9702251270878722
-<= 0.7,review,79,0.6835443037974683
+Confidence gate,support,purity
+review,1456,0.6489121356050758

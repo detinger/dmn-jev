@@ -1,5 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" id="drd_jobfraud" name="Fraudulent posting (Jev + DMN)" namespace="https://fipu.unipu.hr/jevdmn" exporter="jevdmn" exporterVersion="0.1.0">
+  <itemDefinition id="type_job_category" name="t_job_category">
+    <typeRef>string</typeRef>
+    <allowedValues id="allowed_job_category">
+      <text>"admin","customer_service","sales_marketing","it_engineering","healthcare","finance","energy_industry","hospitality","other"</text>
+    </allowedValues>
+  </itemDefinition>
   <itemDefinition id="type_fraud_holistic" name="t_fraud_holistic">
     <typeRef>string</typeRef>
     <allowedValues id="allowed_fraud_holistic">
@@ -9,16 +15,99 @@
   <decision id="decision_jobfraud_decision" name="Fraudulent posting">
     <description>Distilled decision table (Decide whether a job posting is fraudulent and should be removed.)</description>
     <variable id="var_jobfraud_decision" name="jobfraud_decision" typeRef="string" />
+    <informationRequirement id="ir_job_category_to_jobfraud_decision">
+      <requiredInput href="#input_job_category" />
+    </informationRequirement>
+    <informationRequirement id="ir_company_described_to_jobfraud_decision">
+      <requiredInput href="#input_company_described" />
+    </informationRequirement>
+    <informationRequirement id="ir_company_named_to_jobfraud_decision">
+      <requiredInput href="#input_company_named" />
+    </informationRequirement>
+    <informationRequirement id="ir_remote_work_to_jobfraud_decision">
+      <requiredInput href="#input_remote_work" />
+    </informationRequirement>
+    <informationRequirement id="ir_pay_stated_to_jobfraud_decision">
+      <requiredInput href="#input_pay_stated" />
+    </informationRequirement>
     <informationRequirement id="ir_easy_money_to_jobfraud_decision">
       <requiredInput href="#input_easy_money" />
+    </informationRequirement>
+    <informationRequirement id="ir_requirements_listed_to_jobfraud_decision">
+      <requiredInput href="#input_requirements_listed" />
+    </informationRequirement>
+    <informationRequirement id="ir_benefits_listed_to_jobfraud_decision">
+      <requiredInput href="#input_benefits_listed" />
+    </informationRequirement>
+    <informationRequirement id="ir_offplatform_contact_to_jobfraud_decision">
+      <requiredInput href="#input_offplatform_contact" />
+    </informationRequirement>
+    <informationRequirement id="ir_duties_specificity_to_jobfraud_decision">
+      <requiredInput href="#input_duties_specificity" />
+    </informationRequirement>
+    <informationRequirement id="ir_writing_quality_to_jobfraud_decision">
+      <requiredInput href="#input_writing_quality" />
     </informationRequirement>
     <authorityRequirement id="ar_ks_teacher_to_jobfraud_decision">
       <requiredAuthority href="#ks_teacher" />
     </authorityRequirement>
     <decisionTable id="table_jobfraud_decision" hitPolicy="UNIQUE">
-      <input id="in_jobfraud_decision_0" label="Easy money">
-        <inputExpression id="expr_jobfraud_decision_0" typeRef="boolean">
+      <input id="in_jobfraud_decision_0" label="Job category">
+        <inputExpression id="expr_jobfraud_decision_0" typeRef="string">
+          <text>job_category</text>
+        </inputExpression>
+        <inputValues id="iv_jobfraud_decision_0">
+          <text>"admin","customer_service","sales_marketing","it_engineering","healthcare","finance","energy_industry","hospitality","other"</text>
+        </inputValues>
+      </input>
+      <input id="in_jobfraud_decision_1" label="Company described">
+        <inputExpression id="expr_jobfraud_decision_1" typeRef="boolean">
+          <text>company_described</text>
+        </inputExpression>
+      </input>
+      <input id="in_jobfraud_decision_2" label="Company named">
+        <inputExpression id="expr_jobfraud_decision_2" typeRef="boolean">
+          <text>company_named</text>
+        </inputExpression>
+      </input>
+      <input id="in_jobfraud_decision_3" label="Remote work">
+        <inputExpression id="expr_jobfraud_decision_3" typeRef="boolean">
+          <text>remote_work</text>
+        </inputExpression>
+      </input>
+      <input id="in_jobfraud_decision_4" label="Pay stated">
+        <inputExpression id="expr_jobfraud_decision_4" typeRef="boolean">
+          <text>pay_stated</text>
+        </inputExpression>
+      </input>
+      <input id="in_jobfraud_decision_5" label="Easy money">
+        <inputExpression id="expr_jobfraud_decision_5" typeRef="boolean">
           <text>easy_money</text>
+        </inputExpression>
+      </input>
+      <input id="in_jobfraud_decision_6" label="Requirements listed">
+        <inputExpression id="expr_jobfraud_decision_6" typeRef="boolean">
+          <text>requirements_listed</text>
+        </inputExpression>
+      </input>
+      <input id="in_jobfraud_decision_7" label="Benefits listed">
+        <inputExpression id="expr_jobfraud_decision_7" typeRef="boolean">
+          <text>benefits_listed</text>
+        </inputExpression>
+      </input>
+      <input id="in_jobfraud_decision_8" label="Off-platform contact">
+        <inputExpression id="expr_jobfraud_decision_8" typeRef="boolean">
+          <text>offplatform_contact</text>
+        </inputExpression>
+      </input>
+      <input id="in_jobfraud_decision_9" label="Specific duties">
+        <inputExpression id="expr_jobfraud_decision_9" typeRef="number">
+          <text>duties_specificity</text>
+        </inputExpression>
+      </input>
+      <input id="in_jobfraud_decision_10" label="Writing quality">
+        <inputExpression id="expr_jobfraud_decision_10" typeRef="number">
+          <text>writing_quality</text>
         </inputExpression>
       </input>
       <output id="out_jobfraud_decision" name="jobfraud_decision" label="Fraudulent posting" typeRef="string">
@@ -30,30 +119,2158 @@
       <annotation name="Purity" />
       <rule id="rule_jobfraud_decision_1">
         <inputEntry id="ie_jobfraud_decision_1_0">
+          <text>not("admin","customer_service","energy_industry")</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_1_1">
           <text>true</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_1_2">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_1_3">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_1_4">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_1_5">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_1_6">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_1_7">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_1_8">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_1_9">
+          <text>&gt;= 2</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_1_10">
+          <text>&lt;= 1</text>
         </inputEntry>
         <outputEntry id="oe_jobfraud_decision_1">
           <text>"fraudulent"</text>
         </outputEntry>
         <annotationEntry>
-          <text>173</text>
+          <text>341</text>
         </annotationEntry>
         <annotationEntry>
-          <text>0.809</text>
+          <text>0.757</text>
         </annotationEntry>
       </rule>
       <rule id="rule_jobfraud_decision_2">
         <inputEntry id="ie_jobfraud_decision_2_0">
+          <text>"energy_industry"</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_2_1">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_2_2">
           <text>false</text>
         </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_2_3">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_2_4">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_2_5">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_2_6">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_2_7">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_2_8">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_2_9">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_2_10">
+          <text>&lt;= 1</text>
+        </inputEntry>
         <outputEntry id="oe_jobfraud_decision_2">
+          <text>"fraudulent"</text>
+        </outputEntry>
+        <annotationEntry>
+          <text>130</text>
+        </annotationEntry>
+        <annotationEntry>
+          <text>0.963</text>
+        </annotationEntry>
+      </rule>
+      <rule id="rule_jobfraud_decision_3">
+        <inputEntry id="ie_jobfraud_decision_3_0">
+          <text>not("sales_marketing")</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_3_1">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_3_2">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_3_3">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_3_4">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_3_5">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_3_6">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_3_7">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_3_8">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_3_9">
+          <text>0</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_3_10">
+          <text>1</text>
+        </inputEntry>
+        <outputEntry id="oe_jobfraud_decision_3">
+          <text>"fraudulent"</text>
+        </outputEntry>
+        <annotationEntry>
+          <text>107</text>
+        </annotationEntry>
+        <annotationEntry>
+          <text>0.727</text>
+        </annotationEntry>
+      </rule>
+      <rule id="rule_jobfraud_decision_4">
+        <inputEntry id="ie_jobfraud_decision_4_0">
+          <text>not("it_engineering")</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_4_1">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_4_2">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_4_3">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_4_4">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_4_5">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_4_6">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_4_7">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_4_8">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_4_9">
+          <text>&gt;= 2</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_4_10">
+          <text>1</text>
+        </inputEntry>
+        <outputEntry id="oe_jobfraud_decision_4">
+          <text>"fraudulent"</text>
+        </outputEntry>
+        <annotationEntry>
+          <text>97</text>
+        </annotationEntry>
+        <annotationEntry>
+          <text>0.722</text>
+        </annotationEntry>
+      </rule>
+      <rule id="rule_jobfraud_decision_5">
+        <inputEntry id="ie_jobfraud_decision_5_0">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_5_1">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_5_2">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_5_3">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_5_4">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_5_5">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_5_6">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_5_7">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_5_8">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_5_9">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_5_10">
+          <text>0</text>
+        </inputEntry>
+        <outputEntry id="oe_jobfraud_decision_5">
+          <text>"fraudulent"</text>
+        </outputEntry>
+        <annotationEntry>
+          <text>87</text>
+        </annotationEntry>
+        <annotationEntry>
+          <text>0.889</text>
+        </annotationEntry>
+      </rule>
+      <rule id="rule_jobfraud_decision_6">
+        <inputEntry id="ie_jobfraud_decision_6_0">
+          <text>not("healthcare","energy_industry")</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_6_1">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_6_2">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_6_3">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_6_4">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_6_5">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_6_6">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_6_7">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_6_8">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_6_9">
+          <text>1</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_6_10">
+          <text>&lt;= 1</text>
+        </inputEntry>
+        <outputEntry id="oe_jobfraud_decision_6">
+          <text>"fraudulent"</text>
+        </outputEntry>
+        <annotationEntry>
+          <text>79</text>
+        </annotationEntry>
+        <annotationEntry>
+          <text>0.900</text>
+        </annotationEntry>
+      </rule>
+      <rule id="rule_jobfraud_decision_7">
+        <inputEntry id="ie_jobfraud_decision_7_0">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_7_1">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_7_2">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_7_3">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_7_4">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_7_5">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_7_6">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_7_7">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_7_8">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_7_9">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_7_10">
+          <text>&lt;= 1</text>
+        </inputEntry>
+        <outputEntry id="oe_jobfraud_decision_7">
+          <text>"fraudulent"</text>
+        </outputEntry>
+        <annotationEntry>
+          <text>73</text>
+        </annotationEntry>
+        <annotationEntry>
+          <text>0.972</text>
+        </annotationEntry>
+      </rule>
+      <rule id="rule_jobfraud_decision_8">
+        <inputEntry id="ie_jobfraud_decision_8_0">
+          <text>not("energy_industry")</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_8_1">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_8_2">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_8_3">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_8_4">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_8_5">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_8_6">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_8_7">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_8_8">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_8_9">
+          <text>0</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_8_10">
+          <text>&lt;= 1</text>
+        </inputEntry>
+        <outputEntry id="oe_jobfraud_decision_8">
+          <text>"fraudulent"</text>
+        </outputEntry>
+        <annotationEntry>
+          <text>52</text>
+        </annotationEntry>
+        <annotationEntry>
+          <text>0.936</text>
+        </annotationEntry>
+      </rule>
+      <rule id="rule_jobfraud_decision_9">
+        <inputEntry id="ie_jobfraud_decision_9_0">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_9_1">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_9_2">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_9_3">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_9_4">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_9_5">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_9_6">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_9_7">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_9_8">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_9_9">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_9_10">
+          <text>&lt;= 1</text>
+        </inputEntry>
+        <outputEntry id="oe_jobfraud_decision_9">
+          <text>"fraudulent"</text>
+        </outputEntry>
+        <annotationEntry>
+          <text>44</text>
+        </annotationEntry>
+        <annotationEntry>
+          <text>0.971</text>
+        </annotationEntry>
+      </rule>
+      <rule id="rule_jobfraud_decision_10">
+        <inputEntry id="ie_jobfraud_decision_10_0">
+          <text>not("customer_service","energy_industry")</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_10_1">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_10_2">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_10_3">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_10_4">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_10_5">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_10_6">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_10_7">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_10_8">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_10_9">
+          <text>&gt;= 2</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_10_10">
+          <text>&lt;= 1</text>
+        </inputEntry>
+        <outputEntry id="oe_jobfraud_decision_10">
+          <text>"fraudulent"</text>
+        </outputEntry>
+        <annotationEntry>
+          <text>44</text>
+        </annotationEntry>
+        <annotationEntry>
+          <text>0.862</text>
+        </annotationEntry>
+      </rule>
+      <rule id="rule_jobfraud_decision_11">
+        <inputEntry id="ie_jobfraud_decision_11_0">
+          <text>"sales_marketing"</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_11_1">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_11_2">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_11_3">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_11_4">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_11_5">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_11_6">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_11_7">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_11_8">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_11_9">
+          <text>1</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_11_10">
+          <text>1</text>
+        </inputEntry>
+        <outputEntry id="oe_jobfraud_decision_11">
+          <text>"fraudulent"</text>
+        </outputEntry>
+        <annotationEntry>
+          <text>44</text>
+        </annotationEntry>
+        <annotationEntry>
+          <text>0.714</text>
+        </annotationEntry>
+      </rule>
+      <rule id="rule_jobfraud_decision_12">
+        <inputEntry id="ie_jobfraud_decision_12_0">
+          <text>"sales_marketing"</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_12_1">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_12_2">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_12_3">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_12_4">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_12_5">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_12_6">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_12_7">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_12_8">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_12_9">
+          <text>&lt;= 1</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_12_10">
+          <text>1</text>
+        </inputEntry>
+        <outputEntry id="oe_jobfraud_decision_12">
+          <text>"fraudulent"</text>
+        </outputEntry>
+        <annotationEntry>
+          <text>34</text>
+        </annotationEntry>
+        <annotationEntry>
+          <text>0.860</text>
+        </annotationEntry>
+      </rule>
+      <rule id="rule_jobfraud_decision_13">
+        <inputEntry id="ie_jobfraud_decision_13_0">
+          <text>not("sales_marketing")</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_13_1">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_13_2">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_13_3">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_13_4">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_13_5">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_13_6">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_13_7">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_13_8">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_13_9">
+          <text>1</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_13_10">
+          <text>1</text>
+        </inputEntry>
+        <outputEntry id="oe_jobfraud_decision_13">
+          <text>"fraudulent"</text>
+        </outputEntry>
+        <annotationEntry>
+          <text>33</text>
+        </annotationEntry>
+        <annotationEntry>
+          <text>0.765</text>
+        </annotationEntry>
+      </rule>
+      <rule id="rule_jobfraud_decision_14">
+        <inputEntry id="ie_jobfraud_decision_14_0">
+          <text>"energy_industry"</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_14_1">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_14_2">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_14_3">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_14_4">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_14_5">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_14_6">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_14_7">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_14_8">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_14_9">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_14_10">
+          <text>&lt;= 1</text>
+        </inputEntry>
+        <outputEntry id="oe_jobfraud_decision_14">
+          <text>"fraudulent"</text>
+        </outputEntry>
+        <annotationEntry>
+          <text>27</text>
+        </annotationEntry>
+        <annotationEntry>
+          <text>0.928</text>
+        </annotationEntry>
+      </rule>
+      <rule id="rule_jobfraud_decision_15">
+        <inputEntry id="ie_jobfraud_decision_15_0">
+          <text>"finance"</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_15_1">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_15_2">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_15_3">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_15_4">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_15_5">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_15_6">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_15_7">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_15_8">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_15_9">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_15_10">
+          <text>1</text>
+        </inputEntry>
+        <outputEntry id="oe_jobfraud_decision_15">
+          <text>"fraudulent"</text>
+        </outputEntry>
+        <annotationEntry>
+          <text>25</text>
+        </annotationEntry>
+        <annotationEntry>
+          <text>0.832</text>
+        </annotationEntry>
+      </rule>
+      <rule id="rule_jobfraud_decision_16">
+        <inputEntry id="ie_jobfraud_decision_16_0">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_16_1">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_16_2">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_16_3">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_16_4">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_16_5">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_16_6">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_16_7">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_16_8">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_16_9">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_16_10">
+          <text>0</text>
+        </inputEntry>
+        <outputEntry id="oe_jobfraud_decision_16">
+          <text>"fraudulent"</text>
+        </outputEntry>
+        <annotationEntry>
+          <text>24</text>
+        </annotationEntry>
+        <annotationEntry>
+          <text>0.878</text>
+        </annotationEntry>
+      </rule>
+      <rule id="rule_jobfraud_decision_17">
+        <inputEntry id="ie_jobfraud_decision_17_0">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_17_1">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_17_2">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_17_3">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_17_4">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_17_5">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_17_6">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_17_7">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_17_8">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_17_9">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_17_10">
+          <text>&gt;= 2</text>
+        </inputEntry>
+        <outputEntry id="oe_jobfraud_decision_17">
+          <text>"fraudulent"</text>
+        </outputEntry>
+        <annotationEntry>
+          <text>22</text>
+        </annotationEntry>
+        <annotationEntry>
+          <text>0.875</text>
+        </annotationEntry>
+      </rule>
+      <rule id="rule_jobfraud_decision_18">
+        <inputEntry id="ie_jobfraud_decision_18_0">
+          <text>not("energy_industry")</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_18_1">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_18_2">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_18_3">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_18_4">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_18_5">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_18_6">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_18_7">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_18_8">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_18_9">
+          <text>&lt;= 1</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_18_10">
+          <text>&lt;= 1</text>
+        </inputEntry>
+        <outputEntry id="oe_jobfraud_decision_18">
+          <text>"fraudulent"</text>
+        </outputEntry>
+        <annotationEntry>
+          <text>19</text>
+        </annotationEntry>
+        <annotationEntry>
+          <text>0.993</text>
+        </annotationEntry>
+      </rule>
+      <rule id="rule_jobfraud_decision_19">
+        <inputEntry id="ie_jobfraud_decision_19_0">
+          <text>not("it_engineering","hospitality")</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_19_1">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_19_2">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_19_3">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_19_4">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_19_5">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_19_6">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_19_7">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_19_8">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_19_9">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_19_10">
+          <text>2</text>
+        </inputEntry>
+        <outputEntry id="oe_jobfraud_decision_19">
+          <text>"fraudulent"</text>
+        </outputEntry>
+        <annotationEntry>
+          <text>18</text>
+        </annotationEntry>
+        <annotationEntry>
+          <text>0.600</text>
+        </annotationEntry>
+      </rule>
+      <rule id="rule_jobfraud_decision_20">
+        <inputEntry id="ie_jobfraud_decision_20_0">
+          <text>"hospitality"</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_20_1">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_20_2">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_20_3">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_20_4">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_20_5">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_20_6">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_20_7">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_20_8">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_20_9">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_20_10">
+          <text>3</text>
+        </inputEntry>
+        <outputEntry id="oe_jobfraud_decision_20">
+          <text>"fraudulent"</text>
+        </outputEntry>
+        <annotationEntry>
+          <text>18</text>
+        </annotationEntry>
+        <annotationEntry>
+          <text>0.801</text>
+        </annotationEntry>
+      </rule>
+      <rule id="rule_jobfraud_decision_21">
+        <inputEntry id="ie_jobfraud_decision_21_0">
+          <text>not("finance")</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_21_1">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_21_2">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_21_3">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_21_4">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_21_5">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_21_6">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_21_7">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_21_8">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_21_9">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_21_10">
+          <text>1</text>
+        </inputEntry>
+        <outputEntry id="oe_jobfraud_decision_21">
+          <text>"fraudulent"</text>
+        </outputEntry>
+        <annotationEntry>
+          <text>15</text>
+        </annotationEntry>
+        <annotationEntry>
+          <text>0.789</text>
+        </annotationEntry>
+      </rule>
+      <rule id="rule_jobfraud_decision_22">
+        <inputEntry id="ie_jobfraud_decision_22_0">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_22_1">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_22_2">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_22_3">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_22_4">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_22_5">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_22_6">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_22_7">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_22_8">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_22_9">
+          <text>&gt;= 2</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_22_10">
+          <text>1</text>
+        </inputEntry>
+        <outputEntry id="oe_jobfraud_decision_22">
+          <text>"fraudulent"</text>
+        </outputEntry>
+        <annotationEntry>
+          <text>13</text>
+        </annotationEntry>
+        <annotationEntry>
+          <text>0.923</text>
+        </annotationEntry>
+      </rule>
+      <rule id="rule_jobfraud_decision_23">
+        <inputEntry id="ie_jobfraud_decision_23_0">
+          <text>not("it_engineering","hospitality")</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_23_1">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_23_2">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_23_3">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_23_4">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_23_5">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_23_6">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_23_7">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_23_8">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_23_9">
+          <text>&lt;= 1</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_23_10">
+          <text>&gt;= 2</text>
+        </inputEntry>
+        <outputEntry id="oe_jobfraud_decision_23">
+          <text>"fraudulent"</text>
+        </outputEntry>
+        <annotationEntry>
+          <text>10</text>
+        </annotationEntry>
+        <annotationEntry>
+          <text>0.833</text>
+        </annotationEntry>
+      </rule>
+      <rule id="rule_jobfraud_decision_24">
+        <inputEntry id="ie_jobfraud_decision_24_0">
+          <text>"finance"</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_24_1">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_24_2">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_24_3">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_24_4">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_24_5">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_24_6">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_24_7">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_24_8">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_24_9">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_24_10">
+          <text>1</text>
+        </inputEntry>
+        <outputEntry id="oe_jobfraud_decision_24">
+          <text>"fraudulent"</text>
+        </outputEntry>
+        <annotationEntry>
+          <text>8</text>
+        </annotationEntry>
+        <annotationEntry>
+          <text>0.517</text>
+        </annotationEntry>
+      </rule>
+      <rule id="rule_jobfraud_decision_25">
+        <inputEntry id="ie_jobfraud_decision_25_0">
+          <text>not("it_engineering","hospitality")</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_25_1">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_25_2">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_25_3">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_25_4">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_25_5">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_25_6">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_25_7">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_25_8">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_25_9">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_25_10">
+          <text>&gt;= 2</text>
+        </inputEntry>
+        <outputEntry id="oe_jobfraud_decision_25">
+          <text>"fraudulent"</text>
+        </outputEntry>
+        <annotationEntry>
+          <text>8</text>
+        </annotationEntry>
+        <annotationEntry>
+          <text>0.818</text>
+        </annotationEntry>
+      </rule>
+      <rule id="rule_jobfraud_decision_26">
+        <inputEntry id="ie_jobfraud_decision_26_0">
+          <text>"hospitality"</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_26_1">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_26_2">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_26_3">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_26_4">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_26_5">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_26_6">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_26_7">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_26_8">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_26_9">
+          <text>&lt;= 2</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_26_10">
+          <text>2</text>
+        </inputEntry>
+        <outputEntry id="oe_jobfraud_decision_26">
+          <text>"fraudulent"</text>
+        </outputEntry>
+        <annotationEntry>
+          <text>7</text>
+        </annotationEntry>
+        <annotationEntry>
+          <text>0.909</text>
+        </annotationEntry>
+      </rule>
+      <rule id="rule_jobfraud_decision_27">
+        <inputEntry id="ie_jobfraud_decision_27_0">
+          <text>not("finance")</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_27_1">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_27_2">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_27_3">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_27_4">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_27_5">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_27_6">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_27_7">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_27_8">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_27_9">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_27_10">
+          <text>1</text>
+        </inputEntry>
+        <outputEntry id="oe_jobfraud_decision_27">
+          <text>"fraudulent"</text>
+        </outputEntry>
+        <annotationEntry>
+          <text>6</text>
+        </annotationEntry>
+        <annotationEntry>
+          <text>0.937</text>
+        </annotationEntry>
+      </rule>
+      <rule id="rule_jobfraud_decision_28">
+        <inputEntry id="ie_jobfraud_decision_28_0">
+          <text>"customer_service"</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_28_1">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_28_2">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_28_3">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_28_4">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_28_5">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_28_6">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_28_7">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_28_8">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_28_9">
+          <text>&gt;= 2</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_28_10">
+          <text>&lt;= 1</text>
+        </inputEntry>
+        <outputEntry id="oe_jobfraud_decision_28">
+          <text>"fraudulent"</text>
+        </outputEntry>
+        <annotationEntry>
+          <text>5</text>
+        </annotationEntry>
+        <annotationEntry>
+          <text>0.652</text>
+        </annotationEntry>
+      </rule>
+      <rule id="rule_jobfraud_decision_29">
+        <inputEntry id="ie_jobfraud_decision_29_0">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_29_1">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_29_2">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_29_3">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_29_4">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_29_5">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_29_6">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_29_7">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_29_8">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_29_9">
+          <text>&gt;= 2</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_29_10">
+          <text>1</text>
+        </inputEntry>
+        <outputEntry id="oe_jobfraud_decision_29">
           <text>"legitimate"</text>
         </outputEntry>
         <annotationEntry>
-          <text>8563</text>
+          <text>2861</text>
         </annotationEntry>
         <annotationEntry>
-          <text>0.896</text>
+          <text>0.577</text>
+        </annotationEntry>
+      </rule>
+      <rule id="rule_jobfraud_decision_30">
+        <inputEntry id="ie_jobfraud_decision_30_0">
+          <text>not("hospitality")</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_30_1">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_30_2">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_30_3">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_30_4">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_30_5">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_30_6">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_30_7">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_30_8">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_30_9">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_30_10">
+          <text>2</text>
+        </inputEntry>
+        <outputEntry id="oe_jobfraud_decision_30">
+          <text>"legitimate"</text>
+        </outputEntry>
+        <annotationEntry>
+          <text>1576</text>
+        </annotationEntry>
+        <annotationEntry>
+          <text>0.898</text>
+        </annotationEntry>
+      </rule>
+      <rule id="rule_jobfraud_decision_31">
+        <inputEntry id="ie_jobfraud_decision_31_0">
+          <text>not("hospitality")</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_31_1">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_31_2">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_31_3">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_31_4">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_31_5">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_31_6">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_31_7">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_31_8">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_31_9">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_31_10">
+          <text>3</text>
+        </inputEntry>
+        <outputEntry id="oe_jobfraud_decision_31">
+          <text>"legitimate"</text>
+        </outputEntry>
+        <annotationEntry>
+          <text>1419</text>
+        </annotationEntry>
+        <annotationEntry>
+          <text>0.990</text>
+        </annotationEntry>
+      </rule>
+      <rule id="rule_jobfraud_decision_32">
+        <inputEntry id="ie_jobfraud_decision_32_0">
+          <text>not("finance")</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_32_1">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_32_2">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_32_3">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_32_4">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_32_5">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_32_6">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_32_7">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_32_8">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_32_9">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_32_10">
+          <text>1</text>
+        </inputEntry>
+        <outputEntry id="oe_jobfraud_decision_32">
+          <text>"legitimate"</text>
+        </outputEntry>
+        <annotationEntry>
+          <text>409</text>
+        </annotationEntry>
+        <annotationEntry>
+          <text>0.645</text>
+        </annotationEntry>
+      </rule>
+      <rule id="rule_jobfraud_decision_33">
+        <inputEntry id="ie_jobfraud_decision_33_0">
+          <text>not("it_engineering","hospitality")</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_33_1">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_33_2">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_33_3">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_33_4">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_33_5">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_33_6">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_33_7">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_33_8">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_33_9">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_33_10">
+          <text>2</text>
+        </inputEntry>
+        <outputEntry id="oe_jobfraud_decision_33">
+          <text>"legitimate"</text>
+        </outputEntry>
+        <annotationEntry>
+          <text>303</text>
+        </annotationEntry>
+        <annotationEntry>
+          <text>0.734</text>
+        </annotationEntry>
+      </rule>
+      <rule id="rule_jobfraud_decision_34">
+        <inputEntry id="ie_jobfraud_decision_34_0">
+          <text>not("sales_marketing")</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_34_1">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_34_2">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_34_3">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_34_4">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_34_5">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_34_6">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_34_7">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_34_8">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_34_9">
+          <text>1</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_34_10">
+          <text>1</text>
+        </inputEntry>
+        <outputEntry id="oe_jobfraud_decision_34">
+          <text>"legitimate"</text>
+        </outputEntry>
+        <annotationEntry>
+          <text>253</text>
+        </annotationEntry>
+        <annotationEntry>
+          <text>0.549</text>
+        </annotationEntry>
+      </rule>
+      <rule id="rule_jobfraud_decision_35">
+        <inputEntry id="ie_jobfraud_decision_35_0">
+          <text>"it_engineering"</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_35_1">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_35_2">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_35_3">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_35_4">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_35_5">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_35_6">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_35_7">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_35_8">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_35_9">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_35_10">
+          <text>2</text>
+        </inputEntry>
+        <outputEntry id="oe_jobfraud_decision_35">
+          <text>"legitimate"</text>
+        </outputEntry>
+        <annotationEntry>
+          <text>139</text>
+        </annotationEntry>
+        <annotationEntry>
+          <text>0.953</text>
+        </annotationEntry>
+      </rule>
+      <rule id="rule_jobfraud_decision_36">
+        <inputEntry id="ie_jobfraud_decision_36_0">
+          <text>not("it_engineering","hospitality")</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_36_1">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_36_2">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_36_3">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_36_4">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_36_5">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_36_6">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_36_7">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_36_8">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_36_9">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_36_10">
+          <text>&gt;= 2</text>
+        </inputEntry>
+        <outputEntry id="oe_jobfraud_decision_36">
+          <text>"legitimate"</text>
+        </outputEntry>
+        <annotationEntry>
+          <text>125</text>
+        </annotationEntry>
+        <annotationEntry>
+          <text>0.756</text>
+        </annotationEntry>
+      </rule>
+      <rule id="rule_jobfraud_decision_37">
+        <inputEntry id="ie_jobfraud_decision_37_0">
+          <text>"it_engineering"</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_37_1">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_37_2">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_37_3">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_37_4">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_37_5">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_37_6">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_37_7">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_37_8">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_37_9">
+          <text>&gt;= 2</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_37_10">
+          <text>1</text>
+        </inputEntry>
+        <outputEntry id="oe_jobfraud_decision_37">
+          <text>"legitimate"</text>
+        </outputEntry>
+        <annotationEntry>
+          <text>54</text>
+        </annotationEntry>
+        <annotationEntry>
+          <text>0.625</text>
+        </annotationEntry>
+      </rule>
+      <rule id="rule_jobfraud_decision_38">
+        <inputEntry id="ie_jobfraud_decision_38_0">
+          <text>"it_engineering"</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_38_1">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_38_2">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_38_3">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_38_4">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_38_5">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_38_6">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_38_7">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_38_8">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_38_9">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_38_10">
+          <text>&gt;= 2</text>
+        </inputEntry>
+        <outputEntry id="oe_jobfraud_decision_38">
+          <text>"legitimate"</text>
+        </outputEntry>
+        <annotationEntry>
+          <text>46</text>
+        </annotationEntry>
+        <annotationEntry>
+          <text>1.000</text>
+        </annotationEntry>
+      </rule>
+      <rule id="rule_jobfraud_decision_39">
+        <inputEntry id="ie_jobfraud_decision_39_0">
+          <text>not("sales_marketing")</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_39_1">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_39_2">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_39_3">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_39_4">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_39_5">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_39_6">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_39_7">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_39_8">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_39_9">
+          <text>0</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_39_10">
+          <text>1</text>
+        </inputEntry>
+        <outputEntry id="oe_jobfraud_decision_39">
+          <text>"legitimate"</text>
+        </outputEntry>
+        <annotationEntry>
+          <text>44</text>
+        </annotationEntry>
+        <annotationEntry>
+          <text>0.571</text>
+        </annotationEntry>
+      </rule>
+      <rule id="rule_jobfraud_decision_40">
+        <inputEntry id="ie_jobfraud_decision_40_0">
+          <text>not("it_engineering","hospitality")</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_40_1">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_40_2">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_40_3">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_40_4">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_40_5">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_40_6">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_40_7">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_40_8">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_40_9">
+          <text>&gt;= 2</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_40_10">
+          <text>&gt;= 2</text>
+        </inputEntry>
+        <outputEntry id="oe_jobfraud_decision_40">
+          <text>"legitimate"</text>
+        </outputEntry>
+        <annotationEntry>
+          <text>21</text>
+        </annotationEntry>
+        <annotationEntry>
+          <text>0.727</text>
+        </annotationEntry>
+      </rule>
+      <rule id="rule_jobfraud_decision_41">
+        <inputEntry id="ie_jobfraud_decision_41_0">
+          <text>"hospitality"</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_41_1">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_41_2">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_41_3">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_41_4">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_41_5">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_41_6">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_41_7">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_41_8">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_41_9">
+          <text>3</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_41_10">
+          <text>2</text>
+        </inputEntry>
+        <outputEntry id="oe_jobfraud_decision_41">
+          <text>"legitimate"</text>
+        </outputEntry>
+        <annotationEntry>
+          <text>18</text>
+        </annotationEntry>
+        <annotationEntry>
+          <text>1.000</text>
+        </annotationEntry>
+      </rule>
+      <rule id="rule_jobfraud_decision_42">
+        <inputEntry id="ie_jobfraud_decision_42_0">
+          <text>"admin"</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_42_1">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_42_2">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_42_3">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_42_4">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_42_5">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_42_6">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_42_7">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_42_8">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_42_9">
+          <text>&gt;= 2</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_42_10">
+          <text>&lt;= 1</text>
+        </inputEntry>
+        <outputEntry id="oe_jobfraud_decision_42">
+          <text>"legitimate"</text>
+        </outputEntry>
+        <annotationEntry>
+          <text>17</text>
+        </annotationEntry>
+        <annotationEntry>
+          <text>0.681</text>
+        </annotationEntry>
+      </rule>
+      <rule id="rule_jobfraud_decision_43">
+        <inputEntry id="ie_jobfraud_decision_43_0">
+          <text>"customer_service"</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_43_1">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_43_2">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_43_3">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_43_4">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_43_5">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_43_6">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_43_7">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_43_8">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_43_9">
+          <text>&gt;= 2</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_43_10">
+          <text>&lt;= 1</text>
+        </inputEntry>
+        <outputEntry id="oe_jobfraud_decision_43">
+          <text>"legitimate"</text>
+        </outputEntry>
+        <annotationEntry>
+          <text>13</text>
+        </annotationEntry>
+        <annotationEntry>
+          <text>1.000</text>
+        </annotationEntry>
+      </rule>
+      <rule id="rule_jobfraud_decision_44">
+        <inputEntry id="ie_jobfraud_decision_44_0">
+          <text>"hospitality"</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_44_1">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_44_2">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_44_3">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_44_4">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_44_5">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_44_6">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_44_7">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_44_8">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_44_9">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_44_10">
+          <text>&gt;= 2</text>
+        </inputEntry>
+        <outputEntry id="oe_jobfraud_decision_44">
+          <text>"legitimate"</text>
+        </outputEntry>
+        <annotationEntry>
+          <text>13</text>
+        </annotationEntry>
+        <annotationEntry>
+          <text>1.000</text>
+        </annotationEntry>
+      </rule>
+      <rule id="rule_jobfraud_decision_45">
+        <inputEntry id="ie_jobfraud_decision_45_0">
+          <text>"hospitality"</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_45_1">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_45_2">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_45_3">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_45_4">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_45_5">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_45_6">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_45_7">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_45_8">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_45_9">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_45_10">
+          <text>&gt;= 2</text>
+        </inputEntry>
+        <outputEntry id="oe_jobfraud_decision_45">
+          <text>"legitimate"</text>
+        </outputEntry>
+        <annotationEntry>
+          <text>9</text>
+        </annotationEntry>
+        <annotationEntry>
+          <text>1.000</text>
+        </annotationEntry>
+      </rule>
+      <rule id="rule_jobfraud_decision_46">
+        <inputEntry id="ie_jobfraud_decision_46_0">
+          <text>"energy_industry"</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_46_1">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_46_2">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_46_3">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_46_4">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_46_5">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_46_6">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_46_7">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_46_8">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_46_9">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_46_10">
+          <text>&lt;= 1</text>
+        </inputEntry>
+        <outputEntry id="oe_jobfraud_decision_46">
+          <text>"legitimate"</text>
+        </outputEntry>
+        <annotationEntry>
+          <text>8</text>
+        </annotationEntry>
+        <annotationEntry>
+          <text>1.000</text>
+        </annotationEntry>
+      </rule>
+      <rule id="rule_jobfraud_decision_47">
+        <inputEntry id="ie_jobfraud_decision_47_0">
+          <text>"sales_marketing"</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_47_1">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_47_2">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_47_3">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_47_4">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_47_5">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_47_6">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_47_7">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_47_8">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_47_9">
+          <text>0</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_47_10">
+          <text>1</text>
+        </inputEntry>
+        <outputEntry id="oe_jobfraud_decision_47">
+          <text>"legitimate"</text>
+        </outputEntry>
+        <annotationEntry>
+          <text>8</text>
+        </annotationEntry>
+        <annotationEntry>
+          <text>1.000</text>
+        </annotationEntry>
+      </rule>
+      <rule id="rule_jobfraud_decision_48">
+        <inputEntry id="ie_jobfraud_decision_48_0">
+          <text>"finance"</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_48_1">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_48_2">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_48_3">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_48_4">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_48_5">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_48_6">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_48_7">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_48_8">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_48_9">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_48_10">
+          <text>1</text>
+        </inputEntry>
+        <outputEntry id="oe_jobfraud_decision_48">
+          <text>"legitimate"</text>
+        </outputEntry>
+        <annotationEntry>
+          <text>5</text>
+        </annotationEntry>
+        <annotationEntry>
+          <text>1.000</text>
+        </annotationEntry>
+      </rule>
+      <rule id="rule_jobfraud_decision_49">
+        <inputEntry id="ie_jobfraud_decision_49_0">
+          <text>"healthcare"</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_49_1">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_49_2">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_49_3">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_49_4">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_49_5">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_49_6">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_49_7">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_49_8">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_49_9">
+          <text>1</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_decision_49_10">
+          <text>&lt;= 1</text>
+        </inputEntry>
+        <outputEntry id="oe_jobfraud_decision_49">
+          <text>"legitimate"</text>
+        </outputEntry>
+        <annotationEntry>
+          <text>5</text>
+        </annotationEntry>
+        <annotationEntry>
+          <text>1.000</text>
         </annotationEntry>
       </rule>
     </decisionTable>
@@ -61,18 +2278,10 @@
   <decision id="decision_jobfraud_gate" name="Confidence gate">
     <description>Data-derived confidence gate</description>
     <variable id="var_jobfraud_gate" name="jobfraud_gate" typeRef="string" />
-    <informationRequirement id="ir_easy_money__conf_to_jobfraud_gate">
-      <requiredInput href="#input_easy_money__conf" />
-    </informationRequirement>
     <authorityRequirement id="ar_ks_calibration_to_jobfraud_gate">
       <requiredAuthority href="#ks_calibration" />
     </authorityRequirement>
     <decisionTable id="table_jobfraud_gate" hitPolicy="UNIQUE">
-      <input id="in_jobfraud_gate_0" label="easy_money (confidence)">
-        <inputExpression id="expr_jobfraud_gate_0" typeRef="number">
-          <text>easy_money__conf</text>
-        </inputExpression>
-      </input>
       <output id="out_jobfraud_gate" name="jobfraud_gate" label="Confidence gate" typeRef="string">
         <outputValues id="ov_jobfraud_gate">
           <text>"auto","review"</text>
@@ -81,31 +2290,14 @@
       <annotation name="Support" />
       <annotation name="Purity" />
       <rule id="rule_jobfraud_gate_1">
-        <inputEntry id="ie_jobfraud_gate_1_0">
-          <text>&gt; 0.7</text>
-        </inputEntry>
         <outputEntry id="oe_jobfraud_gate_1">
-          <text>"auto"</text>
-        </outputEntry>
-        <annotationEntry>
-          <text>1377</text>
-        </annotationEntry>
-        <annotationEntry>
-          <text>0.970</text>
-        </annotationEntry>
-      </rule>
-      <rule id="rule_jobfraud_gate_2">
-        <inputEntry id="ie_jobfraud_gate_2_0">
-          <text>&lt;= 0.7</text>
-        </inputEntry>
-        <outputEntry id="oe_jobfraud_gate_2">
           <text>"review"</text>
         </outputEntry>
         <annotationEntry>
-          <text>79</text>
+          <text>1456</text>
         </annotationEntry>
         <annotationEntry>
-          <text>0.684</text>
+          <text>0.649</text>
         </annotationEntry>
       </rule>
     </decisionTable>
@@ -196,13 +2388,49 @@
       </rule>
     </decisionTable>
   </decision>
+  <inputData id="input_job_category" name="Job category">
+    <description>Jev typed answer to: Which kind of job does the posting offer?</description>
+    <variable id="var_job_category" name="job_category" typeRef="t_job_category" />
+  </inputData>
+  <inputData id="input_company_described" name="Company described">
+    <description>Jev typed answer to: The posting describes the hiring company, such as what it does, its history, or its products.</description>
+    <variable id="var_company_described" name="company_described" typeRef="boolean" />
+  </inputData>
+  <inputData id="input_company_named" name="Company named">
+    <description>Jev typed answer to: The posting names the company that is hiring.</description>
+    <variable id="var_company_named" name="company_named" typeRef="boolean" />
+  </inputData>
+  <inputData id="input_remote_work" name="Remote work">
+    <description>Jev typed answer to: The posting says the job can be done from home or remotely.</description>
+    <variable id="var_remote_work" name="remote_work" typeRef="boolean" />
+  </inputData>
+  <inputData id="input_pay_stated" name="Pay stated">
+    <description>Jev typed answer to: The posting states the pay, such as a salary, an hourly rate, or a pay range.</description>
+    <variable id="var_pay_stated" name="pay_stated" typeRef="boolean" />
+  </inputData>
   <inputData id="input_easy_money" name="Easy money">
     <description>Jev typed answer to: The posting promises high pay, fast money, or large earnings for little work.</description>
     <variable id="var_easy_money" name="easy_money" typeRef="boolean" />
   </inputData>
-  <inputData id="input_easy_money__conf" name="easy_money (confidence)">
-    <description>Probability signal derived from the Jev answer.</description>
-    <variable id="var_easy_money__conf" name="easy_money__conf" typeRef="number" />
+  <inputData id="input_requirements_listed" name="Requirements listed">
+    <description>Jev typed answer to: The posting lists specific skills, education, or experience that applicants must have.</description>
+    <variable id="var_requirements_listed" name="requirements_listed" typeRef="boolean" />
+  </inputData>
+  <inputData id="input_benefits_listed" name="Benefits listed">
+    <description>Jev typed answer to: The posting lists employee benefits, such as health insurance, paid leave, or a retirement plan.</description>
+    <variable id="var_benefits_listed" name="benefits_listed" typeRef="boolean" />
+  </inputData>
+  <inputData id="input_offplatform_contact" name="Off-platform contact">
+    <description>Jev typed answer to: The posting tells applicants to apply or make contact through a personal email address, a text message, or a messaging app.</description>
+    <variable id="var_offplatform_contact" name="offplatform_contact" typeRef="boolean" />
+  </inputData>
+  <inputData id="input_duties_specificity" name="Specific duties">
+    <description>Jev typed answer to: How specifically does the posting describe the duties of the job?</description>
+    <variable id="var_duties_specificity" name="duties_specificity" typeRef="number" />
+  </inputData>
+  <inputData id="input_writing_quality" name="Writing quality">
+    <description>Jev typed answer to: How well is the posting written?</description>
+    <variable id="var_writing_quality" name="writing_quality" typeRef="number" />
   </inputData>
   <inputData id="input_fraud_holistic" name="Jev decision (Fraudulent posting)">
     <description>Jev holistic answer to: The job posting is fraudulent, meaning it is a scam or a fake job rather than a genuine job offer.</description>
@@ -217,56 +2445,119 @@
   <dmndi:DMNDI>
     <dmndi:DMNDiagram id="DMNDiagram_1">
       <dmndi:DMNShape id="shape_decision_jobfraud_route" dmnElementRef="decision_jobfraud_route">
-        <dc:Bounds x="210" y="0" width="180" height="80" />
+        <dc:Bounds x="1155" y="0" width="180" height="80" />
       </dmndi:DMNShape>
       <dmndi:DMNShape id="shape_decision_jobfraud_decision" dmnElementRef="decision_jobfraud_decision">
-        <dc:Bounds x="105" y="200" width="180" height="80" />
+        <dc:Bounds x="1050" y="200" width="180" height="80" />
       </dmndi:DMNShape>
       <dmndi:DMNShape id="shape_decision_jobfraud_gate" dmnElementRef="decision_jobfraud_gate">
-        <dc:Bounds x="315" y="200" width="180" height="80" />
+        <dc:Bounds x="1260" y="200" width="180" height="80" />
       </dmndi:DMNShape>
-      <dmndi:DMNShape id="shape_input_easy_money" dmnElementRef="input_easy_money">
+      <dmndi:DMNShape id="shape_input_job_category" dmnElementRef="input_job_category">
         <dc:Bounds x="0" y="400" width="180" height="80" />
       </dmndi:DMNShape>
-      <dmndi:DMNShape id="shape_input_easy_money__conf" dmnElementRef="input_easy_money__conf">
+      <dmndi:DMNShape id="shape_input_company_described" dmnElementRef="input_company_described">
         <dc:Bounds x="210" y="400" width="180" height="80" />
       </dmndi:DMNShape>
-      <dmndi:DMNShape id="shape_input_fraud_holistic" dmnElementRef="input_fraud_holistic">
+      <dmndi:DMNShape id="shape_input_company_named" dmnElementRef="input_company_named">
         <dc:Bounds x="420" y="400" width="180" height="80" />
       </dmndi:DMNShape>
+      <dmndi:DMNShape id="shape_input_remote_work" dmnElementRef="input_remote_work">
+        <dc:Bounds x="630" y="400" width="180" height="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="shape_input_pay_stated" dmnElementRef="input_pay_stated">
+        <dc:Bounds x="840" y="400" width="180" height="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="shape_input_easy_money" dmnElementRef="input_easy_money">
+        <dc:Bounds x="1050" y="400" width="180" height="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="shape_input_requirements_listed" dmnElementRef="input_requirements_listed">
+        <dc:Bounds x="1260" y="400" width="180" height="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="shape_input_benefits_listed" dmnElementRef="input_benefits_listed">
+        <dc:Bounds x="1470" y="400" width="180" height="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="shape_input_offplatform_contact" dmnElementRef="input_offplatform_contact">
+        <dc:Bounds x="1680" y="400" width="180" height="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="shape_input_duties_specificity" dmnElementRef="input_duties_specificity">
+        <dc:Bounds x="1890" y="400" width="180" height="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="shape_input_writing_quality" dmnElementRef="input_writing_quality">
+        <dc:Bounds x="2100" y="400" width="180" height="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="shape_input_fraud_holistic" dmnElementRef="input_fraud_holistic">
+        <dc:Bounds x="2310" y="400" width="180" height="80" />
+      </dmndi:DMNShape>
       <dmndi:DMNShape id="shape_ks_teacher" dmnElementRef="ks_teacher">
-        <dc:Bounds x="660" y="200" width="180" height="80" />
+        <dc:Bounds x="2550" y="200" width="180" height="80" />
       </dmndi:DMNShape>
       <dmndi:DMNShape id="shape_ks_calibration" dmnElementRef="ks_calibration">
-        <dc:Bounds x="870" y="200" width="180" height="80" />
+        <dc:Bounds x="2760" y="200" width="180" height="80" />
       </dmndi:DMNShape>
-      <dmndi:DMNEdge id="edge_ir_easy_money_to_jobfraud_decision" dmnElementRef="ir_easy_money_to_jobfraud_decision">
+      <dmndi:DMNEdge id="edge_ir_job_category_to_jobfraud_decision" dmnElementRef="ir_job_category_to_jobfraud_decision">
         <di:waypoint x="90" y="400" />
-        <di:waypoint x="195" y="280" />
+        <di:waypoint x="1140" y="280" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="edge_ir_company_described_to_jobfraud_decision" dmnElementRef="ir_company_described_to_jobfraud_decision">
+        <di:waypoint x="300" y="400" />
+        <di:waypoint x="1140" y="280" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="edge_ir_company_named_to_jobfraud_decision" dmnElementRef="ir_company_named_to_jobfraud_decision">
+        <di:waypoint x="510" y="400" />
+        <di:waypoint x="1140" y="280" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="edge_ir_remote_work_to_jobfraud_decision" dmnElementRef="ir_remote_work_to_jobfraud_decision">
+        <di:waypoint x="720" y="400" />
+        <di:waypoint x="1140" y="280" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="edge_ir_pay_stated_to_jobfraud_decision" dmnElementRef="ir_pay_stated_to_jobfraud_decision">
+        <di:waypoint x="930" y="400" />
+        <di:waypoint x="1140" y="280" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="edge_ir_easy_money_to_jobfraud_decision" dmnElementRef="ir_easy_money_to_jobfraud_decision">
+        <di:waypoint x="1140" y="400" />
+        <di:waypoint x="1140" y="280" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="edge_ir_requirements_listed_to_jobfraud_decision" dmnElementRef="ir_requirements_listed_to_jobfraud_decision">
+        <di:waypoint x="1350" y="400" />
+        <di:waypoint x="1140" y="280" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="edge_ir_benefits_listed_to_jobfraud_decision" dmnElementRef="ir_benefits_listed_to_jobfraud_decision">
+        <di:waypoint x="1560" y="400" />
+        <di:waypoint x="1140" y="280" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="edge_ir_offplatform_contact_to_jobfraud_decision" dmnElementRef="ir_offplatform_contact_to_jobfraud_decision">
+        <di:waypoint x="1770" y="400" />
+        <di:waypoint x="1140" y="280" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="edge_ir_duties_specificity_to_jobfraud_decision" dmnElementRef="ir_duties_specificity_to_jobfraud_decision">
+        <di:waypoint x="1980" y="400" />
+        <di:waypoint x="1140" y="280" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="edge_ir_writing_quality_to_jobfraud_decision" dmnElementRef="ir_writing_quality_to_jobfraud_decision">
+        <di:waypoint x="2190" y="400" />
+        <di:waypoint x="1140" y="280" />
       </dmndi:DMNEdge>
       <dmndi:DMNEdge id="edge_ar_ks_teacher_to_jobfraud_decision" dmnElementRef="ar_ks_teacher_to_jobfraud_decision">
-        <di:waypoint x="660" y="240" />
-        <di:waypoint x="285" y="240" />
-      </dmndi:DMNEdge>
-      <dmndi:DMNEdge id="edge_ir_easy_money__conf_to_jobfraud_gate" dmnElementRef="ir_easy_money__conf_to_jobfraud_gate">
-        <di:waypoint x="300" y="400" />
-        <di:waypoint x="405" y="280" />
+        <di:waypoint x="2550" y="240" />
+        <di:waypoint x="1230" y="240" />
       </dmndi:DMNEdge>
       <dmndi:DMNEdge id="edge_ar_ks_calibration_to_jobfraud_gate" dmnElementRef="ar_ks_calibration_to_jobfraud_gate">
-        <di:waypoint x="870" y="240" />
-        <di:waypoint x="495" y="240" />
+        <di:waypoint x="2760" y="240" />
+        <di:waypoint x="1440" y="240" />
       </dmndi:DMNEdge>
       <dmndi:DMNEdge id="edge_ir_jobfraud_decision_to_jobfraud_route" dmnElementRef="ir_jobfraud_decision_to_jobfraud_route">
-        <di:waypoint x="195" y="200" />
-        <di:waypoint x="300" y="80" />
+        <di:waypoint x="1140" y="200" />
+        <di:waypoint x="1245" y="80" />
       </dmndi:DMNEdge>
       <dmndi:DMNEdge id="edge_ir_jobfraud_gate_to_jobfraud_route" dmnElementRef="ir_jobfraud_gate_to_jobfraud_route">
-        <di:waypoint x="405" y="200" />
-        <di:waypoint x="300" y="80" />
+        <di:waypoint x="1350" y="200" />
+        <di:waypoint x="1245" y="80" />
       </dmndi:DMNEdge>
       <dmndi:DMNEdge id="edge_ir_fraud_holistic_to_jobfraud_route" dmnElementRef="ir_fraud_holistic_to_jobfraud_route">
-        <di:waypoint x="510" y="400" />
-        <di:waypoint x="300" y="80" />
+        <di:waypoint x="2400" y="400" />
+        <di:waypoint x="1245" y="80" />
       </dmndi:DMNEdge>
     </dmndi:DMNDiagram>
   </dmndi:DMNDI>

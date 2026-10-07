@@ -4,7 +4,8 @@ from __future__ import annotations
 
 import numpy as np
 from scipy.stats import binomtest
-from sklearn.metrics import accuracy_score, cohen_kappa_score, f1_score
+from sklearn.metrics import (accuracy_score, balanced_accuracy_score, cohen_kappa_score, f1_score, precision_score,
+                             recall_score)
 
 
 def agreement(a, b) -> dict:
@@ -16,8 +17,12 @@ def accuracy(y_true, y_pred, positive: str | None = None) -> dict:
     y_true, y_pred = np.asarray(y_true).astype(str), np.asarray(y_pred).astype(str)
     out = {"accuracy": float(accuracy_score(y_true, y_pred)),
            "macro_f1": float(f1_score(y_true, y_pred, average="macro", zero_division=0))}
+    out["balanced_accuracy"] = float(balanced_accuracy_score(y_true, y_pred))
     if positive is not None:
         out["f1_pos"] = float(f1_score(y_true, y_pred, pos_label=positive, average="binary", zero_division=0))
+        out["recall_pos"] = float(recall_score(y_true, y_pred, pos_label=positive, average="binary", zero_division=0))
+        out["precision_pos"] = float(precision_score(y_true, y_pred, pos_label=positive, average="binary",
+                                                     zero_division=0))
     return out
 
 

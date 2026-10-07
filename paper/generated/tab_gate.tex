@@ -1,19 +1,19 @@
-\begin{tabular}{@{}llrrrrrrrr@{}}
+\begin{tabular}{@{}llrrrrrr@{}}
 \toprule
- & & \multicolumn{2}{c}{$\varepsilon=0.01$} & \multicolumn{2}{c}{$\varepsilon=0.02$} & \multicolumn{2}{c}{$\varepsilon=0.05$} & \multicolumn{2}{c}{$\varepsilon=0.1$} \\
-\cmidrule(lr){3-4}\cmidrule(lr){5-6}\cmidrule(lr){7-8}\cmidrule(lr){9-10}
-Task & Gate & Cov. & Risk & Cov. & Risk & Cov. & Risk & Cov. & Risk \\
+ & & \multicolumn{3}{c}{$\varepsilon=0.05$} & \multicolumn{3}{c}{$\varepsilon=0.1$} \\
+\cmidrule(lr){3-5}\cmidrule(lr){6-8}
+Task & Gate (with agreement filter) & Cov. & Risk & Miss & Cov. & Risk & Miss \\
 \midrule
-Monetary relief & Agreement only & 0.0 & -- & 0.0 & -- & 0.0 & -- & 0.0 & -- \\
- & Jev confidence & 0.0 & -- & 0.0 & -- & 0.0 & -- & 0.0 & -- \\
- & Jev confidence + agreement & 0.0 & -- & 0.0 & -- & 0.0 & -- & 0.0 & -- \\
- & Learned gate & 0.0 & -- & 0.0 & -- & 0.0 & -- & 17.3 & 9.0 \\
- & Learned gate + agreement & 0.0 & -- & 0.0 & -- & 0.0 & -- & 22.5 & 2.2 \\
+Monetary relief & Jev confidence & 0.0 & -- & -- & 0.0 & -- & -- \\
+ & Learned gate & 0.0 & -- & -- & 0.0 & -- & -- \\
+ & Learned gate, DMN-Sup & 0.0 & -- & -- & 0.0 & -- & -- \\
 \midrule
-Complaint routing & Agreement only & 0.0 & -- & 0.0 & -- & 0.0 & -- & 0.0 & -- \\
- & Jev confidence & 0.0 & -- & 0.0 & -- & 0.0 & -- & 0.0 & -- \\
- & Jev confidence + agreement & 0.0 & -- & 0.0 & -- & 0.0 & -- & 0.0 & -- \\
- & Learned gate & 0.0 & -- & 0.0 & -- & 0.0 & -- & 0.0 & -- \\
- & Learned gate + agreement & 0.0 & -- & 0.0 & -- & 0.0 & -- & 0.0 & -- \\
+Complaint routing & Jev confidence & 0.0 & -- & n/a & 0.0 & -- & n/a \\
+ & Learned gate & 0.0 & -- & n/a & 40.5 & 7.8 & n/a \\
+ & Learned gate, DMN-Sup & 0.0 & -- & n/a & 51.6 & 9.2 & n/a \\
+\midrule
+Job-posting fraud & Jev confidence & 0.0 & -- & -- & 0.0 & -- & -- \\
+ & Learned gate & 0.0 & -- & -- & 0.0 & -- & -- \\
+ & Learned gate, DMN-Sup & 0.0 & -- & -- & 12.7 & 0.8 & 0.8 \\
 \bottomrule
 \end{tabular}

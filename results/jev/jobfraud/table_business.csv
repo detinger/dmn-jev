@@ -1,3 +1,50 @@
-Easy money,Fraudulent posting,support,purity
-true,fraudulent,173,0.8092485549132948
-false,legitimate,8563,0.8962980263926195
+Job category,Company described,Company named,Remote work,Pay stated,Easy money,Requirements listed,Benefits listed,Off-platform contact,Specific duties,Writing quality,Fraudulent posting,support,purity
+"not(""admin"",""customer_service"",""energy_industry"")",true,false,-,-,-,true,-,-,>= 2,<= 1,fraudulent,341,0.7567635496805264
+"""energy_industry""",true,false,-,false,-,-,-,-,-,<= 1,fraudulent,130,0.9627837158452851
+"not(""sales_marketing"")",-,true,-,-,false,true,-,-,0,1,fraudulent,107,0.7265920629149332
+"not(""it_engineering"")",-,true,true,-,false,-,-,false,>= 2,1,fraudulent,97,0.7224913391022662
+-,-,true,-,-,false,-,-,-,-,0,fraudulent,87,0.8888257764530462
+"not(""healthcare"",""energy_industry"")",true,false,-,-,false,-,-,-,1,<= 1,fraudulent,79,0.8995581514009966
+-,-,true,-,-,true,-,-,-,-,<= 1,fraudulent,73,0.9716456721344878
+"not(""energy_industry"")",true,false,-,-,false,-,-,-,0,<= 1,fraudulent,52,0.9358546668096557
+-,false,false,-,-,true,-,-,-,-,<= 1,fraudulent,44,0.9711320903971387
+"not(""customer_service"",""energy_industry"")",true,false,-,-,-,false,-,-,>= 2,<= 1,fraudulent,44,0.8619850978712644
+"""sales_marketing""",-,true,-,-,false,true,-,-,1,1,fraudulent,44,0.7142327650111193
+"""sales_marketing""",-,true,-,-,false,false,-,-,<= 1,1,fraudulent,34,0.8604197439601673
+"not(""sales_marketing"")",-,true,true,-,false,-,-,-,1,1,fraudulent,33,0.7652595210674714
+"""energy_industry""",true,false,-,true,-,-,true,-,-,<= 1,fraudulent,27,0.9280877241478402
+"""finance""",false,false,-,true,false,-,-,-,-,1,fraudulent,25,0.83217165258169
+-,false,false,-,-,false,-,-,-,-,0,fraudulent,24,0.8780196881338883
+-,-,-,-,-,true,-,-,-,-,>= 2,fraudulent,22,0.8748462980014845
+"not(""energy_industry"")",true,false,-,-,true,-,-,-,<= 1,<= 1,fraudulent,19,0.9926451649829723
+"not(""it_engineering"",""hospitality"")",-,-,true,true,false,true,-,-,-,2,fraudulent,18,0.5999377334993773
+"""hospitality""",-,true,-,false,false,-,-,-,-,3,fraudulent,18,0.8008283132153925
+"not(""finance"")",false,false,true,-,false,-,-,false,-,1,fraudulent,15,0.7894305612453912
+-,-,true,-,-,false,-,-,true,>= 2,1,fraudulent,13,0.9230584994910485
+"not(""it_engineering"",""hospitality"")",-,false,false,-,false,false,-,-,<= 1,>= 2,fraudulent,10,0.8332972972972973
+"""finance""",false,false,-,false,false,-,false,-,-,1,fraudulent,8,0.5171765968867418
+"not(""it_engineering"",""hospitality"")",-,-,true,-,false,false,-,-,-,>= 2,fraudulent,8,0.8181432210585905
+"""hospitality""",-,true,-,false,false,-,-,-,<= 2,2,fraudulent,7,0.9090694657388843
+"not(""finance"")",false,false,-,-,false,-,-,true,-,1,fraudulent,6,0.9374847968864023
+"""customer_service""",true,false,-,-,-,-,true,-,>= 2,<= 1,fraudulent,5,0.6521150592216581
+-,-,true,false,-,false,-,-,false,>= 2,1,legitimate,2861,0.577280772166943
+"not(""hospitality"")",-,-,-,false,false,true,-,-,-,2,legitimate,1576,0.8977156498985794
+"not(""hospitality"")",-,-,-,-,false,true,-,-,-,3,legitimate,1419,0.9904026713646652
+"not(""finance"")",false,false,false,-,false,-,-,false,-,1,legitimate,409,0.6447294779190497
+"not(""it_engineering"",""hospitality"")",-,-,false,true,false,true,-,-,-,2,legitimate,303,0.7335532488568006
+"not(""sales_marketing"")",-,true,false,-,false,-,-,-,1,1,legitimate,253,0.5488007043110947
+"""it_engineering""",-,-,-,true,false,true,-,-,-,2,legitimate,139,0.953138723201142
+"not(""it_engineering"",""hospitality"")",-,true,false,-,false,false,-,-,-,>= 2,legitimate,125,0.7560728114748825
+"""it_engineering""",-,true,true,-,false,-,-,false,>= 2,1,legitimate,54,0.6250608035801148
+"""it_engineering""",-,-,-,-,false,false,-,-,-,>= 2,legitimate,46,1.0
+"not(""sales_marketing"")",-,true,-,-,false,false,-,-,0,1,legitimate,44,0.5714921058483434
+"not(""it_engineering"",""hospitality"")",-,false,false,-,false,false,-,-,>= 2,>= 2,legitimate,21,0.7273241828215651
+"""hospitality""",-,true,-,false,false,-,-,-,3,2,legitimate,18,1.0
+"""admin""",true,false,-,-,-,true,-,-,>= 2,<= 1,legitimate,17,0.6809074350057956
+"""customer_service""",true,false,-,-,-,-,false,-,>= 2,<= 1,legitimate,13,1.0
+"""hospitality""",-,-,-,true,false,-,-,-,-,>= 2,legitimate,13,1.0
+"""hospitality""",-,false,-,false,false,-,-,-,-,>= 2,legitimate,9,1.0
+"""energy_industry""",true,false,-,true,-,-,false,-,-,<= 1,legitimate,8,1.0
+"""sales_marketing""",-,true,-,-,false,true,-,-,0,1,legitimate,8,1.0
+"""finance""",false,false,-,false,false,-,true,-,-,1,legitimate,5,1.0
+"""healthcare""",true,false,-,-,false,-,-,-,1,<= 1,legitimate,5,1.0

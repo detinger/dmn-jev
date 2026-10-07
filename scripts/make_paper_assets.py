@@ -22,7 +22,7 @@ import numpy as np  # noqa: E402
 import pandas as pd  # noqa: E402
 from matplotlib.ticker import FuncFormatter, LogLocator, NullFormatter  # noqa: E402
 
-TASKS = {"relief": "Monetary relief", "routing": "Complaint routing"}
+TASKS = {"relief": "Monetary relief", "routing": "Complaint routing", "jobfraud": "Job-posting fraud"}
 BLUE, ORANGE, AQUA = "#2a78d6", "#eb6834", "#1baf7a"  # validated categorical slots 1-3 (light)
 INK, MUTED, GRID = "#0b0b0b", "#52514e", "#e4e3df"
 
@@ -68,7 +68,8 @@ def load(root: Path, task: str) -> dict:
             "rc_conf": pd.read_csv(d / "risk_coverage_jev_confidence.csv"),
             "rc_learned": pd.read_csv(d / "risk_coverage_learned.csv"),
             "lc": pd.read_csv(d / "learning_curves.csv"), "business": pd.read_csv(d / "table_business.csv", dtype=str, keep_default_na=False),
-            "gate_table": pd.read_csv(d / "table_gate.csv", dtype=str, keep_default_na=False)}
+            "gate_table": pd.read_csv(d / "table_gate.csv", dtype=str, keep_default_na=False),
+            "gates_sup": pd.read_csv(d / "gates_sup.csv")}
 
 
 def numbers_for(n: Numbers, task: str, r: dict) -> None:
@@ -105,11 +106,26 @@ def numbers_for(n: Numbers, task: str, r: dict) -> None:
     n[p + "aurclearned"] = num(g["aurc"]["learned"], 3)
     for v in g["validity"]:
         n[p + f"violation{int(round(100 * v['eps']))}"] = pct(v["violation_rate"])
-    gates = r["gates"]
-    for _, row in gates.iterrows():
-        key = f"{p}{row['gate']}{'A' if row['agreement'] else ''}.{int(round(100 * row['eps']))}"
-        n[key + ".cov"] = pct(row["coverage"])
-        n[key + ".risk"] = pct(row["selective_risk"])
+    for tag, gates in (("", r["gates"]), ("sup", r["gates_sup"])):
+        for _, row in gates.iterrows():
+            key = f"{p}{tag}{row['gate']}{'A' if row['agreement'] else ''}.{int(round(100 * row['eps']))}"
+            n[key + ".cov"] = pct(row["coverage"])
+            n[key + ".risk"] = pct(row["selective_risk"])
+            if "miss_rate" in row and pd.notna(row["miss_rate"]):
+                n[key + ".miss"] = pct(row["miss_rate"])
+    for name, m in (("dmn", base["dmn_distil"]), ("jev", base["jev_holistic"]), ("sup", s["dmn_sup"]["accuracy_test"]),
+                    ("majority", base["majority_class"])):
+        n[p + f"bacc{name}"] = pct(m["balanced_accuracy"])
+        if "recall_pos" in m:
+            n[p + f"recall{name}"] = pct(m["recall_pos"])
+            n[p + f"precision{name}"] = pct(m["precision_pos"])
+    n[p + "accsup"] = pct(s["dmn_sup"]["accuracy_test"]["accuracy"])
+    n[p + "rulessup"] = str(s["dmn_sup"]["n_rules"])
+    n[p + "inputssup"] = str(s["dmn_sup"]["n_inputs"])
+    n[p + "agreesup"] = pct(s["dmn_sup"]["agreement_with_jev_test"])
+    if s["gate"].get("critical_class"):
+        n[p + "posrate"] = pct(s["class_balance"][s["gate"]["critical_class"]])
+        n[p + "critical"] = s["gate"]["critical_class"].replace("_", r"\_")
     v = s["verification"]
     n[p + "rulesraw"] = str(v["before_merge"]["n_rules"])
     n[p + "rulesfirst"] = str(v["first_hit"]["n_rules"])
@@ -163,25 +179,26 @@ def tab_calibration(results: dict, out: Path) -> None:
         r"\midrule", *rows, r"\bottomrule", r"\end{tabular}"]) + "\n")
 
 
-def tab_gate(results: dict, out: Path) -> None:
-    labels = {("none", True): "Agreement only", ("jev_confidence", False): "Jev confidence",
-              ("jev_confidence", True): "Jev confidence + agreement", ("learned", False): "Learned gate",
-              ("learned", True): "Learned gate + agreement"}
-    eps = sorted(next(iter(results.values()))["gates"]["eps"].unique())
-    lines = [r"\begin{tabular}{@{}ll" + "rr" * len(eps) + "@{}}", r"\toprule",
-             " & & " + " & ".join(rf"\multicolumn{{2}}{{c}}{{$\varepsilon={e:g}$}}" for e in eps) + r" \\",
-             "".join(rf"\cmidrule(lr){{{3 + 2 * k}-{4 + 2 * k}}}" for k in range(len(eps))),
-             "Task & Gate & " + " & ".join(["Cov. & Risk"] * len(eps)) + r" \\", r"\midrule"]
+def tab_gate(results: dict, out: Path, eps=(0.05, 0.10)) -> None:
+    """Coverage, selective risk and critical-class miss rate on the test set ('--' = nothing certified)."""
+    labels = [("gates", "jev_confidence", True, "Jev confidence"), ("gates", "learned", True, "Learned gate"),
+              ("gates_sup", "learned", True, "Learned gate, DMN-Sup")]
+    lines = [r"\begin{tabular}{@{}ll" + "rrr" * len(eps) + "@{}}", r"\toprule",
+             " & & " + " & ".join(rf"\multicolumn{{3}}{{c}}{{$\varepsilon={e:g}$}}" for e in eps) + r" \\",
+             "".join(rf"\cmidrule(lr){{{3 + 3 * k}-{5 + 3 * k}}}" for k in range(len(eps))),
+             "Task & Gate (with agreement filter) & " + " & ".join(["Cov. & Risk & Miss"] * len(eps)) + r" \\",
+             r"\midrule"]
     for t, r in results.items():
-        g = r["gates"]
-        first = True
-        for (gname, agree), lab in labels.items():
+        for k, (src, gname, agree, lab) in enumerate(labels):
+            g = r[src]
             cells = []
             for e in eps:
                 row = g[(g.gate == gname) & (g.agreement == agree) & np.isclose(g.eps, e)].iloc[0]
-                cells += [f"{100 * row.coverage:.1f}", f"{100 * row.selective_risk:.1f}" if row.n_auto else "--"]
-            lines.append(f"{TASKS[t] if first else ''} & {lab} & " + " & ".join(cells) + r" \\")
-            first = False
+                auto = row.n_auto > 0
+                miss = row.get("miss_rate", np.nan)
+                cells += [f"{100 * row.coverage:.1f}", f"{100 * row.selective_risk:.1f}" if auto else "--",
+                          (f"{100 * miss:.1f}" if auto else "--") if pd.notna(miss) else "n/a"]
+            lines.append(f"{TASKS[t] if k == 0 else ''} & {lab} & " + " & ".join(cells) + r" \\")
         lines.append(r"\midrule")
     lines[-1] = r"\bottomrule"
     lines.append(r"\end{tabular}")
@@ -189,21 +206,23 @@ def tab_gate(results: dict, out: Path) -> None:
 
 
 def tab_baselines(results: dict, out: Path) -> None:
-    lines = [r"\begin{tabular}{@{}llrrrc@{}}", r"\toprule",
-             r"Task & Method & Labels & Acc. (\%) & Macro-F1 & Auditable logic \\", r"\midrule"]
+    lines = [r"\begin{tabular}{@{}llrrrrc@{}}", r"\toprule",
+             r"Task & Method & Labels & Acc. (\%) & Bal. acc. (\%) & Recall$_+$ (\%) & Auditable logic \\", r"\midrule"]
     for t, r in results.items():
-        b, lc = r["summary"]["baselines"], r["lc"]
+        s, b, lc = r["summary"], r["summary"]["baselines"], r["lc"]
         full = lc[lc["labels"] == lc["labels"].max()]
         nfull = f"{int(lc['labels'].max()):,}"
+        mean = lambda m: {k: full[full.method == m][k].mean() for k in full.columns  # noqa: E731
+                          if k in ("accuracy", "balanced_accuracy", "recall_pos")}
         rows = [("Majority class", nfull, b["majority_class"], "--"),
                 ("Jev holistic", "0", b["jev_holistic"], "no"),
-                ("Jev + DMN (distilled, ours)", "0", b["dmn_distil"], "yes"),
-                ("Jev + DMN (supervised)", nfull, {"accuracy": full[full.method == "DMN-Sup"]["accuracy"].mean(),
-                                                   "macro_f1": full[full.method == "DMN-Sup"]["macro_f1"].mean()}, "yes"),
-                ("TF-IDF + logistic regression", nfull, {"accuracy": full[full.method == "TF-IDF+LR"]["accuracy"].mean(),
-                                                         "macro_f1": full[full.method == "TF-IDF+LR"]["macro_f1"].mean()}, "no")]
+                ("Jev + DMN, distilled (ours)", "0", b["dmn_distil"], "yes"),
+                ("Jev + DMN, supervised (DMN-Sup)", nfull, s["dmn_sup"]["accuracy_test"], "yes"),
+                ("TF-IDF + logistic regression", nfull, mean("TF-IDF+LR"), "no")]
         for k, (name, labels, m, aud) in enumerate(rows):
-            lines.append(f"{TASKS[t] if k == 0 else ''} & {name} & {labels} & {100 * m['accuracy']:.1f} & {m['macro_f1']:.3f} & {aud} \\\\")
+            rec = f"{100 * m['recall_pos']:.1f}" if "recall_pos" in m and pd.notna(m.get("recall_pos")) else "--"
+            lines.append(f"{TASKS[t] if k == 0 else ''} & {name} & {labels} & {100 * m['accuracy']:.1f} & "
+                         f"{100 * m['balanced_accuracy']:.1f} & {rec} & {aud} \\\\")
         lines.append(r"\midrule")
     lines[-1] = r"\bottomrule"
     lines.append(r"\end{tabular}")
@@ -226,15 +245,15 @@ def tab_rules(r: dict, out: Path, max_rules: int = 14) -> None:
 
 # Figures -----------------------------------------------------------------------------------
 
-def _two_panels(width=7.0, height=2.6):
-    fig, axes = plt.subplots(1, 2, figsize=(width, height), layout="constrained")
+def _two_panels(width=7.0, height=2.6, n=len(TASKS)):
+    fig, axes = plt.subplots(1, n, figsize=(width, height), layout="constrained")
     fig.get_layout_engine().set(w_pad=0.08, wspace=0.08)
     return fig, axes
 
 
 def _log_x(ax):
     ax.set_xscale("log")
-    ax.xaxis.set_major_locator(LogLocator(base=10, subs=(1.0, 2.0, 5.0)))
+    ax.xaxis.set_major_locator(LogLocator(base=10, subs=(1.0,)))
     ax.xaxis.set_major_formatter(FuncFormatter(lambda v, _: f"{v:,.0f}"))
     ax.xaxis.set_minor_formatter(NullFormatter())
 
@@ -252,10 +271,12 @@ def fig_complexity(results: dict, out: Path) -> None:
         ax.scatter([chosen["n_rules"]], [100 * chosen["fidelity_test"]["agreement"]], s=40, marker="D",
                    color=ORANGE, edgecolor="white", linewidth=0.8, label="Selected table", zorder=4)
         _log_x(ax)
-        ax.set_xlabel("Rules in the decision table (log scale)")
+        ax.set_xlabel("Rules in the table (log scale)")
         ax.set_ylabel("Fidelity to Jev on test set (%)")
         ax.set_title(TASKS[t], loc="left", color=INK)
     axes[0].legend(frameon=False, loc="lower right")
+    for ax in axes[1:]:
+        ax.set_ylabel("")
     fig.savefig(out)
     plt.close(fig)
 
@@ -275,6 +296,8 @@ def fig_reliability(results: dict, out: Path) -> None:
         ax.set_ylabel("Observed accuracy")
         ax.set_title(TASKS[t], loc="left", color=INK)
     axes[0].legend(frameon=False, loc="upper left")
+    for ax in axes[1:]:
+        ax.set_ylabel("")
     fig.savefig(out)
     plt.close(fig)
 
@@ -291,10 +314,12 @@ def fig_risk_coverage(results: dict, out: Path, eps_marks=(0.02, 0.05, 0.10)) ->
             ax.text(99, 100 * e + 0.012 * top, rf"$\varepsilon$ = {e:g}", ha="right", va="bottom", fontsize=6.5, color=MUTED)
         ax.set_xlim(0, 100)
         ax.set_ylim(0, top)
-        ax.set_xlabel("Coverage: share of cases automated (%)")
+        ax.set_xlabel("Cases automated (%)")
         ax.set_ylabel("Error rate among automated cases (%)")
         ax.set_title(TASKS[t], loc="left", color=INK)
     axes[0].legend(frameon=False, loc="upper left")
+    for ax in axes[1:]:
+        ax.set_ylabel("")
     fig.savefig(out)
     plt.close(fig)
 
@@ -304,18 +329,21 @@ def fig_learning(results: dict, out: Path) -> None:
     for ax, (t, r) in zip(axes, results.items()):
         lc, b = r["lc"], r["summary"]["baselines"]
         for m, col, mk, ls in (("DMN-Sup", BLUE, "o", "-"), ("TF-IDF+LR", ORANGE, "s", "--")):
-            g = lc[lc.method == m].groupby("labels")["accuracy"].agg(["mean", "std"]).reset_index()
+            g = lc[lc.method == m].groupby("labels")["balanced_accuracy"].agg(["mean", "std"]).reset_index()
             ax.errorbar(g["labels"], 100 * g["mean"], yerr=100 * g["std"].fillna(0), color=col, marker=mk,
                         linestyle=ls, markersize=4, markeredgecolor="white", markeredgewidth=0.6, capsize=2,
                         elinewidth=0.8, label={"DMN-Sup": "Jev + DMN, supervised", "TF-IDF+LR": "TF-IDF + LR"}[m])
-        ax.axhline(100 * b["dmn_distil"]["accuracy"], color=AQUA, linewidth=1.4, label="Jev + DMN, distilled (0 labels)")
-        ax.axhline(100 * b["jev_holistic"]["accuracy"], color=INK, linewidth=0.9, linestyle=(0, (4, 2)),
+        ax.axhline(100 * b["dmn_distil"]["balanced_accuracy"], color=AQUA, linewidth=1.4, label="Jev + DMN, distilled (0 labels)")
+        ax.axhline(100 * b["jev_holistic"]["balanced_accuracy"], color=INK, linewidth=0.9, linestyle=(0, (4, 2)),
                    label="Jev holistic (0 labels)")
         _log_x(ax)
-        ax.set_xlabel("Ground-truth labels used for training (log scale)")
-        ax.set_ylabel("Test accuracy (%)")
+        ax.set_xlabel("Training labels (log scale)")
+        ax.set_ylabel("Balanced accuracy on test set (%)")
         ax.set_title(TASKS[t], loc="left", color=INK)
-    axes[0].legend(frameon=False, loc="lower right")
+    handles, labels = axes[0].get_legend_handles_labels()
+    fig.legend(handles, labels, frameon=False, loc="outside lower center", ncol=4)
+    for ax in axes[1:]:
+        ax.set_ylabel("")
     fig.savefig(out)
     plt.close(fig)
 

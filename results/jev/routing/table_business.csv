@@ -1,29 +1,32 @@
-Product,Unauthorized activity,Identity theft,Scam victim,Credit report dispute,Collector contact,Money lost,Fee or interest,Prior contact,Claim denied,Financial harm,Handling queue,support,purity
-"""credit_card""",false,-,-,false,false,-,-,-,-,-,cards,444,0.8761261261261262
-"""credit_card""",false,-,-,true,-,true,-,-,-,-,cards,62,0.6290322580645161
-"""prepaid_card""",false,-,-,-,-,-,-,-,-,-,cards,54,0.8333333333333334
-"""credit_card""",false,-,-,true,-,false,-,-,false,>= 1,cards,20,0.45
-"""vehicle_loan"",""student_loan"",""personal_loan""",false,-,-,-,-,-,-,-,-,-,consumer_loans,690,0.827536231884058
-"""credit_report""",-,false,-,-,-,-,-,-,-,-,credit_reporting,612,0.9901960784313726
-"""credit_report""",-,true,-,-,-,false,-,-,-,-,credit_reporting,284,0.7711267605633803
-"""credit_report""",-,true,-,-,-,true,-,false,-,-,credit_reporting,36,0.6388888888888888
-"""credit_card""",false,-,-,true,-,false,-,-,-,0,credit_reporting,31,0.7419354838709677
-"""credit_card""",false,-,-,true,-,false,-,-,true,>= 1,credit_reporting,20,0.6
-"""debt_collection""",false,-,-,true,true,-,-,-,-,-,debt_collection,247,0.8987854251012146
-"""debt_collection"",""credit_card""",false,-,-,false,true,-,-,-,-,-,debt_collection,233,0.9484978540772532
-"""debt_collection""",false,-,-,-,false,-,-,-,-,-,debt_collection,108,0.6203703703703703
-"""debt_collection""",true,false,-,-,-,-,-,-,-,-,debt_collection,38,0.6578947368421053
-"""other""",false,-,-,-,-,-,true,-,-,>= 1,debt_collection,28,0.25
-"""debt_collection""",true,true,-,-,-,false,-,-,-,0,debt_collection,28,0.6785714285714286
-"""debt_collection""",true,true,-,-,-,false,-,-,true,>= 1,debt_collection,24,0.5
-"""bank_account""",false,-,-,-,-,-,-,-,-,-,deposits,551,0.7549909255898367
-"""other""",false,-,-,-,-,-,-,-,true,0,deposits,25,0.28
-"not(""credit_report"",""debt_collection"",""mortgage"")",true,-,-,-,-,-,-,-,-,-,fraud,853,0.9073856975381008
-"""money_transfer""",false,-,true,-,-,-,-,-,-,-,fraud,75,0.8266666666666667
-"""debt_collection""",true,true,-,-,-,true,-,-,-,-,fraud,45,0.6888888888888889
-"""other""",false,-,-,-,-,-,-,-,false,0,fraud,36,0.3611111111111111
-"""debt_collection""",true,true,-,-,-,false,-,-,false,>= 1,fraud,30,0.4666666666666667
-"""credit_report""",-,true,-,-,-,true,-,true,-,-,fraud,25,0.52
-"""mortgage""",-,-,-,-,-,-,-,-,-,-,mortgage,725,0.9310344827586207
-"""money_transfer""",false,-,false,-,-,-,-,-,-,-,payments,590,0.9559322033898305
-"""other""",false,-,-,-,-,-,false,-,-,>= 1,payments,86,0.4302325581395349
+Product,Unauthorized activity,Identity theft,Scam victim,Credit report dispute,Collector contact,Money lost,Fee or interest,Refund requested,Claim denied,Financial harm,Handling queue,support,purity
+"""credit_card""",false,-,-,-,false,true,-,-,-,-,cards,306,0.9284580239299581
+"""credit_card""",false,-,-,false,false,false,-,-,-,-,cards,188,0.8756941850647676
+"""prepaid_card""",false,-,-,-,-,-,-,-,-,-,cards,54,0.8408504573718945
+"""credit_card""",false,-,-,true,false,false,-,-,-,>= 1,cards,34,0.5731586704320151
+"""credit_card""",true,-,-,-,-,-,true,-,-,-,cards,31,0.5503142087652003
+"""vehicle_loan"",""student_loan"",""personal_loan""",-,false,-,false,false,-,-,-,-,-,consumer_loans,480,0.9603166370736187
+"""vehicle_loan"",""student_loan""",-,false,-,-,true,-,-,-,-,-,consumer_loans,100,0.637962515003556
+"""vehicle_loan"",""student_loan"",""personal_loan""",-,false,-,true,false,true,-,-,-,-,consumer_loans,57,0.8125590995406388
+"""vehicle_loan"",""student_loan"",""personal_loan""",-,false,-,true,false,false,-,-,true,-,consumer_loans,20,0.6838422834456688
+"""credit_report""",-,-,-,-,-,-,-,-,-,-,credit_reporting,957,0.9071154584527306
+"""vehicle_loan"",""student_loan"",""personal_loan""",-,false,-,true,false,false,-,-,false,-,credit_reporting,30,0.6565800482725395
+"""credit_card""",false,-,-,true,false,false,-,-,-,0,credit_reporting,29,0.66905310286932
+"""debt_collection""",-,false,-,-,-,-,-,-,-,-,debt_collection,584,0.9043768878087602
+"""debt_collection""",-,true,-,-,-,false,-,-,-,-,debt_collection,98,0.6553587853720534
+"""credit_card""",false,-,-,-,true,-,-,-,-,-,debt_collection,46,0.5378822171243186
+"""other""",false,-,-,-,-,-,-,-,false,0,debt_collection,36,0.407761950263285
+"""personal_loan""",-,false,-,-,true,-,-,-,-,-,debt_collection,27,0.5252650795965377
+"""bank_account""",false,-,-,-,-,-,-,-,-,-,deposits,551,0.8475767588910459
+"""other""",false,-,-,-,-,-,true,-,-,>= 1,deposits,28,0.25081106850809426
+"""other""",false,-,-,-,-,-,-,-,true,0,deposits,25,0.41175916915881267
+"""other""",false,-,-,-,-,-,false,false,true,>= 1,deposits,24,0.38885473742061055
+"""bank_account"",""prepaid_card"",""other""",true,-,-,-,-,-,-,-,-,-,fraud,378,0.9040827409845185
+"""credit_card""",true,-,-,-,-,-,false,-,-,-,fraud,251,0.9061934997100153
+"""money_transfer""",-,-,true,-,-,-,-,-,-,-,fraud,114,0.8188141186187147
+"""money_transfer""",true,-,false,-,-,-,-,-,-,-,fraud,75,0.6969248617304767
+"""vehicle_loan"",""student_loan"",""personal_loan""",-,true,-,-,-,-,-,-,-,-,fraud,55,0.792595620213338
+"""debt_collection""",-,true,-,-,-,true,-,-,-,-,fraud,45,0.5841616321289201
+"""mortgage""",-,-,-,-,-,-,-,-,-,-,mortgage,725,0.9451513977682408
+"""money_transfer""",false,-,false,-,-,-,-,-,-,-,payments,590,0.966155283393418
+"""other""",false,-,-,-,-,-,false,true,-,>= 1,payments,39,0.5992646181172792
+"""other""",false,-,-,-,-,-,false,false,false,>= 1,payments,23,0.4087530611521375

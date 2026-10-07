@@ -39,8 +39,8 @@
     <informationRequirement id="ir_fee_or_interest_to_routing_decision">
       <requiredInput href="#input_fee_or_interest" />
     </informationRequirement>
-    <informationRequirement id="ir_prior_contact_to_routing_decision">
-      <requiredInput href="#input_prior_contact" />
+    <informationRequirement id="ir_refund_requested_to_routing_decision">
+      <requiredInput href="#input_refund_requested" />
     </informationRequirement>
     <informationRequirement id="ir_claim_denied_to_routing_decision">
       <requiredInput href="#input_claim_denied" />
@@ -95,9 +95,9 @@
           <text>fee_or_interest</text>
         </inputExpression>
       </input>
-      <input id="in_routing_decision_8" label="Prior contact">
+      <input id="in_routing_decision_8" label="Refund requested">
         <inputExpression id="expr_routing_decision_8" typeRef="boolean">
-          <text>prior_contact</text>
+          <text>refund_requested</text>
         </inputExpression>
       </input>
       <input id="in_routing_decision_9" label="Claim denied">
@@ -131,13 +131,13 @@
           <text>-</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_1_4">
-          <text>false</text>
+          <text>-</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_1_5">
           <text>false</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_1_6">
-          <text>-</text>
+          <text>true</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_1_7">
           <text>-</text>
@@ -155,10 +155,10 @@
           <text>"cards"</text>
         </outputEntry>
         <annotationEntry>
-          <text>444</text>
+          <text>306</text>
         </annotationEntry>
         <annotationEntry>
-          <text>0.876</text>
+          <text>0.928</text>
         </annotationEntry>
       </rule>
       <rule id="rule_routing_decision_2">
@@ -175,13 +175,13 @@
           <text>-</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_2_4">
-          <text>true</text>
+          <text>false</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_2_5">
-          <text>-</text>
+          <text>false</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_2_6">
-          <text>true</text>
+          <text>false</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_2_7">
           <text>-</text>
@@ -199,10 +199,10 @@
           <text>"cards"</text>
         </outputEntry>
         <annotationEntry>
-          <text>62</text>
+          <text>188</text>
         </annotationEntry>
         <annotationEntry>
-          <text>0.629</text>
+          <text>0.876</text>
         </annotationEntry>
       </rule>
       <rule id="rule_routing_decision_3">
@@ -246,7 +246,7 @@
           <text>54</text>
         </annotationEntry>
         <annotationEntry>
-          <text>0.833</text>
+          <text>0.841</text>
         </annotationEntry>
       </rule>
       <rule id="rule_routing_decision_4">
@@ -266,7 +266,7 @@
           <text>true</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_4_5">
-          <text>-</text>
+          <text>false</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_4_6">
           <text>false</text>
@@ -278,7 +278,7 @@
           <text>-</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_4_9">
-          <text>false</text>
+          <text>-</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_4_10">
           <text>&gt;= 1</text>
@@ -287,18 +287,18 @@
           <text>"cards"</text>
         </outputEntry>
         <annotationEntry>
-          <text>20</text>
+          <text>34</text>
         </annotationEntry>
         <annotationEntry>
-          <text>0.450</text>
+          <text>0.573</text>
         </annotationEntry>
       </rule>
       <rule id="rule_routing_decision_5">
         <inputEntry id="ie_routing_decision_5_0">
-          <text>"vehicle_loan","student_loan","personal_loan"</text>
+          <text>"credit_card"</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_5_1">
-          <text>false</text>
+          <text>true</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_5_2">
           <text>-</text>
@@ -316,7 +316,7 @@
           <text>-</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_5_7">
-          <text>-</text>
+          <text>true</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_5_8">
           <text>-</text>
@@ -328,18 +328,18 @@
           <text>-</text>
         </inputEntry>
         <outputEntry id="oe_routing_decision_5">
-          <text>"consumer_loans"</text>
+          <text>"cards"</text>
         </outputEntry>
         <annotationEntry>
-          <text>690</text>
+          <text>31</text>
         </annotationEntry>
         <annotationEntry>
-          <text>0.828</text>
+          <text>0.550</text>
         </annotationEntry>
       </rule>
       <rule id="rule_routing_decision_6">
         <inputEntry id="ie_routing_decision_6_0">
-          <text>"credit_report"</text>
+          <text>"vehicle_loan","student_loan","personal_loan"</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_6_1">
           <text>-</text>
@@ -351,10 +351,10 @@
           <text>-</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_6_4">
-          <text>-</text>
+          <text>false</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_6_5">
-          <text>-</text>
+          <text>false</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_6_6">
           <text>-</text>
@@ -372,24 +372,24 @@
           <text>-</text>
         </inputEntry>
         <outputEntry id="oe_routing_decision_6">
-          <text>"credit_reporting"</text>
+          <text>"consumer_loans"</text>
         </outputEntry>
         <annotationEntry>
-          <text>612</text>
+          <text>480</text>
         </annotationEntry>
         <annotationEntry>
-          <text>0.990</text>
+          <text>0.960</text>
         </annotationEntry>
       </rule>
       <rule id="rule_routing_decision_7">
         <inputEntry id="ie_routing_decision_7_0">
-          <text>"credit_report"</text>
+          <text>"vehicle_loan","student_loan"</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_7_1">
           <text>-</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_7_2">
-          <text>true</text>
+          <text>false</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_7_3">
           <text>-</text>
@@ -398,10 +398,10 @@
           <text>-</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_7_5">
-          <text>-</text>
+          <text>true</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_7_6">
-          <text>false</text>
+          <text>-</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_7_7">
           <text>-</text>
@@ -416,33 +416,33 @@
           <text>-</text>
         </inputEntry>
         <outputEntry id="oe_routing_decision_7">
-          <text>"credit_reporting"</text>
+          <text>"consumer_loans"</text>
         </outputEntry>
         <annotationEntry>
-          <text>284</text>
+          <text>100</text>
         </annotationEntry>
         <annotationEntry>
-          <text>0.771</text>
+          <text>0.638</text>
         </annotationEntry>
       </rule>
       <rule id="rule_routing_decision_8">
         <inputEntry id="ie_routing_decision_8_0">
-          <text>"credit_report"</text>
+          <text>"vehicle_loan","student_loan","personal_loan"</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_8_1">
           <text>-</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_8_2">
-          <text>true</text>
+          <text>false</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_8_3">
           <text>-</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_8_4">
-          <text>-</text>
+          <text>true</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_8_5">
-          <text>-</text>
+          <text>false</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_8_6">
           <text>true</text>
@@ -451,7 +451,7 @@
           <text>-</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_8_8">
-          <text>false</text>
+          <text>-</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_8_9">
           <text>-</text>
@@ -460,24 +460,24 @@
           <text>-</text>
         </inputEntry>
         <outputEntry id="oe_routing_decision_8">
-          <text>"credit_reporting"</text>
+          <text>"consumer_loans"</text>
         </outputEntry>
         <annotationEntry>
-          <text>36</text>
+          <text>57</text>
         </annotationEntry>
         <annotationEntry>
-          <text>0.639</text>
+          <text>0.813</text>
         </annotationEntry>
       </rule>
       <rule id="rule_routing_decision_9">
         <inputEntry id="ie_routing_decision_9_0">
-          <text>"credit_card"</text>
+          <text>"vehicle_loan","student_loan","personal_loan"</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_9_1">
-          <text>false</text>
+          <text>-</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_9_2">
-          <text>-</text>
+          <text>false</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_9_3">
           <text>-</text>
@@ -486,7 +486,7 @@
           <text>true</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_9_5">
-          <text>-</text>
+          <text>false</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_9_6">
           <text>false</text>
@@ -498,27 +498,27 @@
           <text>-</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_9_9">
-          <text>-</text>
+          <text>true</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_9_10">
-          <text>0</text>
+          <text>-</text>
         </inputEntry>
         <outputEntry id="oe_routing_decision_9">
-          <text>"credit_reporting"</text>
+          <text>"consumer_loans"</text>
         </outputEntry>
         <annotationEntry>
-          <text>31</text>
+          <text>20</text>
         </annotationEntry>
         <annotationEntry>
-          <text>0.742</text>
+          <text>0.684</text>
         </annotationEntry>
       </rule>
       <rule id="rule_routing_decision_10">
         <inputEntry id="ie_routing_decision_10_0">
-          <text>"credit_card"</text>
+          <text>"credit_report"</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_10_1">
-          <text>false</text>
+          <text>-</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_10_2">
           <text>-</text>
@@ -527,13 +527,13 @@
           <text>-</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_10_4">
-          <text>true</text>
+          <text>-</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_10_5">
           <text>-</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_10_6">
-          <text>false</text>
+          <text>-</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_10_7">
           <text>-</text>
@@ -542,30 +542,30 @@
           <text>-</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_10_9">
-          <text>true</text>
+          <text>-</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_10_10">
-          <text>&gt;= 1</text>
+          <text>-</text>
         </inputEntry>
         <outputEntry id="oe_routing_decision_10">
           <text>"credit_reporting"</text>
         </outputEntry>
         <annotationEntry>
-          <text>20</text>
+          <text>957</text>
         </annotationEntry>
         <annotationEntry>
-          <text>0.600</text>
+          <text>0.907</text>
         </annotationEntry>
       </rule>
       <rule id="rule_routing_decision_11">
         <inputEntry id="ie_routing_decision_11_0">
-          <text>"debt_collection"</text>
+          <text>"vehicle_loan","student_loan","personal_loan"</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_11_1">
-          <text>false</text>
+          <text>-</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_11_2">
-          <text>-</text>
+          <text>false</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_11_3">
           <text>-</text>
@@ -574,10 +574,10 @@
           <text>true</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_11_5">
-          <text>true</text>
+          <text>false</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_11_6">
-          <text>-</text>
+          <text>false</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_11_7">
           <text>-</text>
@@ -586,24 +586,24 @@
           <text>-</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_11_9">
-          <text>-</text>
+          <text>false</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_11_10">
           <text>-</text>
         </inputEntry>
         <outputEntry id="oe_routing_decision_11">
-          <text>"debt_collection"</text>
+          <text>"credit_reporting"</text>
         </outputEntry>
         <annotationEntry>
-          <text>247</text>
+          <text>30</text>
         </annotationEntry>
         <annotationEntry>
-          <text>0.899</text>
+          <text>0.657</text>
         </annotationEntry>
       </rule>
       <rule id="rule_routing_decision_12">
         <inputEntry id="ie_routing_decision_12_0">
-          <text>"debt_collection","credit_card"</text>
+          <text>"credit_card"</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_12_1">
           <text>false</text>
@@ -615,13 +615,13 @@
           <text>-</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_12_4">
-          <text>false</text>
-        </inputEntry>
-        <inputEntry id="ie_routing_decision_12_5">
           <text>true</text>
         </inputEntry>
+        <inputEntry id="ie_routing_decision_12_5">
+          <text>false</text>
+        </inputEntry>
         <inputEntry id="ie_routing_decision_12_6">
-          <text>-</text>
+          <text>false</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_12_7">
           <text>-</text>
@@ -633,16 +633,16 @@
           <text>-</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_12_10">
-          <text>-</text>
+          <text>0</text>
         </inputEntry>
         <outputEntry id="oe_routing_decision_12">
-          <text>"debt_collection"</text>
+          <text>"credit_reporting"</text>
         </outputEntry>
         <annotationEntry>
-          <text>233</text>
+          <text>29</text>
         </annotationEntry>
         <annotationEntry>
-          <text>0.948</text>
+          <text>0.669</text>
         </annotationEntry>
       </rule>
       <rule id="rule_routing_decision_13">
@@ -650,10 +650,10 @@
           <text>"debt_collection"</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_13_1">
-          <text>false</text>
+          <text>-</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_13_2">
-          <text>-</text>
+          <text>false</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_13_3">
           <text>-</text>
@@ -662,7 +662,7 @@
           <text>-</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_13_5">
-          <text>false</text>
+          <text>-</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_13_6">
           <text>-</text>
@@ -683,10 +683,10 @@
           <text>"debt_collection"</text>
         </outputEntry>
         <annotationEntry>
-          <text>108</text>
+          <text>584</text>
         </annotationEntry>
         <annotationEntry>
-          <text>0.620</text>
+          <text>0.904</text>
         </annotationEntry>
       </rule>
       <rule id="rule_routing_decision_14">
@@ -694,10 +694,10 @@
           <text>"debt_collection"</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_14_1">
-          <text>true</text>
+          <text>-</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_14_2">
-          <text>false</text>
+          <text>true</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_14_3">
           <text>-</text>
@@ -709,7 +709,7 @@
           <text>-</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_14_6">
-          <text>-</text>
+          <text>false</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_14_7">
           <text>-</text>
@@ -727,15 +727,15 @@
           <text>"debt_collection"</text>
         </outputEntry>
         <annotationEntry>
-          <text>38</text>
+          <text>98</text>
         </annotationEntry>
         <annotationEntry>
-          <text>0.658</text>
+          <text>0.655</text>
         </annotationEntry>
       </rule>
       <rule id="rule_routing_decision_15">
         <inputEntry id="ie_routing_decision_15_0">
-          <text>"other"</text>
+          <text>"credit_card"</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_15_1">
           <text>false</text>
@@ -750,13 +750,13 @@
           <text>-</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_15_5">
-          <text>-</text>
+          <text>true</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_15_6">
           <text>-</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_15_7">
-          <text>true</text>
+          <text>-</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_15_8">
           <text>-</text>
@@ -765,27 +765,27 @@
           <text>-</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_15_10">
-          <text>&gt;= 1</text>
+          <text>-</text>
         </inputEntry>
         <outputEntry id="oe_routing_decision_15">
           <text>"debt_collection"</text>
         </outputEntry>
         <annotationEntry>
-          <text>28</text>
+          <text>46</text>
         </annotationEntry>
         <annotationEntry>
-          <text>0.250</text>
+          <text>0.538</text>
         </annotationEntry>
       </rule>
       <rule id="rule_routing_decision_16">
         <inputEntry id="ie_routing_decision_16_0">
-          <text>"debt_collection"</text>
+          <text>"other"</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_16_1">
-          <text>true</text>
+          <text>false</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_16_2">
-          <text>true</text>
+          <text>-</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_16_3">
           <text>-</text>
@@ -797,7 +797,7 @@
           <text>-</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_16_6">
-          <text>false</text>
+          <text>-</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_16_7">
           <text>-</text>
@@ -806,7 +806,7 @@
           <text>-</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_16_9">
-          <text>-</text>
+          <text>false</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_16_10">
           <text>0</text>
@@ -815,21 +815,21 @@
           <text>"debt_collection"</text>
         </outputEntry>
         <annotationEntry>
-          <text>28</text>
+          <text>36</text>
         </annotationEntry>
         <annotationEntry>
-          <text>0.679</text>
+          <text>0.408</text>
         </annotationEntry>
       </rule>
       <rule id="rule_routing_decision_17">
         <inputEntry id="ie_routing_decision_17_0">
-          <text>"debt_collection"</text>
+          <text>"personal_loan"</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_17_1">
-          <text>true</text>
+          <text>-</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_17_2">
-          <text>true</text>
+          <text>false</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_17_3">
           <text>-</text>
@@ -838,10 +838,10 @@
           <text>-</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_17_5">
-          <text>-</text>
+          <text>true</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_17_6">
-          <text>false</text>
+          <text>-</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_17_7">
           <text>-</text>
@@ -850,19 +850,19 @@
           <text>-</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_17_9">
-          <text>true</text>
+          <text>-</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_17_10">
-          <text>&gt;= 1</text>
+          <text>-</text>
         </inputEntry>
         <outputEntry id="oe_routing_decision_17">
           <text>"debt_collection"</text>
         </outputEntry>
         <annotationEntry>
-          <text>24</text>
+          <text>27</text>
         </annotationEntry>
         <annotationEntry>
-          <text>0.500</text>
+          <text>0.525</text>
         </annotationEntry>
       </rule>
       <rule id="rule_routing_decision_18">
@@ -906,7 +906,7 @@
           <text>551</text>
         </annotationEntry>
         <annotationEntry>
-          <text>0.755</text>
+          <text>0.848</text>
         </annotationEntry>
       </rule>
       <rule id="rule_routing_decision_19">
@@ -932,33 +932,33 @@
           <text>-</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_19_7">
-          <text>-</text>
+          <text>true</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_19_8">
           <text>-</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_19_9">
-          <text>true</text>
+          <text>-</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_19_10">
-          <text>0</text>
+          <text>&gt;= 1</text>
         </inputEntry>
         <outputEntry id="oe_routing_decision_19">
           <text>"deposits"</text>
         </outputEntry>
         <annotationEntry>
-          <text>25</text>
+          <text>28</text>
         </annotationEntry>
         <annotationEntry>
-          <text>0.280</text>
+          <text>0.251</text>
         </annotationEntry>
       </rule>
       <rule id="rule_routing_decision_20">
         <inputEntry id="ie_routing_decision_20_0">
-          <text>not("credit_report","debt_collection","mortgage")</text>
+          <text>"other"</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_20_1">
-          <text>true</text>
+          <text>false</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_20_2">
           <text>-</text>
@@ -982,24 +982,24 @@
           <text>-</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_20_9">
-          <text>-</text>
+          <text>true</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_20_10">
-          <text>-</text>
+          <text>0</text>
         </inputEntry>
         <outputEntry id="oe_routing_decision_20">
-          <text>"fraud"</text>
+          <text>"deposits"</text>
         </outputEntry>
         <annotationEntry>
-          <text>853</text>
+          <text>25</text>
         </annotationEntry>
         <annotationEntry>
-          <text>0.907</text>
+          <text>0.412</text>
         </annotationEntry>
       </rule>
       <rule id="rule_routing_decision_21">
         <inputEntry id="ie_routing_decision_21_0">
-          <text>"money_transfer"</text>
+          <text>"other"</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_21_1">
           <text>false</text>
@@ -1008,7 +1008,7 @@
           <text>-</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_21_3">
-          <text>true</text>
+          <text>-</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_21_4">
           <text>-</text>
@@ -1020,36 +1020,36 @@
           <text>-</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_21_7">
-          <text>-</text>
+          <text>false</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_21_8">
-          <text>-</text>
+          <text>false</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_21_9">
-          <text>-</text>
+          <text>true</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_21_10">
-          <text>-</text>
+          <text>&gt;= 1</text>
         </inputEntry>
         <outputEntry id="oe_routing_decision_21">
-          <text>"fraud"</text>
+          <text>"deposits"</text>
         </outputEntry>
         <annotationEntry>
-          <text>75</text>
+          <text>24</text>
         </annotationEntry>
         <annotationEntry>
-          <text>0.827</text>
+          <text>0.389</text>
         </annotationEntry>
       </rule>
       <rule id="rule_routing_decision_22">
         <inputEntry id="ie_routing_decision_22_0">
-          <text>"debt_collection"</text>
+          <text>"bank_account","prepaid_card","other"</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_22_1">
           <text>true</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_22_2">
-          <text>true</text>
+          <text>-</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_22_3">
           <text>-</text>
@@ -1061,7 +1061,7 @@
           <text>-</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_22_6">
-          <text>true</text>
+          <text>-</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_22_7">
           <text>-</text>
@@ -1079,18 +1079,18 @@
           <text>"fraud"</text>
         </outputEntry>
         <annotationEntry>
-          <text>45</text>
+          <text>378</text>
         </annotationEntry>
         <annotationEntry>
-          <text>0.689</text>
+          <text>0.904</text>
         </annotationEntry>
       </rule>
       <rule id="rule_routing_decision_23">
         <inputEntry id="ie_routing_decision_23_0">
-          <text>"other"</text>
+          <text>"credit_card"</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_23_1">
-          <text>false</text>
+          <text>true</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_23_2">
           <text>-</text>
@@ -1108,39 +1108,39 @@
           <text>-</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_23_7">
-          <text>-</text>
+          <text>false</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_23_8">
           <text>-</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_23_9">
-          <text>false</text>
+          <text>-</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_23_10">
-          <text>0</text>
+          <text>-</text>
         </inputEntry>
         <outputEntry id="oe_routing_decision_23">
           <text>"fraud"</text>
         </outputEntry>
         <annotationEntry>
-          <text>36</text>
+          <text>251</text>
         </annotationEntry>
         <annotationEntry>
-          <text>0.361</text>
+          <text>0.906</text>
         </annotationEntry>
       </rule>
       <rule id="rule_routing_decision_24">
         <inputEntry id="ie_routing_decision_24_0">
-          <text>"debt_collection"</text>
+          <text>"money_transfer"</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_24_1">
-          <text>true</text>
+          <text>-</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_24_2">
-          <text>true</text>
+          <text>-</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_24_3">
-          <text>-</text>
+          <text>true</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_24_4">
           <text>-</text>
@@ -1149,7 +1149,7 @@
           <text>-</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_24_6">
-          <text>false</text>
+          <text>-</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_24_7">
           <text>-</text>
@@ -1158,33 +1158,33 @@
           <text>-</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_24_9">
-          <text>false</text>
+          <text>-</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_24_10">
-          <text>&gt;= 1</text>
+          <text>-</text>
         </inputEntry>
         <outputEntry id="oe_routing_decision_24">
           <text>"fraud"</text>
         </outputEntry>
         <annotationEntry>
-          <text>30</text>
+          <text>114</text>
         </annotationEntry>
         <annotationEntry>
-          <text>0.467</text>
+          <text>0.819</text>
         </annotationEntry>
       </rule>
       <rule id="rule_routing_decision_25">
         <inputEntry id="ie_routing_decision_25_0">
-          <text>"credit_report"</text>
+          <text>"money_transfer"</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_25_1">
-          <text>-</text>
-        </inputEntry>
-        <inputEntry id="ie_routing_decision_25_2">
           <text>true</text>
         </inputEntry>
-        <inputEntry id="ie_routing_decision_25_3">
+        <inputEntry id="ie_routing_decision_25_2">
           <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_routing_decision_25_3">
+          <text>false</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_25_4">
           <text>-</text>
@@ -1193,13 +1193,13 @@
           <text>-</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_25_6">
-          <text>true</text>
+          <text>-</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_25_7">
           <text>-</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_25_8">
-          <text>true</text>
+          <text>-</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_25_9">
           <text>-</text>
@@ -1211,21 +1211,21 @@
           <text>"fraud"</text>
         </outputEntry>
         <annotationEntry>
-          <text>25</text>
+          <text>75</text>
         </annotationEntry>
         <annotationEntry>
-          <text>0.520</text>
+          <text>0.697</text>
         </annotationEntry>
       </rule>
       <rule id="rule_routing_decision_26">
         <inputEntry id="ie_routing_decision_26_0">
-          <text>"mortgage"</text>
+          <text>"vehicle_loan","student_loan","personal_loan"</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_26_1">
           <text>-</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_26_2">
-          <text>-</text>
+          <text>true</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_26_3">
           <text>-</text>
@@ -1252,27 +1252,27 @@
           <text>-</text>
         </inputEntry>
         <outputEntry id="oe_routing_decision_26">
-          <text>"mortgage"</text>
+          <text>"fraud"</text>
         </outputEntry>
         <annotationEntry>
-          <text>725</text>
+          <text>55</text>
         </annotationEntry>
         <annotationEntry>
-          <text>0.931</text>
+          <text>0.793</text>
         </annotationEntry>
       </rule>
       <rule id="rule_routing_decision_27">
         <inputEntry id="ie_routing_decision_27_0">
-          <text>"money_transfer"</text>
+          <text>"debt_collection"</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_27_1">
-          <text>false</text>
-        </inputEntry>
-        <inputEntry id="ie_routing_decision_27_2">
           <text>-</text>
         </inputEntry>
+        <inputEntry id="ie_routing_decision_27_2">
+          <text>true</text>
+        </inputEntry>
         <inputEntry id="ie_routing_decision_27_3">
-          <text>false</text>
+          <text>-</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_27_4">
           <text>-</text>
@@ -1281,7 +1281,7 @@
           <text>-</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_27_6">
-          <text>-</text>
+          <text>true</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_27_7">
           <text>-</text>
@@ -1296,21 +1296,21 @@
           <text>-</text>
         </inputEntry>
         <outputEntry id="oe_routing_decision_27">
-          <text>"payments"</text>
+          <text>"fraud"</text>
         </outputEntry>
         <annotationEntry>
-          <text>590</text>
+          <text>45</text>
         </annotationEntry>
         <annotationEntry>
-          <text>0.956</text>
+          <text>0.584</text>
         </annotationEntry>
       </rule>
       <rule id="rule_routing_decision_28">
         <inputEntry id="ie_routing_decision_28_0">
-          <text>"other"</text>
+          <text>"mortgage"</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_28_1">
-          <text>false</text>
+          <text>-</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_28_2">
           <text>-</text>
@@ -1328,7 +1328,7 @@
           <text>-</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_28_7">
-          <text>false</text>
+          <text>-</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_28_8">
           <text>-</text>
@@ -1337,16 +1337,148 @@
           <text>-</text>
         </inputEntry>
         <inputEntry id="ie_routing_decision_28_10">
-          <text>&gt;= 1</text>
+          <text>-</text>
         </inputEntry>
         <outputEntry id="oe_routing_decision_28">
+          <text>"mortgage"</text>
+        </outputEntry>
+        <annotationEntry>
+          <text>725</text>
+        </annotationEntry>
+        <annotationEntry>
+          <text>0.945</text>
+        </annotationEntry>
+      </rule>
+      <rule id="rule_routing_decision_29">
+        <inputEntry id="ie_routing_decision_29_0">
+          <text>"money_transfer"</text>
+        </inputEntry>
+        <inputEntry id="ie_routing_decision_29_1">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_routing_decision_29_2">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_routing_decision_29_3">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_routing_decision_29_4">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_routing_decision_29_5">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_routing_decision_29_6">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_routing_decision_29_7">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_routing_decision_29_8">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_routing_decision_29_9">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_routing_decision_29_10">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="oe_routing_decision_29">
           <text>"payments"</text>
         </outputEntry>
         <annotationEntry>
-          <text>86</text>
+          <text>590</text>
         </annotationEntry>
         <annotationEntry>
-          <text>0.430</text>
+          <text>0.966</text>
+        </annotationEntry>
+      </rule>
+      <rule id="rule_routing_decision_30">
+        <inputEntry id="ie_routing_decision_30_0">
+          <text>"other"</text>
+        </inputEntry>
+        <inputEntry id="ie_routing_decision_30_1">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_routing_decision_30_2">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_routing_decision_30_3">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_routing_decision_30_4">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_routing_decision_30_5">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_routing_decision_30_6">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_routing_decision_30_7">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_routing_decision_30_8">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="ie_routing_decision_30_9">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_routing_decision_30_10">
+          <text>&gt;= 1</text>
+        </inputEntry>
+        <outputEntry id="oe_routing_decision_30">
+          <text>"payments"</text>
+        </outputEntry>
+        <annotationEntry>
+          <text>39</text>
+        </annotationEntry>
+        <annotationEntry>
+          <text>0.599</text>
+        </annotationEntry>
+      </rule>
+      <rule id="rule_routing_decision_31">
+        <inputEntry id="ie_routing_decision_31_0">
+          <text>"other"</text>
+        </inputEntry>
+        <inputEntry id="ie_routing_decision_31_1">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_routing_decision_31_2">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_routing_decision_31_3">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_routing_decision_31_4">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_routing_decision_31_5">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_routing_decision_31_6">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_routing_decision_31_7">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_routing_decision_31_8">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_routing_decision_31_9">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_routing_decision_31_10">
+          <text>&gt;= 1</text>
+        </inputEntry>
+        <outputEntry id="oe_routing_decision_31">
+          <text>"payments"</text>
+        </outputEntry>
+        <annotationEntry>
+          <text>23</text>
+        </annotationEntry>
+        <annotationEntry>
+          <text>0.409</text>
         </annotationEntry>
       </rule>
     </decisionTable>
@@ -1373,7 +1505,7 @@
           <text>1000</text>
         </annotationEntry>
         <annotationEntry>
-          <text>0.715</text>
+          <text>0.717</text>
         </annotationEntry>
       </rule>
     </decisionTable>
@@ -1496,9 +1628,9 @@
     <description>Jev typed answer to: The complaint is about a fee, a penalty, or an interest charge.</description>
     <variable id="var_fee_or_interest" name="fee_or_interest" typeRef="boolean" />
   </inputData>
-  <inputData id="input_prior_contact" name="Prior contact">
-    <description>Jev typed answer to: The consumer says they contacted the company about this problem before filing this complaint.</description>
-    <variable id="var_prior_contact" name="prior_contact" typeRef="boolean" />
+  <inputData id="input_refund_requested" name="Refund requested">
+    <description>Jev typed answer to: The consumer asks the company for a refund, a reimbursement, a credit to their account, or the return of their money.</description>
+    <variable id="var_refund_requested" name="refund_requested" typeRef="boolean" />
   </inputData>
   <inputData id="input_claim_denied" name="Claim denied">
     <description>Jev typed answer to: The consumer says the company denied or rejected their dispute, claim, or request.</description>
@@ -1553,7 +1685,7 @@
       <dmndi:DMNShape id="shape_input_fee_or_interest" dmnElementRef="input_fee_or_interest">
         <dc:Bounds x="1470" y="400" width="180" height="80" />
       </dmndi:DMNShape>
-      <dmndi:DMNShape id="shape_input_prior_contact" dmnElementRef="input_prior_contact">
+      <dmndi:DMNShape id="shape_input_refund_requested" dmnElementRef="input_refund_requested">
         <dc:Bounds x="1680" y="400" width="180" height="80" />
       </dmndi:DMNShape>
       <dmndi:DMNShape id="shape_input_claim_denied" dmnElementRef="input_claim_denied">
@@ -1603,7 +1735,7 @@
         <di:waypoint x="1560" y="400" />
         <di:waypoint x="1140" y="280" />
       </dmndi:DMNEdge>
-      <dmndi:DMNEdge id="edge_ir_prior_contact_to_routing_decision" dmnElementRef="ir_prior_contact_to_routing_decision">
+      <dmndi:DMNEdge id="edge_ir_refund_requested_to_routing_decision" dmnElementRef="ir_refund_requested_to_routing_decision">
         <di:waypoint x="1770" y="400" />
         <di:waypoint x="1140" y="280" />
       </dmndi:DMNEdge>

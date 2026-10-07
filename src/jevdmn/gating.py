@@ -99,21 +99,62 @@ def ltt_threshold(score, correct, eps: float, delta: float = 0.05, candidates=No
                      float((~correct[acc]).mean()) if acc.any() else 0.0)
 
 
-def calibrate(score_a, correct_a, score_b, correct_b, eps: float, delta: float) -> Threshold:
+def calibrate(score_a, correct_a, score_b, correct_b, eps: float, delta: float,
+              critical_b=None) -> Threshold:
+    """LTT threshold for the selective risk, and optionally also for the critical-class miss rate.
+
+    With `critical_b` (True for calibration cases of the critical class), two families are tested on
+    split B, each at delta/2 (Bonferroni): selective risk <= eps, and miss rate <= eps, where the miss
+    rate is the share of critical-class cases that are decided automatically and wrongly. The more
+    conservative of the two thresholds is returned, so both bounds hold jointly with probability >= 1 - delta.
+    """
     cands = candidate_thresholds(score_a, correct_a, eps, delta, len(score_b))
-    return ltt_threshold(score_b, correct_b, eps, delta, cands)
+    if critical_b is None:
+        return ltt_threshold(score_b, correct_b, eps, delta, cands)
+    sel = ltt_threshold(score_b, correct_b, eps, delta / 2, cands)
+    miss = miss_rate_threshold(score_b, correct_b, critical_b, eps, delta / 2, cands)
+    chosen = max(sel.value, miss)
+    score_b, correct_b = np.asarray(score_b, float), np.asarray(correct_b, bool)
+    acc = score_b >= chosen
+    return Threshold(float(chosen), eps, delta, float(acc.mean()),
+                     float((~correct_b[acc]).mean()) if acc.any() else 0.0)
+
+
+def miss_rate_threshold(score, correct, critical, eps: float, delta: float, candidates) -> float:
+    """Fixed-sequence LTT for the miss rate P(automated and wrong | critical class).
+
+    The loss is computed over all n_c critical-class cases of split B (automated-and-wrong = 1), so
+    H_j: miss(lambda_j) > eps is tested with P(Bin(n_c, eps) <= k_j). The miss rate grows as the
+    threshold falls, so the conservative-first order of the candidates is the right testing order.
+    At least min_accept_for(eps, delta) critical cases are needed to certify any threshold.
+    """
+    score, correct, critical = np.asarray(score, float), np.asarray(correct, bool), np.asarray(critical, bool)
+    n_c = int(critical.sum())
+    chosen = np.inf
+    if n_c == 0:
+        return chosen
+    for lam in candidates:
+        k = int((critical & (score >= lam) & ~correct).sum())
+        if binom.cdf(k, n_c, eps) > delta:
+            break
+        chosen = lam
+    return float(chosen)
 
 
 def apply(score, thr: Threshold) -> np.ndarray:
     return np.asarray(score, float) >= thr.value
 
 
-def selective_metrics(accept, correct) -> dict:
+def selective_metrics(accept, correct, critical=None) -> dict:
     accept, correct = np.asarray(accept, bool), np.asarray(correct, bool)
     n_acc = int(accept.sum())
-    return {"coverage": float(accept.mean()), "selective_risk": float((~correct[accept]).mean()) if n_acc else 0.0,
-            "n_auto": n_acc, "n_review": int((~accept).sum()),
-            "overall_error_auto_only": float((~correct & accept).sum() / len(accept))}
+    out = {"coverage": float(accept.mean()), "selective_risk": float((~correct[accept]).mean()) if n_acc else 0.0,
+           "n_auto": n_acc, "n_review": int((~accept).sum()),
+           "overall_error_auto_only": float((~correct & accept).sum() / len(accept))}
+    if critical is not None:
+        critical = np.asarray(critical, bool)
+        out["miss_rate"] = float((critical & accept & ~correct).sum() / max(int(critical.sum()), 1))
+    return out
 
 
 class LearnedGate:
@@ -125,8 +166,15 @@ class LearnedGate:
     def __init__(self, max_depth: int = 3, min_samples_leaf: int = 40, seed: int = 0):
         self.tree = DecisionTreeClassifier(max_depth=max_depth, min_samples_leaf=min_samples_leaf, random_state=seed)
 
-    def fit(self, X: np.ndarray, correct) -> "LearnedGate":
-        self.tree.fit(X, np.asarray(correct, bool))
+    def fit(self, X: np.ndarray, correct, critical=None) -> "LearnedGate":
+        """With `critical`, critical-class cases get balanced weight so that the gate's leaves separate
+        the cases whose automated miss would be costly, not only the frequent ones."""
+        w = None
+        if critical is not None:
+            critical = np.asarray(critical, bool)
+            n_c = max(int(critical.sum()), 1)
+            w = np.where(critical, (len(critical) - n_c) / n_c, 1.0)
+        self.tree.fit(X, np.asarray(correct, bool), sample_weight=w)
         return self
 
     def score(self, X: np.ndarray) -> np.ndarray:

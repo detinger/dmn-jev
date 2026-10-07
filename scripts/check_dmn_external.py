@@ -51,12 +51,14 @@ def main() -> None:
     args = ap.parse_args()
 
     schema = load_schema(args.config)
-    sample = pd.read_parquet("data/interim/cfpb_sample.parquet")
-    responses, _, _ = load_responses(Path(f"data/interim/responses_{args.extractor}.jsonl"))
+    sample = pd.read_parquet(f"data/interim/{schema.name}_sample.parquet")
+    prefix = "" if schema.name == "cfpb" else f"{schema.name}_"
+    responses, _, _ = load_responses(Path(f"data/interim/responses_{prefix}{args.extractor}.jsonl"))
+    id_col = "case_id" if "case_id" in sample else "complaint_id"
     report = {}
     for name, task in schema.tasks.items():
         path = Path("models") / args.extractor / f"{name}.dmn"
-        ids = sample.loc[sample[f"in_{name}"], "complaint_id"].astype(str).tolist()
+        ids = sample.loc[sample[f"in_{name}"], id_col].astype(str).tolist()
         resp = {i: responses[i] for i in ids}
         typed, signals = typed_frame(resp, schema), signal_frame(resp, schema)
         holistic = holistic_distribution(resp, task).idxmax(axis=1)
@@ -85,7 +87,7 @@ def main() -> None:
         agree = {col: float((theirs[col].to_numpy() == ours[col].to_numpy()).mean()) for col in ours.columns}
         report[name] = {"xsd_valid": validate_xsd(path), "n_cases": len(data), "agreement": agree}
         print(name, report[name])
-    out = Path("results") / args.extractor / "dmn_external_check.json"
+    out = Path("results") / args.extractor / f"dmn_external_check{'' if schema.name == 'cfpb' else '_' + schema.name}.json"
     out.write_text(json.dumps(report, indent=2))
 
 

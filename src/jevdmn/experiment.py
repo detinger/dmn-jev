@@ -10,6 +10,7 @@ import numpy as np
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, balanced_accuracy_score
 from sklearn.model_selection import StratifiedKFold
 from sklearn.tree import DecisionTreeClassifier
 
@@ -38,6 +39,9 @@ class Config:
     budget_repeats: int = 5
     resamples: int = 200
     seed: int = 0
+    # Trees use balanced class weights and are selected by balanced agreement, so that a rare class
+    # (fraud 4 %, relief 16 %) is not absorbed by a one-rule majority table.
+    balanced: bool = True
 
 
 @dataclass
@@ -70,10 +74,23 @@ def prepare(schema: Schema, task: Task, sample: pd.DataFrame, responses: dict[st
 
 # RQ1: distillation -------------------------------------------------------------------------
 
-def _fit_table(X, y, enc, specs, depth, leaf, name, label, seed) -> tuple[DecisionTreeClassifier, DecisionTable]:
-    tree = DecisionTreeClassifier(max_depth=depth, min_samples_leaf=leaf, random_state=seed).fit(X, y)
+def _fit_table(X, y, enc, specs, depth, leaf, name, label, seed,
+               class_weight=None) -> tuple[DecisionTreeClassifier, DecisionTable]:
+    tree = DecisionTreeClassifier(max_depth=depth, min_samples_leaf=leaf, random_state=seed,
+                                  class_weight=class_weight).fit(X, y)
     table = merge_rules(tree_to_table(tree, enc, specs, name, label, X_train=X)).drop_unused_inputs()
     return tree, table
+
+
+def _score_se(y, pred, balanced: bool) -> float:
+    """Standard error of (balanced) accuracy on a validation set (normal approximation)."""
+    y, pred = np.asarray(y), np.asarray(pred)
+    if not balanced:
+        p = float(np.mean(y == pred))
+        return float(np.sqrt(p * (1 - p) / len(y)))
+    classes = np.unique(y)
+    var = sum((r := float(np.mean(pred[y == c] == c))) * (1 - r) / int((y == c).sum()) for c in classes)
+    return float(np.sqrt(var) / len(classes))
 
 
 def distil(td: TaskData, schema: Schema, cfg: Config, target: str = "jev", ids: pd.Index | None = None) -> dict:
@@ -93,19 +110,27 @@ def distil(td: TaskData, schema: Schema, cfg: Config, target: str = "jev", ids: 
     ytr, yva = y_src[inner[:cut]], y_src[inner[cut:]]
 
     name = f"{td.task.name}_decision"
+    cw = "balanced" if cfg.balanced else None
+    score = balanced_accuracy_score if cfg.balanced else accuracy_score
     sweep = []
     for depth in cfg.depths:
         for leaf in cfg.min_leaf:
-            _, table = _fit_table(X_all[tr], ytr, enc, specs, depth, leaf, name, td.task.label, cfg.seed)
-            val_score = float(np.mean(table.evaluate(td.typed.iloc[va]) == yva))
+            _, table = _fit_table(X_all[tr], ytr, enc, specs, depth, leaf, name, td.task.label, cfg.seed, cw)
+            pred_va = np.asarray(table.evaluate(td.typed.iloc[va])).astype(str)
+            val_score = float(score(yva.astype(str), pred_va))
             sweep.append({"depth": depth if depth is not None else 0, "min_leaf": leaf, "n_rules": table.n_rules(),
-                          "n_inputs": len(table.inputs), "val": val_score})
+                          "n_inputs": len(table.inputs), "val": val_score,
+                          "val_se": _score_se(yva.astype(str), pred_va, cfg.balanced)})
     sweep = pd.DataFrame(sweep)
-    best = sweep["val"].max()
-    pick = sweep[sweep["val"] >= best - cfg.fidelity_tol].sort_values(["n_rules", "val"], ascending=[True, False]).iloc[0]
+    # One-standard-error rule (Breiman et al., 1984): the smallest table within one SE of the best,
+    # and never stricter than fidelity_tol.
+    top = sweep.loc[sweep["val"].idxmax()]
+    tol = max(cfg.fidelity_tol, float(top["val_se"]))
+    pick = sweep[sweep["val"] >= top["val"] - tol].sort_values(["n_rules", "val"], ascending=[True, False]).iloc[0]
     depth = None if int(pick["depth"]) == 0 else int(pick["depth"])
 
-    tree = DecisionTreeClassifier(max_depth=depth, min_samples_leaf=int(pick["min_leaf"]), random_state=cfg.seed)
+    tree = DecisionTreeClassifier(max_depth=depth, min_samples_leaf=int(pick["min_leaf"]), random_state=cfg.seed,
+                                  class_weight=cw)
     tree.fit(X_all[rows], y_src)
     raw = tree_to_table(tree, enc, specs, name, td.task.label, X_train=X_all[rows])
     table = merge_rules(raw).drop_unused_inputs()
@@ -115,7 +140,7 @@ def distil(td: TaskData, schema: Schema, cfg: Config, target: str = "jev", ids: 
     curve = []
     for _, r in sweep.iterrows():
         d = None if int(r["depth"]) == 0 else int(r["depth"])
-        _, t = _fit_table(X_all[rows], y_src, enc, specs, d, int(r["min_leaf"]), name, td.task.label, cfg.seed)
+        _, t = _fit_table(X_all[rows], y_src, enc, specs, d, int(r["min_leaf"]), name, td.task.label, cfg.seed, cw)
         out = t.evaluate(td.typed.loc[test])
         curve.append({**r.to_dict(), "n_rules_full": t.n_rules(), "mean_conditions": t.mean_conditions(),
                       "test_fidelity": float(np.mean(out == td.jev_pred.loc[test].to_numpy())),
@@ -141,9 +166,16 @@ def gate_inputs(td: TaskData, table: DecisionTable) -> list[str]:
     return names
 
 
+def critical_class(task: Task) -> str | None:
+    """The class whose automated misses are bounded separately: the positive class of a binary task."""
+    return task.holistic.true_class if len(task.classes) == 2 else None
+
+
 def run_gates(td: TaskData, dmn_out: pd.Series, table: DecisionTable, cfg: Config) -> dict:
     calib, test = td.part("calibration"), td.part("test")
     correct = dmn_out == td.y
+    crit_cls = critical_class(td.task)
+    critical = (td.y == crit_cls) if crit_cls else None
     agree = dmn_out == td.jev_pred
     jev_conf = td.jev_dist.max(axis=1)
 
@@ -153,7 +185,8 @@ def run_gates(td: TaskData, dmn_out: pd.Series, table: DecisionTable, cfg: Confi
 
     names = gate_inputs(td, table)
     learned = gating.LearnedGate(cfg.gate_depth, cfg.gate_min_leaf, cfg.seed)
-    learned.fit(td.signals.loc[calib_a, names].to_numpy(), correct.loc[calib_a].to_numpy())
+    learned.fit(td.signals.loc[calib_a, names].to_numpy(), correct.loc[calib_a].to_numpy(),
+                None if critical is None else critical.loc[calib_a].to_numpy())
     learned_score = pd.Series(learned.score(td.signals[names].to_numpy()), index=td.signals.index)
 
     scores = {"none": pd.Series(1.0, index=td.y.index), "jev_confidence": jev_conf, "learned": learned_score}
@@ -163,9 +196,10 @@ def run_gates(td: TaskData, dmn_out: pd.Series, table: DecisionTable, cfg: Confi
             s = score.where(agree, -np.inf) if use_agree else score
             for eps in cfg.eps_grid:
                 # Split A fixes the gate and the ordered thresholds; split B tests them.
-                thr = gating.calibrate(s.loc[calib_a], correct.loc[calib_a], s.loc[calib_b], correct.loc[calib_b], eps, cfg.delta)
+                thr = gating.calibrate(s.loc[calib_a], correct.loc[calib_a], s.loc[calib_b], correct.loc[calib_b], eps,
+                                       cfg.delta, None if critical is None else critical.loc[calib_b])
                 acc = gating.apply(s.loc[test], thr)
-                m = gating.selective_metrics(acc, correct.loc[test])
+                m = gating.selective_metrics(acc, correct.loc[test], None if critical is None else critical.loc[test])
                 rows.append({"gate": gname, "agreement": use_agree, "eps": eps, "threshold": thr.value,
                              "calib_coverage": thr.calib_coverage, **m})
                 thresholds[(gname, use_agree, eps)] = thr
@@ -173,22 +207,29 @@ def run_gates(td: TaskData, dmn_out: pd.Series, table: DecisionTable, cfg: Confi
     curves = {g: gating.risk_coverage(scores[g].loc[test], correct.loc[test]) for g in ("jev_confidence", "learned")}
     aurc = {g: gating.aurc(scores[g].loc[test], correct.loc[test]) for g in ("jev_confidence", "learned")}
     return {"table": pd.DataFrame(rows), "thresholds": thresholds, "learned": learned, "gate_inputs": names,
-            "curves": curves, "aurc": aurc, "scores": scores, "correct": correct, "agree": agree}
+            "curves": curves, "aurc": aurc, "scores": scores, "correct": correct, "agree": agree, "critical": critical}
 
 
-def validity_check(score: pd.Series, correct: pd.Series, ids: pd.Index, eps: float, cfg: Config) -> dict:
-    """Empirical check of the LTT guarantee: repeated random A/B/test splits of `ids`."""
+def validity_check(score: pd.Series, correct: pd.Series, ids: pd.Index, eps: float, cfg: Config,
+                   critical: pd.Series | None = None) -> dict:
+    """Empirical check of the LTT guarantee: repeated random A/B/test splits of `ids`.
+
+    With a critical class, a violation is either bound failing on the held-out part (joint guarantee).
+    """
     rng = np.random.default_rng(cfg.seed + 1)
     viol, cov = [], []
     s, c = score.loc[ids].to_numpy(), correct.loc[ids].to_numpy()
+    k = None if critical is None else critical.loc[ids].to_numpy()
     for _ in range(cfg.resamples):
         p = rng.permutation(len(ids))
         a, b, t = np.array_split(p, [len(p) // 4, len(p) // 2])
-        thr = gating.calibrate(s[a], c[a], s[b], c[b], eps, cfg.delta)
-        b = t
-        acc = s[b] >= thr.value
-        risk = float((~c[b][acc]).mean()) if acc.any() else 0.0
-        viol.append(risk > eps)
+        thr = gating.calibrate(s[a], c[a], s[b], c[b], eps, cfg.delta, None if k is None else k[b])
+        acc = s[t] >= thr.value
+        risk = float((~c[t][acc]).mean()) if acc.any() else 0.0
+        bad = risk > eps
+        if k is not None and k[t].any():
+            bad = bad or float((k[t] & acc & ~c[t]).sum() / k[t].sum()) > eps
+        viol.append(bad)
         cov.append(acc.mean())
     return {"eps": eps, "violation_rate": float(np.mean(viol)), "mean_coverage": float(np.mean(cov))}
 
@@ -239,6 +280,7 @@ def tfidf_lr(td: TaskData, ids: pd.Index, seed: int) -> np.ndarray:
 
 def learning_curves(td: TaskData, schema: Schema, cfg: Config) -> pd.DataFrame:
     pool, test = td.part("pool"), td.part("test")
+    positive = critical_class(td.task)
     rows = []
     for budget in cfg.label_budgets:
         reps = 1 if budget is None else cfg.budget_repeats
@@ -250,10 +292,10 @@ def learning_curves(td: TaskData, schema: Schema, cfg: Config) -> pd.DataFrame:
             sup = distil(td, schema, Config(**{**asdict(cfg), "seed": cfg.seed + rep}), target="gt", ids=ids)
             out = sup["table"].evaluate(td.typed.loc[test])
             rows.append({"method": "DMN-Sup", "labels": len(ids), "rep": rep, "n_rules": sup["table"].n_rules(),
-                         **metrics.accuracy(td.y.loc[test], out)})
+                         **metrics.accuracy(td.y.loc[test], out, positive)})
             pred = tfidf_lr(td, ids, cfg.seed + rep)
             rows.append({"method": "TF-IDF+LR", "labels": len(ids), "rep": rep, "n_rules": np.nan,
-                         **metrics.accuracy(td.y.loc[test], pred)})
+                         **metrics.accuracy(td.y.loc[test], pred, positive)})
     return pd.DataFrame(rows)
 
 
@@ -283,6 +325,7 @@ class TaskResult:
     baselines: dict = field(default_factory=dict)
     operational: dict = field(default_factory=dict)
     artefacts: dict = field(default_factory=dict)
+    variant_sup: dict = field(default_factory=dict)
 
 
 def run_task(td: TaskData, schema: Schema, cfg: Config) -> TaskResult:
@@ -318,8 +361,9 @@ def run_task(td: TaskData, schema: Schema, cfg: Config) -> TaskResult:
     s_conf_agree = g["scores"]["jev_confidence"].where(g["agree"], -np.inf)
     ids_eval = calib.append(test)
     res.gate = {"table": g["table"], "aurc": g["aurc"], "curves": g["curves"],
-                "validity": [validity_check(s, g["correct"], ids_eval, e, cfg)
+                "validity": [validity_check(s, g["correct"], ids_eval, e, cfg, g["critical"])
                              for s in (s_conf_agree,) for e in cfg.eps_grid],
+                "critical_class": critical_class(td.task),
                 "agreement_rate_test": float(g["agree"].loc[test].mean()),
                 "accuracy_when_agree": float(g["correct"].loc[test][g["agree"].loc[test]].mean()),
                 "accuracy_when_disagree": float(g["correct"].loc[test][~g["agree"].loc[test]].mean())
@@ -337,6 +381,16 @@ def run_task(td: TaskData, schema: Schema, cfg: Config) -> TaskResult:
         "learning_curves": learning_curves(td, schema, cfg),
         "classes": classes,
     }
+    # Variant: the same kind of table trained on ground-truth labels of the pool over Jev's typed facts.
+    # It separates Jev's value as a feature extractor from its value as a teacher.
+    sup = distil(td, schema, cfg, target="gt", ids=td.part("pool"))
+    sup_out = pd.Series(sup["table"].evaluate(td.typed), index=td.typed.index)
+    g_sup = run_gates(td, sup_out, sup["table"], cfg)
+    res.variant_sup = {"n_rules": sup["table"].n_rules(), "n_inputs": len(sup["table"].inputs),
+                       "inputs": [i.name for i in sup["table"].inputs],
+                       "accuracy_test": metrics.accuracy(td.y.loc[test], sup_out.loc[test], positive),
+                       "agreement_with_jev_test": float((sup_out.loc[test] == td.jev_pred.loc[test]).mean()),
+                       "gates": g_sup["table"], "aurc": g_sup["aurc"], "table": sup["table"]}
     primary = g["table"].query("gate == 'learned' and agreement and eps == @cfg.eps_primary").iloc[0]
     res.operational = operational(td, table, 1 - float(primary["coverage"]))
     res.artefacts = {"business": table, "gate": gtab, "outcome": otab}
