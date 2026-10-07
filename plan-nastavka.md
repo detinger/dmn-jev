@@ -1,6 +1,6 @@
 # Plan nastavka: od gotovog pipelinea do predaje rada
 
-**Rad:** *From typed probabilistic answers to auditable decision tables: distilling a System One model into DMN with risk-controlled automation*
+**Rad:** *Auditable decisions from unstructured text: typed language-model answers, DMN tables and risk-controlled human review*
 **Ciljni časopis:** Expert Systems with Applications (Elsevier, Q1)
 **Stanje na dan:** 7. 10. 2026.
 **Polazni dokument:** [jev-dmn-istrazivacki-plan.md](jev-dmn-istrazivacki-plan.md)

@@ -1,7 +1,6 @@
 # jevdmn — typed probabilistic decisions → verified DMN tables + risk-controlled gate
 
-Code and manuscript for *From typed probabilistic answers to auditable decision tables:
-distilling a System One model into DMN with risk-controlled automation* (target: Expert Systems with Applications).
+Code and manuscript for *Auditable decisions from unstructured text: typed language-model answers, DMN tables and risk-controlled human review* (target: Expert Systems with Applications).
 
 A System One model (TypeSafe **Jev**) answers typed questions about a case (choice / noul / score) with a
 probability distribution per answer. The pipeline
