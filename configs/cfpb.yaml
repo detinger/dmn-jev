@@ -3,6 +3,7 @@
 # One Jev request per complaint answers every question below (fact questions
 # and the two holistic decisions) in parallel and in isolation.
 # Wording follows the jev-1.13 guidance: literal, atomic, no arithmetic or dates.
+# v2 (2026-10-07): unauthorized excludes own-purchase disputes; credit_card names store cards. See notes/pilot-v1.md.
 
 name: cfpb
 model: jev-1.13.0
@@ -23,7 +24,7 @@ facts:
       credit_report: A credit report, credit score, or a consumer reporting agency
       debt_collection: Collection of a debt by a debt collector or collection agency
       bank_account: A checking or savings account
-      credit_card: A credit card
+      credit_card: A credit card, including a store or retail credit card
       prepaid_card: A prepaid card, payroll card, or government benefits card
       money_transfer: A money transfer, payment app, wire, or virtual currency
       mortgage: A mortgage, home equity loan, or mortgage servicing
@@ -35,7 +36,7 @@ facts:
   - id: unauthorized
     type: noul
     label: Unauthorized activity
-    instructions: The consumer says that a transaction, charge, withdrawal, or account was made without their permission.
+    instructions: The consumer says that someone else made a transaction, charge, or withdrawal, or opened an account, without the consumer's permission. A dispute about a purchase the consumer made themselves does not count.
 
   - id: identity_theft
     type: noul

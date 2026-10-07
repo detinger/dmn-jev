@@ -76,3 +76,22 @@ plan's "unfavourable results" table). Facts that separate labels: money_lost (0.
 4. `relief_holistic`: decision for the authors. Keep the normative wording (Jev as the decision maker being
    distilled; label mismatch is a finding) or ask for the likely company outcome (closer to the labels, but Jev
    then predicts company behaviour rather than deciding).
+
+## Decision and v2 re-run (2026-10-07)
+
+Applied 1 and 2; kept the fraud criterion (3) and the normative relief wording (4).
+v2 sha256 `120cd32bd8530b54bc14dca19501ca1ea88292359e025134b8e0eecbe6dfd38c` (`configs/cfpb.v2.yaml`), recorded in
+`results/data_manifest.json` under `schema`. Same 500 pool cases; v1 responses kept in `responses_jev_pilot_v1.jsonl`.
+
+| | v1 | v2 |
+|---|---|---|
+| unauthorized true | 0.370 | 0.266 |
+| P(CFPB fraud label \| unauthorized) | 0.276 | 0.361 |
+| AUC unauthorized → fraud label | 0.789 | 0.827 |
+| unauthorized true on purchase-dispute sub-issues (n = 36) | 0.556 | 0.333 |
+| card group answered credit_card | 0.806 | 0.806 |
+| routing agreement / fraud predicted | 0.690 / 58 | 0.679 / 59 |
+| relief AUC / says relief | 0.727 / 0.618 | 0.731 / 0.613 |
+
+The store-card wording had no measurable effect. Unchanged questions moved by 0.004–0.011 in mean |Δp|, i.e. editing
+one question barely affects the others in the same request. Schema frozen at v2; no further wording changes.

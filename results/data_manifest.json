@@ -41,5 +41,19 @@
     "queue.fraud": "1,250",
     "queue.consumer_loans": "1,250",
     "queue.mortgage": "1,250"
+  },
+  "schema": {
+    "file": "configs/cfpb.yaml",
+    "version": "v2",
+    "sha256": "120cd32bd8530b54bc14dca19501ca1ea88292359e025134b8e0eecbe6dfd38c",
+    "frozen": "2026-10-07",
+    "model": "jev-1.13.0",
+    "history": [
+      {
+        "version": "v1",
+        "sha256": "b08a014ba98107bdda7e4e74805212c95fd9bbd7bb6cad51ad8add6d78b3c714",
+        "notes": "notes/pilot-v1.md"
+      }
+    ]
   }
 }

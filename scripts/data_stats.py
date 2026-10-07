@@ -56,7 +56,10 @@ def main() -> None:
         "counts": {k: v.replace("{,}", ",").replace("\\%", "%") for k, v in n.items()},
     }
     Path("results").mkdir(exist_ok=True)
-    Path("results/data_manifest.json").write_text(json.dumps(manifest, indent=2))
+    path = Path("results/data_manifest.json")
+    # Keep fields written by other steps (e.g. the frozen question schema hash).
+    old = json.loads(path.read_text()) if path.exists() else {}
+    path.write_text(json.dumps({**old, **manifest}, indent=2))
     sample[["complaint_id", "in_relief", "in_routing", "split_relief", "split_routing", "relief", "queue"]].to_csv(
         "results/sample_ids.csv", index=False)
     print(json.dumps(manifest["counts"], indent=1))
