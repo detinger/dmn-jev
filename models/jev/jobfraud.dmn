@@ -1,0 +1,273 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" id="drd_jobfraud" name="Fraudulent posting (Jev + DMN)" namespace="https://fipu.unipu.hr/jevdmn" exporter="jevdmn" exporterVersion="0.1.0">
+  <itemDefinition id="type_fraud_holistic" name="t_fraud_holistic">
+    <typeRef>string</typeRef>
+    <allowedValues id="allowed_fraud_holistic">
+      <text>"fraudulent","legitimate"</text>
+    </allowedValues>
+  </itemDefinition>
+  <decision id="decision_jobfraud_decision" name="Fraudulent posting">
+    <description>Distilled decision table (Decide whether a job posting is fraudulent and should be removed.)</description>
+    <variable id="var_jobfraud_decision" name="jobfraud_decision" typeRef="string" />
+    <informationRequirement id="ir_easy_money_to_jobfraud_decision">
+      <requiredInput href="#input_easy_money" />
+    </informationRequirement>
+    <authorityRequirement id="ar_ks_teacher_to_jobfraud_decision">
+      <requiredAuthority href="#ks_teacher" />
+    </authorityRequirement>
+    <decisionTable id="table_jobfraud_decision" hitPolicy="UNIQUE">
+      <input id="in_jobfraud_decision_0" label="Easy money">
+        <inputExpression id="expr_jobfraud_decision_0" typeRef="boolean">
+          <text>easy_money</text>
+        </inputExpression>
+      </input>
+      <output id="out_jobfraud_decision" name="jobfraud_decision" label="Fraudulent posting" typeRef="string">
+        <outputValues id="ov_jobfraud_decision">
+          <text>"fraudulent","legitimate"</text>
+        </outputValues>
+      </output>
+      <annotation name="Support" />
+      <annotation name="Purity" />
+      <rule id="rule_jobfraud_decision_1">
+        <inputEntry id="ie_jobfraud_decision_1_0">
+          <text>true</text>
+        </inputEntry>
+        <outputEntry id="oe_jobfraud_decision_1">
+          <text>"fraudulent"</text>
+        </outputEntry>
+        <annotationEntry>
+          <text>173</text>
+        </annotationEntry>
+        <annotationEntry>
+          <text>0.809</text>
+        </annotationEntry>
+      </rule>
+      <rule id="rule_jobfraud_decision_2">
+        <inputEntry id="ie_jobfraud_decision_2_0">
+          <text>false</text>
+        </inputEntry>
+        <outputEntry id="oe_jobfraud_decision_2">
+          <text>"legitimate"</text>
+        </outputEntry>
+        <annotationEntry>
+          <text>8563</text>
+        </annotationEntry>
+        <annotationEntry>
+          <text>0.896</text>
+        </annotationEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <decision id="decision_jobfraud_gate" name="Confidence gate">
+    <description>Data-derived confidence gate</description>
+    <variable id="var_jobfraud_gate" name="jobfraud_gate" typeRef="string" />
+    <informationRequirement id="ir_easy_money__conf_to_jobfraud_gate">
+      <requiredInput href="#input_easy_money__conf" />
+    </informationRequirement>
+    <authorityRequirement id="ar_ks_calibration_to_jobfraud_gate">
+      <requiredAuthority href="#ks_calibration" />
+    </authorityRequirement>
+    <decisionTable id="table_jobfraud_gate" hitPolicy="UNIQUE">
+      <input id="in_jobfraud_gate_0" label="easy_money (confidence)">
+        <inputExpression id="expr_jobfraud_gate_0" typeRef="number">
+          <text>easy_money__conf</text>
+        </inputExpression>
+      </input>
+      <output id="out_jobfraud_gate" name="jobfraud_gate" label="Confidence gate" typeRef="string">
+        <outputValues id="ov_jobfraud_gate">
+          <text>"auto","review"</text>
+        </outputValues>
+      </output>
+      <annotation name="Support" />
+      <annotation name="Purity" />
+      <rule id="rule_jobfraud_gate_1">
+        <inputEntry id="ie_jobfraud_gate_1_0">
+          <text>&gt; 0.7</text>
+        </inputEntry>
+        <outputEntry id="oe_jobfraud_gate_1">
+          <text>"auto"</text>
+        </outputEntry>
+        <annotationEntry>
+          <text>1377</text>
+        </annotationEntry>
+        <annotationEntry>
+          <text>0.970</text>
+        </annotationEntry>
+      </rule>
+      <rule id="rule_jobfraud_gate_2">
+        <inputEntry id="ie_jobfraud_gate_2_0">
+          <text>&lt;= 0.7</text>
+        </inputEntry>
+        <outputEntry id="oe_jobfraud_gate_2">
+          <text>"review"</text>
+        </outputEntry>
+        <annotationEntry>
+          <text>79</text>
+        </annotationEntry>
+        <annotationEntry>
+          <text>0.684</text>
+        </annotationEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <decision id="decision_jobfraud_route" name="Automate or review">
+    <description>Automate only if the gate accepts and the table agrees with Jev</description>
+    <variable id="var_jobfraud_route" name="jobfraud_route" typeRef="string" />
+    <informationRequirement id="ir_jobfraud_decision_to_jobfraud_route">
+      <requiredDecision href="#decision_jobfraud_decision" />
+    </informationRequirement>
+    <informationRequirement id="ir_jobfraud_gate_to_jobfraud_route">
+      <requiredDecision href="#decision_jobfraud_gate" />
+    </informationRequirement>
+    <informationRequirement id="ir_fraud_holistic_to_jobfraud_route">
+      <requiredInput href="#input_fraud_holistic" />
+    </informationRequirement>
+    <decisionTable id="table_jobfraud_route" hitPolicy="UNIQUE">
+      <input id="in_jobfraud_route_0" label="Confidence gate">
+        <inputExpression id="expr_jobfraud_route_0" typeRef="string">
+          <text>jobfraud_gate</text>
+        </inputExpression>
+        <inputValues id="iv_jobfraud_route_0">
+          <text>"auto","review"</text>
+        </inputValues>
+      </input>
+      <input id="in_jobfraud_route_1" label="Table agrees with Jev">
+        <inputExpression id="expr_jobfraud_route_1" typeRef="boolean">
+          <text>jobfraud_decision = fraud_holistic</text>
+        </inputExpression>
+      </input>
+      <output id="out_jobfraud_route" name="jobfraud_route" label="Automate or review" typeRef="string">
+        <outputValues id="ov_jobfraud_route">
+          <text>"automatic","manual"</text>
+        </outputValues>
+      </output>
+      <annotation name="Support" />
+      <annotation name="Purity" />
+      <rule id="rule_jobfraud_route_1">
+        <inputEntry id="ie_jobfraud_route_1_0">
+          <text>"auto"</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_route_1_1">
+          <text>true</text>
+        </inputEntry>
+        <outputEntry id="oe_jobfraud_route_1">
+          <text>"automatic"</text>
+        </outputEntry>
+        <annotationEntry>
+          <text>0</text>
+        </annotationEntry>
+        <annotationEntry>
+          <text />
+        </annotationEntry>
+      </rule>
+      <rule id="rule_jobfraud_route_2">
+        <inputEntry id="ie_jobfraud_route_2_0">
+          <text>"auto"</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_route_2_1">
+          <text>false</text>
+        </inputEntry>
+        <outputEntry id="oe_jobfraud_route_2">
+          <text>"manual"</text>
+        </outputEntry>
+        <annotationEntry>
+          <text>0</text>
+        </annotationEntry>
+        <annotationEntry>
+          <text />
+        </annotationEntry>
+      </rule>
+      <rule id="rule_jobfraud_route_3">
+        <inputEntry id="ie_jobfraud_route_3_0">
+          <text>"review"</text>
+        </inputEntry>
+        <inputEntry id="ie_jobfraud_route_3_1">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="oe_jobfraud_route_3">
+          <text>"manual"</text>
+        </outputEntry>
+        <annotationEntry>
+          <text>0</text>
+        </annotationEntry>
+        <annotationEntry>
+          <text />
+        </annotationEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="input_easy_money" name="Easy money">
+    <description>Jev typed answer to: The posting promises high pay, fast money, or large earnings for little work.</description>
+    <variable id="var_easy_money" name="easy_money" typeRef="boolean" />
+  </inputData>
+  <inputData id="input_easy_money__conf" name="easy_money (confidence)">
+    <description>Probability signal derived from the Jev answer.</description>
+    <variable id="var_easy_money__conf" name="easy_money__conf" typeRef="number" />
+  </inputData>
+  <inputData id="input_fraud_holistic" name="Jev decision (Fraudulent posting)">
+    <description>Jev holistic answer to: The job posting is fraudulent, meaning it is a scam or a fake job rather than a genuine job offer.</description>
+    <variable id="var_fraud_holistic" name="fraud_holistic" typeRef="t_fraud_holistic" />
+  </inputData>
+  <knowledgeSource id="ks_teacher" name="Jev (jev-1.13.0) holistic decisions">
+    <description>Rules distilled from Jev decisions on 8736 unlabelled cases (decision tree, merged rules).</description>
+  </knowledgeSource>
+  <knowledgeSource id="ks_calibration" name="Labelled calibration set">
+    <description>Gate learned on half of the calibration set; threshold by Learn-then-Test at eps=0.05, delta=0.05.</description>
+  </knowledgeSource>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram id="DMNDiagram_1">
+      <dmndi:DMNShape id="shape_decision_jobfraud_route" dmnElementRef="decision_jobfraud_route">
+        <dc:Bounds x="210" y="0" width="180" height="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="shape_decision_jobfraud_decision" dmnElementRef="decision_jobfraud_decision">
+        <dc:Bounds x="105" y="200" width="180" height="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="shape_decision_jobfraud_gate" dmnElementRef="decision_jobfraud_gate">
+        <dc:Bounds x="315" y="200" width="180" height="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="shape_input_easy_money" dmnElementRef="input_easy_money">
+        <dc:Bounds x="0" y="400" width="180" height="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="shape_input_easy_money__conf" dmnElementRef="input_easy_money__conf">
+        <dc:Bounds x="210" y="400" width="180" height="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="shape_input_fraud_holistic" dmnElementRef="input_fraud_holistic">
+        <dc:Bounds x="420" y="400" width="180" height="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="shape_ks_teacher" dmnElementRef="ks_teacher">
+        <dc:Bounds x="660" y="200" width="180" height="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="shape_ks_calibration" dmnElementRef="ks_calibration">
+        <dc:Bounds x="870" y="200" width="180" height="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="edge_ir_easy_money_to_jobfraud_decision" dmnElementRef="ir_easy_money_to_jobfraud_decision">
+        <di:waypoint x="90" y="400" />
+        <di:waypoint x="195" y="280" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="edge_ar_ks_teacher_to_jobfraud_decision" dmnElementRef="ar_ks_teacher_to_jobfraud_decision">
+        <di:waypoint x="660" y="240" />
+        <di:waypoint x="285" y="240" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="edge_ir_easy_money__conf_to_jobfraud_gate" dmnElementRef="ir_easy_money__conf_to_jobfraud_gate">
+        <di:waypoint x="300" y="400" />
+        <di:waypoint x="405" y="280" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="edge_ar_ks_calibration_to_jobfraud_gate" dmnElementRef="ar_ks_calibration_to_jobfraud_gate">
+        <di:waypoint x="870" y="240" />
+        <di:waypoint x="495" y="240" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="edge_ir_jobfraud_decision_to_jobfraud_route" dmnElementRef="ir_jobfraud_decision_to_jobfraud_route">
+        <di:waypoint x="195" y="200" />
+        <di:waypoint x="300" y="80" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="edge_ir_jobfraud_gate_to_jobfraud_route" dmnElementRef="ir_jobfraud_gate_to_jobfraud_route">
+        <di:waypoint x="405" y="200" />
+        <di:waypoint x="300" y="80" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="edge_ir_fraud_holistic_to_jobfraud_route" dmnElementRef="ir_fraud_holistic_to_jobfraud_route">
+        <di:waypoint x="510" y="400" />
+        <di:waypoint x="300" y="80" />
+      </dmndi:DMNEdge>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>

@@ -230,10 +230,11 @@ def outcome_table(td: TaskData, business: DecisionTable, gate: DecisionTable) ->
 # RQ4: baselines ----------------------------------------------------------------------------
 
 def tfidf_lr(td: TaskData, ids: pd.Index, seed: int) -> np.ndarray:
+    text = "narrative" if "narrative" in td.frame else "posting"
     vec = TfidfVectorizer(ngram_range=(1, 2), min_df=2, max_features=100_000, sublinear_tf=True)
-    X = vec.fit_transform(td.frame.loc[ids, "narrative"])
+    X = vec.fit_transform(td.frame.loc[ids, text])
     clf = LogisticRegression(C=4.0, max_iter=3000, random_state=seed).fit(X, td.y.loc[ids])
-    return clf.predict(vec.transform(td.frame.loc[td.part("test"), "narrative"]))
+    return clf.predict(vec.transform(td.frame.loc[td.part("test"), text]))
 
 
 def learning_curves(td: TaskData, schema: Schema, cfg: Config) -> pd.DataFrame:
