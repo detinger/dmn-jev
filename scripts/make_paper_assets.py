@@ -125,6 +125,7 @@ def numbers_for(n: Numbers, task: str, r: dict) -> None:
     n[p + "agreesup"] = pct(s["dmn_sup"]["agreement_with_jev_test"])
     if s["gate"].get("critical_class"):
         n[p + "posrate"] = pct(s["class_balance"][s["gate"]["critical_class"]])
+        n[p + "critB"] = str(s["gate"]["n_critical_b"])
         n[p + "critical"] = s["gate"]["critical_class"].replace("_", r"\_")
     v = s["verification"]
     n[p + "rulesraw"] = str(v["before_merge"]["n_rules"])
@@ -145,6 +146,7 @@ def numbers_for(n: Numbers, task: str, r: dict) -> None:
     for m, tag in (("DMN-Sup", "sup"), ("TF-IDF+LR", "tfidf")):
         n[p + f"acc{tag}full"] = pct(full[full.method == m]["accuracy"].mean())
         n[p + f"f1{tag}full"] = num(full[full.method == m]["macro_f1"].mean(), 3)
+        n[p + f"bacc{tag}full"] = pct(full[full.method == m]["balanced_accuracy"].mean())
     n[p + "labelsfull"] = f"{int(lc['labels'].max()):,}".replace(",", "{,}")
 
 
@@ -348,6 +350,30 @@ def fig_learning(results: dict, out: Path) -> None:
     plt.close(fig)
 
 
+def extra_numbers(n: Numbers, root: Path) -> None:
+    """Option-order robustness and the routing label audit."""
+    f = root / "option_order.json"
+    if f.exists():
+        o = json.loads(f.read_text())
+        n["robust.n"] = f"{o['n']:,}".replace(",", "{,}")
+        for q, tag in (("product", "product"), ("queue_holistic", "queue")):
+            n[f"robust.{tag}agree"] = pct(o[q]["agreement"])
+            n[f"robust.{tag}kappa"] = num(o[q]["kappa"], 3)
+    f = Path("notes/label-audit/results.json")
+    if f.exists():
+        a = json.loads(f.read_text())
+        d, g = a["disagree"], a["agree"]
+        n["audit.ndis"], n["audit.nagr"] = str(d["n"]), str(g["n"])
+        n["audit.disjev"], n["audit.discfpb"] = pct(d["primary=Jev"]), pct(d["primary=CFPB"])
+        n["audit.disclear"], n["audit.disclearjev"] = str(d["clear cases"]), pct(d["clear: primary=Jev"])
+        n["audit.discfpbok"] = pct(d["CFPB acceptable"])
+        n["audit.agrboth"] = pct(g["primary=CFPB"])
+        pr = a["projection"]
+        n["audit.errcfpb"] = pct(pr["observed_error_vs_cfpb"])
+        n["audit.erraudit"] = pct(pr["error_vs_audit_if_jev_judged_by_acceptable"])
+        n["audit.badlabels"] = pct(pr["share_of_population_with_unacceptable_cfpb_label"])
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--extractor", choices=["jev", "simulated"], required=True)
@@ -361,6 +387,7 @@ def main() -> None:
     n = Numbers()
     for t, r in results.items():
         numbers_for(n, t, r)
+    extra_numbers(n, root)
     n.write(out / "numbers.tex", simulated)
     tab_main(results, out / "tab_distillation.tex")
     tab_calibration(results, out / "tab_calibration.tex")

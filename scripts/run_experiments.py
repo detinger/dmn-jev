@@ -133,7 +133,7 @@ def main() -> None:
             "distillation": {k: v for k, v in res.distillation.items() if k not in ("sweep", "curve")},
             "verification": res.verification, "calibration": {k: v for k, v in res.calibration.items() if "reliability" not in k},
             "gate": {"aurc": res.gate["aurc"], "validity": res.gate["validity"],
-                     "critical_class": res.gate["critical_class"],
+                     "critical_class": res.gate["critical_class"], "n_critical_b": res.gate["n_critical_b"],
                      "agreement_rate_test": res.gate["agreement_rate_test"],
                      "accuracy_when_agree": res.gate["accuracy_when_agree"],
                      "accuracy_when_disagree": res.gate["accuracy_when_disagree"]},

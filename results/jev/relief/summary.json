@@ -112,6 +112,7 @@
       }
     ],
     "critical_class": "relief",
+    "n_critical_b": 126,
     "agreement_rate_test": 0.8638351030605871,
     "accuracy_when_agree": 0.47143890093998553,
     "accuracy_when_disagree": 0.44036697247706424
@@ -154,7 +155,7 @@
   "operational": {
     "jev_latency_ms_median": 283.27354199427646,
     "jev_latency_ms_p95": 429.86925418663293,
-    "dmn_eval_us_per_case": 0.37221008658538257,
+    "dmn_eval_us_per_case": 0.3561498130803147,
     "input_tokens_mean": 1454.0745,
     "cost_usd_per_1000": 0.061071129,
     "review_per_1000": 1000.0

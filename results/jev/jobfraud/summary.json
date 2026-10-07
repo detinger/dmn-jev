@@ -112,6 +112,7 @@
       }
     ],
     "critical_class": "fraudulent",
+    "n_critical_b": 62,
     "agreement_rate_test": 0.8692518874399451,
     "accuracy_when_agree": 0.8997236478484011,
     "accuracy_when_disagree": 0.3464566929133858
@@ -154,7 +155,7 @@
   "operational": {
     "jev_latency_ms_median": 298.396791506093,
     "jev_latency_ms_p95": 434.7389295086031,
-    "dmn_eval_us_per_case": 7.647231743090441,
+    "dmn_eval_us_per_case": 7.561545555831228,
     "input_tokens_mean": 1541.5121549237742,
     "cost_usd_per_1000": 0.06474351050679852,
     "review_per_1000": 1000.0

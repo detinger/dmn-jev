@@ -207,7 +207,8 @@ def run_gates(td: TaskData, dmn_out: pd.Series, table: DecisionTable, cfg: Confi
     curves = {g: gating.risk_coverage(scores[g].loc[test], correct.loc[test]) for g in ("jev_confidence", "learned")}
     aurc = {g: gating.aurc(scores[g].loc[test], correct.loc[test]) for g in ("jev_confidence", "learned")}
     return {"table": pd.DataFrame(rows), "thresholds": thresholds, "learned": learned, "gate_inputs": names,
-            "curves": curves, "aurc": aurc, "scores": scores, "correct": correct, "agree": agree, "critical": critical}
+            "curves": curves, "aurc": aurc, "scores": scores, "correct": correct, "agree": agree, "critical": critical,
+            "n_critical_b": None if critical is None else int(critical.loc[calib_b].sum())}
 
 
 def validity_check(score: pd.Series, correct: pd.Series, ids: pd.Index, eps: float, cfg: Config,
@@ -363,7 +364,7 @@ def run_task(td: TaskData, schema: Schema, cfg: Config) -> TaskResult:
     res.gate = {"table": g["table"], "aurc": g["aurc"], "curves": g["curves"],
                 "validity": [validity_check(s, g["correct"], ids_eval, e, cfg, g["critical"])
                              for s in (s_conf_agree,) for e in cfg.eps_grid],
-                "critical_class": critical_class(td.task),
+                "critical_class": critical_class(td.task), "n_critical_b": g["n_critical_b"],
                 "agreement_rate_test": float(g["agree"].loc[test].mean()),
                 "accuracy_when_agree": float(g["correct"].loc[test][g["agree"].loc[test]].mean()),
                 "accuracy_when_disagree": float(g["correct"].loc[test][~g["agree"].loc[test]].mean())
