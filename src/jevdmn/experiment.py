@@ -59,7 +59,7 @@ class TaskData:
 def prepare(schema: Schema, task: Task, sample: pd.DataFrame, responses: dict[str, dict],
             usage: pd.DataFrame) -> TaskData:
     frame = sample[sample[f"in_{task.name}"]].copy()
-    frame.index = frame["complaint_id"].astype(str)
+    frame.index = frame["case_id" if "case_id" in frame else "complaint_id"].astype(str)
     resp = {cid: responses[cid] for cid in frame.index}
     typed = typed_frame(resp, schema).loc[frame.index]
     signals = signal_frame(resp, schema).loc[frame.index]

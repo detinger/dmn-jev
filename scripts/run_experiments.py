@@ -80,14 +80,15 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--extractor", choices=["jev", "simulated"], required=True)
     ap.add_argument("--config", default="configs/cfpb.yaml")
-    ap.add_argument("--sample", default="data/interim/cfpb_sample.parquet")
+    ap.add_argument("--sample", default=None, help="default: data/interim/<schema name>_sample.parquet")
     ap.add_argument("--tasks", nargs="*", default=None)
     ap.add_argument("--quick", action="store_true", help="smaller grids for a fast pipeline check")
     args = ap.parse_args()
 
     schema = load_schema(args.config)
-    sample = pd.read_parquet(args.sample)
-    responses, usage, models = load_responses(Path(f"data/interim/responses_{args.extractor}.jsonl"))
+    sample = pd.read_parquet(args.sample or f"data/interim/{schema.name}_sample.parquet")
+    prefix = "" if schema.name == "cfpb" else f"{schema.name}_"
+    responses, usage, models = load_responses(Path(f"data/interim/responses_{prefix}{args.extractor}.jsonl"))
     cfg = Config()
     if args.quick:
         cfg = Config(depths=(2, 4, 6, None), min_leaf=(20, 100), label_budgets=(250, 1000, None),

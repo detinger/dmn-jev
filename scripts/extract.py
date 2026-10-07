@@ -19,7 +19,7 @@ from dotenv import load_dotenv
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
-from jevdmn.data.cfpb import state_for  # noqa: E402
+from jevdmn.data import cfpb, emscad  # noqa: E402
 from jevdmn.schema import load_schema  # noqa: E402
 
 
@@ -38,23 +38,30 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--extractor", choices=["jev", "simulated"], required=True)
     ap.add_argument("--config", default="configs/cfpb.yaml")
-    ap.add_argument("--sample", default="data/interim/cfpb_sample.parquet")
+    ap.add_argument("--sample", default=None, help="default: data/interim/<schema name>_sample.parquet")
     ap.add_argument("--limit", type=int, default=None)
     ap.add_argument("--reverse-options", action="store_true")
     ap.add_argument("--subset", type=int, default=None, help="random subset of test cases (robustness runs)")
     ap.add_argument("--pilot", type=int, default=None, help="random subset of pool cases only (schema pilot)")
+    ap.add_argument("--pilot-class", default=None,
+                    help="restrict the pilot to pool cases of this ground-truth class (rare-class check)")
     args = ap.parse_args()
 
     schema = load_schema(args.config)
-    sample = pd.read_parquet(args.sample)
+    data = {"cfpb": cfpb, "emscad": emscad}[schema.name]
+    id_col = getattr(data, "CASE_ID", "complaint_id")
+    sample = pd.read_parquet(args.sample or f"data/interim/{schema.name}_sample.parquet")
+    splits = [c for c in sample.columns if c.startswith("split_")]
     if args.pilot:
-        # Pool only: the pilot must never see calibration or test cases.
-        in_pool = lambda col: sample[col].isna() | (sample[col] == "pool")  # noqa: E731
-        pool = sample[in_pool("split_relief") & in_pool("split_routing")]
-        pool = pool[(pool.split_relief == "pool") | (pool.split_routing == "pool")]
+        # Pool only: the pilot must never see calibration or test cases of any task.
+        pool = sample[sample[splits].isin(["pool"]).any(axis=1)
+                      & (sample[splits].isna() | (sample[splits] == "pool")).all(axis=1)]
+        if args.pilot_class:
+            gt = {t.ground_truth for t in schema.tasks.values()}
+            pool = pool[pool[list(gt)].eq(args.pilot_class).any(axis=1)]
         sample = pool.sample(n=min(args.pilot, len(pool)), random_state=11)
     elif args.subset:
-        test = sample[(sample.split_relief == "test") | (sample.split_routing == "test")]
+        test = sample[(sample[splits] == "test").any(axis=1)]
         sample = test.sample(n=min(args.subset, len(test)), random_state=7)
     if args.limit:
         sample = sample.head(args.limit)
@@ -64,7 +71,7 @@ def main() -> None:
         questions = reversed_options(questions)
         suffix = "_reversed"
 
-    cases = [(str(r.complaint_id), state_for(r._asdict(), schema.max_words)) for r in sample.itertuples()]
+    cases = [(str(r[id_col]), data.state_for(r, schema.max_words)) for r in sample.to_dict("records")]
     if args.extractor == "jev":
         from jevdmn.extractors.jev import JevExtractor
         # request_key sorts keys, so option order does not change it: reversed runs need their own cache.
@@ -72,17 +79,19 @@ def main() -> None:
                                  cache_dir="cache/jev_reversed" if args.reverse_options else "cache/jev")
     else:
         from jevdmn.extractors.simulated import SimulatedExtractor
-        records = {str(r["complaint_id"]): r for r in sample.to_dict("records")}
+        records = {str(r[id_col]): r for r in sample.to_dict("records")}
         extractor = SimulatedExtractor(records)
 
     results = extractor.extract(cases, questions)
     if args.limit:
         suffix += "_smoke"  # never overwrite the full run with a smoke test
     elif args.pilot:
-        suffix += "_pilot"
+        suffix += f"_pilot_{args.pilot_class}" if args.pilot_class else "_pilot"
     elif args.subset and not args.reverse_options:
         suffix = "_subset"
-    out = Path(f"data/interim/responses_{args.extractor}{suffix}.jsonl")
+    # CFPB keeps the original file names; other datasets get their name as a prefix.
+    prefix = "" if schema.name == "cfpb" else f"{schema.name}_"
+    out = Path(f"data/interim/responses_{prefix}{args.extractor}{suffix}.jsonl")
     with out.open("w") as fh:
         for e in results:
             fh.write(json.dumps({"case_id": e.case_id, "extractor": e.extractor, "model": e.response.get("model"),

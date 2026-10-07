@@ -1,0 +1,121 @@
+# Question schema and decision task for the EMSCAD job-posting case (Vidros et al., 2017).
+#
+# One Jev request per posting answers every question below in parallel and in isolation.
+# Wording follows the jev-1.13 guidance: literal, atomic, no arithmetic or dates.
+# Fact questions cover cues reported for employment scams (company transparency, pay, payment or
+# personal-data requests, contact channel, job content, writing quality).
+
+name: emscad
+model: jev-1.13.0
+
+state:
+  # Only the posting text is sent; EMSCAD metadata (company logo, screening questions,
+  # telecommuting flag) is withheld, as the CFPB structured fields are.
+  fields:
+    posting: posting
+  max_words: 1500
+
+facts:
+  - id: job_category
+    type: choice
+    label: Job category
+    instructions: Which kind of job does the posting offer?
+    criteria:
+      admin: Administrative, clerical, or data entry work
+      customer_service: Customer service or call center work
+      sales_marketing: Sales, marketing, or business development
+      it_engineering: Software, IT, or engineering
+      healthcare: Healthcare or nursing
+      finance: Finance, accounting, or banking
+      energy_industry: Oil, gas, energy, construction, or manufacturing
+      hospitality: Hospitality, retail, or food service
+      other: Another kind of job, or the kind of job cannot be determined
+
+  - id: company_described
+    type: noul
+    label: Company described
+    instructions: The posting describes the hiring company, such as what it does, its history, or its products.
+
+  - id: company_named
+    type: noul
+    label: Company named
+    instructions: The posting names the company that is hiring.
+
+  - id: remote_work
+    type: noul
+    label: Remote work
+    instructions: The posting says the job can be done from home or remotely.
+
+  - id: pay_stated
+    type: noul
+    label: Pay stated
+    instructions: The posting states the pay, such as a salary, an hourly rate, or a pay range.
+
+  - id: easy_money
+    type: noul
+    label: Easy money
+    instructions: The posting promises high pay, fast money, or large earnings for little work.
+
+  - id: no_experience
+    type: noul
+    label: No experience needed
+    instructions: The posting says that no experience or qualifications are needed.
+
+  - id: requirements_listed
+    type: noul
+    label: Requirements listed
+    instructions: The posting lists specific skills, education, or experience that applicants must have.
+
+  - id: benefits_listed
+    type: noul
+    label: Benefits listed
+    instructions: The posting lists employee benefits, such as health insurance, paid leave, or a retirement plan.
+
+  - id: payment_required
+    type: noul
+    label: Payment required
+    instructions: The posting says applicants must pay money or buy something, such as training, equipment, or a starter kit.
+
+  - id: personal_data_request
+    type: noul
+    label: Personal data request
+    instructions: The posting asks applicants to send personal or financial information, such as bank details, an ID document, or a social security number.
+
+  - id: offplatform_contact
+    type: noul
+    label: Off-platform contact
+    instructions: The posting tells applicants to apply or make contact through a personal email address, a text message, or a messaging app.
+
+  - id: duties_specificity
+    type: score
+    label: Specific duties
+    instructions: How specifically does the posting describe the duties of the job?
+    criteria:
+      - The duties are not described
+      - The duties are described vaguely
+      - The main duties are described
+      - The duties are described in detail
+
+  - id: writing_quality
+    type: score
+    label: Writing quality
+    instructions: How well is the posting written?
+    criteria:
+      - Many spelling or grammar errors, or hard to understand
+      - Some spelling or grammar errors
+      - Few errors
+      - Professionally written
+
+decisions:
+  jobfraud:
+    label: Fraudulent posting
+    description: Decide whether a job posting is fraudulent and should be removed.
+    subset: null
+    ground_truth: label
+    classes: [fraudulent, legitimate]
+    holistic:
+      id: fraud_holistic
+      type: noul
+      instructions: The job posting is fraudulent, meaning it is a scam or a fake job rather than a genuine job offer.
+      true_class: fraudulent
+      false_class: legitimate

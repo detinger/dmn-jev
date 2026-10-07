@@ -55,5 +55,20 @@
         "notes": "notes/pilot-v1.md"
       }
     ]
+  },
+  "emscad": {
+    "source": "huggingface.co/datasets/victor/real-or-fake-fake-jobposting-prediction (EMSCAD, Vidros et al. 2017)",
+    "csv_sha256": "59253295129d8b6a27607f9904f7d4ddf4dbb0ee35e079c7eb51b58b5e62bf60",
+    "n_postings": 14562,
+    "n_fraudulent": 611,
+    "dedup": "description text",
+    "seed": 20261007,
+    "schema": {
+      "file": "configs/emscad.yaml",
+      "version": "v1",
+      "sha256": "e9eb9de7bdde4b502ac244db681b4b009f27635b206e98d0e2b5bd4d5e60c2a1",
+      "frozen": "2026-10-07",
+      "model": "jev-1.13.0"
+    }
   }
 }
