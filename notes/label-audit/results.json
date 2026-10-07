@@ -1,0 +1,73 @@
+{
+  "agree": {
+    "n": 50,
+    "primary=CFPB": 0.98,
+    "primary=Jev": 0.98,
+    "primary=neither": 0.02,
+    "CFPB acceptable": 0.98,
+    "Jev acceptable": 0.98,
+    "clear cases": 47,
+    "clear: primary=Jev": 1.0,
+    "clear: primary=CFPB": 1.0
+  },
+  "disagree": {
+    "n": 150,
+    "primary=CFPB": 0.047,
+    "primary=Jev": 0.947,
+    "primary=neither": 0.007,
+    "CFPB acceptable": 0.567,
+    "Jev acceptable": 0.987,
+    "clear cases": 116,
+    "clear: primary=Jev": 0.991,
+    "clear: primary=CFPB": 0.009
+  },
+  "disagree_by_pair": {
+    "deposits -> fraud": 42,
+    "cards -> fraud": 19,
+    "fraud -> credit_reporting": 11,
+    "debt_collection -> credit_reporting": 10,
+    "payments -> fraud": 9,
+    "deposits -> payments": 7,
+    "consumer_loans -> credit_reporting": 6,
+    "credit_reporting -> fraud": 6
+  },
+  "disagree_pair_primary_eq_jev": {
+    "deposits -> fraud": {
+      "size": 42,
+      "mean": 0.976
+    },
+    "cards -> fraud": {
+      "size": 19,
+      "mean": 1.0
+    },
+    "fraud -> credit_reporting": {
+      "size": 11,
+      "mean": 0.818
+    },
+    "debt_collection -> credit_reporting": {
+      "size": 10,
+      "mean": 1.0
+    },
+    "payments -> fraud": {
+      "size": 9,
+      "mean": 0.889
+    },
+    "deposits -> payments": {
+      "size": 7,
+      "mean": 0.857
+    },
+    "credit_reporting -> fraud": {
+      "size": 6,
+      "mean": 1.0
+    },
+    "consumer_loans -> credit_reporting": {
+      "size": 6,
+      "mean": 1.0
+    }
+  },
+  "projection": {
+    "observed_error_vs_cfpb": 0.156,
+    "error_vs_audit_if_jev_judged_by_acceptable": 0.019,
+    "share_of_population_with_unacceptable_cfpb_label": 0.084
+  }
+}

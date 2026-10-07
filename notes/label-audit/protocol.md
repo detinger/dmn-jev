@@ -39,3 +39,11 @@ ones given to Jev in `configs/cfpb.yaml` (task `routing`):
 
 **Outcome measures** (after joining with `key.csv`): share of disagreements where the annotation agrees with Jev,
 with CFPB, with neither; same for agreements as a control; estimated label-noise rate in the confident population.
+
+## Human check (to do)
+
+`human_check.csv`: 50 of the 200 cases (random_state 7), text only. Fill `primary`, `acceptable` (separate several
+queues with `;`), `clarity` (`clear`/`ambiguous`) and an optional `note`, following the rules above, **without**
+opening `annotations_llm.csv`, `key.csv`, `joined.csv` or `results.json`. Then run
+`python scripts/label_audit_human.py` (κ between the human and LLM primary queue, and human-vs-CFPB/Jev on the
+disagreements). Ideally both authors annotate independently (copy the file per annotator).

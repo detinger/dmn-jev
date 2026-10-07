@@ -1,0 +1,201 @@
+audit_no,primary,acceptable,clarity,case_id,queue,jev,jev_conf,issue,sub_issue,group,ann_eq_cfpb,ann_eq_jev,cfpb_ok,jev_ok
+1,credit_reporting,debt_collection,ambiguous,10536087,debt_collection,credit_reporting,0.99,Took or threatened to take negative or legal action,Threatened or suggested your credit would be damaged,disagree,False,True,True,True
+2,credit_reporting,,clear,8608332,fraud,credit_reporting,1.0,Attempts to collect debt not owed,Debt was result of identity theft,disagree,False,True,False,True
+3,fraud,,clear,7068506,payments,fraud,1.0,Other transaction problem,,disagree,False,True,False,True
+4,credit_reporting,,clear,6927604,consumer_loans,credit_reporting,1.0,Incorrect information on your report,Account information incorrect,disagree,False,True,False,True
+5,consumer_loans,,clear,7179751,debt_collection,consumer_loans,0.99,Took or threatened to take negative or legal action,Seized or attempted to seize your property,disagree,False,True,False,True
+6,fraud,deposits,ambiguous,9929507,deposits,fraud,1.0,Closing an account,Company closed your account,disagree,False,True,True,True
+7,fraud,credit_reporting,ambiguous,8103366,fraud,fraud,0.99,Problem with fraud alerts or security freezes,,agree,True,True,True,True
+8,consumer_loans,,clear,9319172,consumer_loans,consumer_loans,1.0,Charged fees or interest you didn't expect,,agree,True,True,True,True
+9,fraud,deposits,clear,7693197,deposits,fraud,1.0,Managing an account,Problem making or receiving payments,disagree,False,True,True,True
+10,payments,,clear,7771850,payments,payments,0.99,"Managing, opening, or closing your mobile wallet account",,agree,True,True,True,True
+11,mortgage,,clear,6861486,mortgage,mortgage,1.0,Struggling to pay mortgage,,agree,True,True,True,True
+12,debt_collection,,clear,8363893,debt_collection,debt_collection,0.99,Communication tactics,Frequent or repeated calls,agree,True,True,True,True
+13,debt_collection,,clear,8239720,consumer_loans,debt_collection,1.0,Problem when making payments,,disagree,False,True,False,True
+14,deposits,,clear,6982627,fraud,deposits,0.99,Problem with a lender or other company charging your account,Transaction was not authorized,disagree,False,True,False,True
+15,fraud,credit_reporting,ambiguous,7520428,consumer_loans,fraud,1.0,Struggling to pay your loan,,disagree,False,True,False,True
+16,credit_reporting,,clear,7301792,fraud,credit_reporting,1.0,Attempts to collect debt not owed,Debt was result of identity theft,disagree,False,True,False,True
+17,debt_collection,,clear,7031004,debt_collection,debt_collection,1.0,Communication tactics,"Used obscene, profane, or other abusive language",agree,True,True,True,True
+18,payments,deposits,ambiguous,10735260,deposits,payments,1.0,Managing an account,Problem using a debit or ATM card,disagree,False,True,True,True
+19,credit_reporting,,clear,7912551,cards,credit_reporting,1.0,Problem with a purchase shown on your statement,Credit card company isn't resolving a dispute about a purchase on your statement,disagree,False,True,False,True
+20,credit_reporting,,clear,9590708,credit_reporting,credit_reporting,1.0,Problem with a company's investigation into an existing problem,Their investigation did not fix an error on your report,agree,True,True,True,True
+21,credit_reporting,,clear,8422695,fraud,credit_reporting,1.0,Attempts to collect debt not owed,Debt was result of identity theft,disagree,False,True,False,True
+22,fraud,deposits,clear,7199389,cards,fraud,1.0,Problem getting a card or closing an account,"Trouble getting, activating, or registering a card",disagree,False,True,False,True
+23,deposits,,clear,10724074,fraud,deposits,1.0,Problem with a lender or other company charging your account,Transaction was not authorized,disagree,False,True,False,True
+24,fraud,credit_reporting,ambiguous,7476024,credit_reporting,fraud,1.0,Improper use of your report,Credit inquiries on your report that you don't recognize,disagree,False,True,True,True
+25,fraud,,clear,9334957,deposits,fraud,1.0,Managing an account,Deposits and withdrawals,disagree,False,True,False,True
+26,fraud,deposits,clear,6970303,cards,fraud,1.0,Problem with a purchase shown on your statement,Card was charged for something you did not purchase with the card,disagree,False,True,False,True
+27,mortgage,,clear,10334784,mortgage,mortgage,1.0,Trouble during payment process,Payment process,agree,True,True,True,True
+28,debt_collection,,clear,10263918,debt_collection,debt_collection,1.0,Attempts to collect debt not owed,Debt is not yours,agree,True,True,True,True
+29,debt_collection,mortgage,clear,8372025,mortgage,debt_collection,0.99,Trouble during payment process,Loan sold or transferred to another company,disagree,False,True,True,True
+30,fraud,cards,clear,7895107,cards,fraud,1.0,"Advertising and marketing, including promotional offers",Confusing or misleading advertising about the credit card,disagree,False,True,True,True
+31,fraud,deposits,clear,10474533,deposits,fraud,1.0,Managing an account,Deposits and withdrawals,disagree,False,True,True,True
+32,payments,,clear,7937766,fraud,payments,0.99,Fraud or scam,,disagree,False,True,False,True
+33,fraud,deposits,clear,7965409,deposits,fraud,1.0,Managing an account,Deposits and withdrawals,disagree,False,True,True,True
+34,payments,deposits,ambiguous,8627783,deposits,payments,1.0,Managing an account,Problem making or receiving payments,disagree,False,True,True,True
+35,consumer_loans,,clear,9020832,debt_collection,consumer_loans,0.99,Took or threatened to take negative or legal action,Seized or attempted to seize your property,disagree,False,True,False,True
+36,mortgage,,clear,7805979,mortgage,mortgage,1.0,Closing on a mortgage,Changes in loan terms during or after closing,agree,True,True,True,True
+37,fraud,debt_collection,ambiguous,9212573,debt_collection,fraud,0.99,Attempts to collect debt not owed,Debt is not yours,disagree,False,True,True,True
+38,fraud,deposits,clear,8673107,deposits,fraud,1.0,Managing an account,Funds not handled or disbursed as instructed,disagree,False,True,True,True
+39,fraud,deposits,clear,6978490,payments,fraud,1.0,Other transaction problem,,disagree,False,True,False,True
+40,fraud,deposits,clear,9435977,cards,fraud,1.0,Problem with a purchase shown on your statement,Credit card company isn't resolving a dispute about a purchase on your statement,disagree,False,True,False,True
+41,deposits,payments,ambiguous,8082752,deposits,payments,1.0,Managing an account,Deposits and withdrawals,disagree,True,False,True,True
+42,fraud,deposits,clear,10367032,deposits,fraud,1.0,Managing an account,Problem using a debit or ATM card,disagree,False,True,True,True
+43,debt_collection,credit_reporting,ambiguous,10210418,fraud,debt_collection,0.99,Attempts to collect debt not owed,Debt was result of identity theft,disagree,False,True,False,True
+44,consumer_loans,,clear,8203402,consumer_loans,consumer_loans,0.99,Problems at the end of the loan or lease,Problem with paying off the loan,agree,True,True,True,True
+45,credit_reporting,,clear,7864836,debt_collection,credit_reporting,1.0,Written notification about debt,Didn't receive enough information to verify debt,disagree,False,True,False,True
+46,debt_collection,,clear,8539026,fraud,debt_collection,1.0,Attempts to collect debt not owed,Debt was result of identity theft,disagree,False,True,False,True
+47,fraud,deposits,clear,8282827,deposits,fraud,1.0,Managing an account,Deposits and withdrawals,disagree,False,True,True,True
+48,payments,deposits,ambiguous,8691469,deposits,payments,1.0,Managing an account,Problem making or receiving payments,disagree,False,True,True,True
+49,payments,,clear,9400710,payments,payments,1.0,Money was not available when promised,,agree,True,True,True,True
+50,fraud,deposits,clear,7441069,deposits,fraud,1.0,Problem with a lender or other company charging your account,Money was taken from your account on the wrong day or for the wrong amount,disagree,False,True,True,True
+51,payments,deposits,ambiguous,7922392,payments,payments,1.0,Money was not available when promised,,agree,True,True,True,True
+52,credit_reporting,fraud,ambiguous,10425711,fraud,credit_reporting,0.99,Problem with fraud alerts or security freezes,,disagree,False,True,True,True
+53,fraud,cards,clear,7162159,cards,fraud,1.0,Problem with a purchase shown on your statement,Card was charged for something you did not purchase with the card,disagree,False,True,True,True
+54,fraud,deposits,clear,7887674,deposits,fraud,1.0,Managing an account,Funds not handled or disbursed as instructed,disagree,False,True,True,True
+55,mortgage,,clear,9739882,mortgage,mortgage,0.99,Struggling to pay mortgage,Foreclosure,agree,True,True,True,True
+56,debt_collection,,clear,9814585,debt_collection,debt_collection,1.0,Took or threatened to take negative or legal action,Sued you without properly notifying you of lawsuit,agree,True,True,True,True
+57,credit_reporting,debt_collection,clear,8840740,debt_collection,credit_reporting,1.0,Attempts to collect debt not owed,Debt is not yours,disagree,False,True,True,True
+58,payments,,clear,9446588,fraud,payments,1.0,Unauthorized transactions or other transaction problem,,disagree,False,True,False,True
+59,debt_collection,,clear,7772241,fraud,debt_collection,1.0,Problem with a lender or other company charging your account,Transaction was not authorized,disagree,False,True,False,True
+60,credit_reporting,consumer_loans,ambiguous,9636738,consumer_loans,credit_reporting,0.99,Incorrect information on your report,Account information incorrect,disagree,False,True,True,True
+61,fraud,deposits,clear,8623070,deposits,fraud,1.0,Managing an account,Banking errors,disagree,False,True,True,True
+62,credit_reporting,,clear,10012515,fraud,credit_reporting,1.0,Problem with fraud alerts or security freezes,,disagree,False,True,False,True
+63,mortgage,,clear,7552793,mortgage,mortgage,1.0,Struggling to pay mortgage,"Applying for or obtaining a modification, forbearance plan, short sale, or deed-in-lieu",agree,True,True,True,True
+64,credit_reporting,,clear,7604081,credit_reporting,credit_reporting,1.0,Incorrect information on your report,Personal information incorrect,agree,True,True,True,True
+65,consumer_loans,,clear,10156637,consumer_loans,consumer_loans,1.0,Repossession,Loan balance remaining after the vehicle is repossessed and sold,agree,True,True,True,True
+66,payments,,clear,9386165,payments,payments,1.0,Unexpected or other fees,,agree,True,True,True,True
+67,cards,credit_reporting,clear,7263162,cards,cards,1.0,Problem when making payments,Problem during payment process,agree,True,True,True,True
+68,fraud,cards,clear,7111519,cards,fraud,1.0,Problem with a purchase shown on your statement,Card was charged for something you did not purchase with the card,disagree,False,True,True,True
+69,credit_reporting,consumer_loans,clear,8201314,consumer_loans,credit_reporting,0.99,Incorrect information on your report,Account information incorrect,disagree,False,True,True,True
+70,fraud,cards,clear,10981109,cards,fraud,1.0,Problem with a purchase shown on your statement,Card was charged for something you did not purchase with the card,disagree,False,True,True,True
+71,credit_reporting,fraud,ambiguous,10419461,fraud,credit_reporting,0.99,Problem with fraud alerts or security freezes,,disagree,False,True,True,True
+72,fraud,deposits,clear,8326461,deposits,fraud,1.0,Managing an account,Funds not handled or disbursed as instructed,disagree,False,True,True,True
+73,debt_collection,,clear,10542539,consumer_loans,debt_collection,1.0,Struggling to pay your loan,,disagree,False,True,False,True
+74,fraud,payments,clear,8331182,payments,fraud,0.99,"Managing, opening, or closing your mobile wallet account",,disagree,False,True,True,True
+75,fraud,credit_reporting,ambiguous,8428833,fraud,credit_reporting,1.0,Attempts to collect debt not owed,Debt was result of identity theft,disagree,True,False,True,True
+76,mortgage,,clear,7864879,mortgage,mortgage,1.0,Trouble during payment process,"Escrow, taxes, or insurance",agree,True,True,True,True
+77,credit_reporting,,clear,8037663,debt_collection,credit_reporting,1.0,Written notification about debt,Didn't receive enough information to verify debt,disagree,False,True,False,True
+78,payments,deposits,ambiguous,9361687,deposits,payments,1.0,Managing an account,Deposits and withdrawals,disagree,False,True,True,True
+79,credit_reporting,,clear,9691336,cards,credit_reporting,1.0,Credit monitoring or identity theft protection services,Problem with product or service terms changing,disagree,False,True,False,True
+80,credit_reporting,,clear,8571092,credit_reporting,credit_reporting,1.0,Improper use of your report,Reporting company used your report improperly,agree,True,True,True,True
+81,payments,,clear,10037015,fraud,payments,1.0,Unauthorized transactions or other transaction problem,,disagree,False,True,False,True
+82,credit_reporting,,clear,7652689,credit_reporting,credit_reporting,1.0,Problem with a company's investigation into an existing problem,Their investigation did not fix an error on your report,agree,True,True,True,True
+83,credit_reporting,cards,clear,9930164,credit_reporting,credit_reporting,1.0,Incorrect information on your report,Account status incorrect,agree,True,True,True,True
+84,consumer_loans,,clear,8602962,debt_collection,consumer_loans,1.0,Took or threatened to take negative or legal action,Collected or attempted to collect exempt funds,disagree,False,True,False,True
+85,credit_reporting,,clear,10725270,deposits,credit_reporting,1.0,Managing an account,Banking errors,disagree,False,True,False,True
+86,fraud,credit_reporting,ambiguous,7527768,payments,fraud,1.0,Lost or stolen money order,,disagree,False,True,False,True
+87,fraud,deposits,clear,8396718,payments,fraud,1.0,Other transaction problem,,disagree,False,True,False,True
+88,fraud,deposits,clear,6838585,deposits,fraud,1.0,Closing an account,Can't close your account,disagree,False,True,True,True
+89,credit_reporting,,clear,8114576,credit_reporting,credit_reporting,1.0,Problem with a company's investigation into an existing problem,Their investigation did not fix an error on your report,agree,True,True,True,True
+90,credit_reporting,cards,clear,9153533,cards,credit_reporting,0.99,Incorrect information on your report,Account status incorrect,disagree,False,True,True,True
+91,fraud,payments,ambiguous,7747110,deposits,fraud,1.0,Problem caused by your funds being low,Overdrafts and overdraft fees,disagree,False,True,False,True
+92,credit_reporting,debt_collection,clear,7434868,credit_reporting,credit_reporting,1.0,Problem with a credit reporting company's investigation into an existing problem,Investigation took more than 30 days,agree,True,True,True,True
+93,fraud,cards,clear,8318226,cards,fraud,1.0,"Other features, terms, or problems",Problem with customer service,disagree,False,True,True,True
+94,fraud,deposits,ambiguous,8057835,deposits,fraud,1.0,Managing an account,Problem using a debit or ATM card,disagree,False,True,True,True
+95,fraud,deposits,clear,6792382,deposits,fraud,1.0,Managing an account,Problem using a debit or ATM card,disagree,False,True,True,True
+96,payments,fraud,ambiguous,7701646,payments,fraud,1.0,"Managing, opening, or closing your mobile wallet account",,disagree,True,False,True,True
+97,payments,deposits,clear,7721579,deposits,payments,0.99,Managing an account,Fee problem,disagree,False,True,True,True
+98,fraud,consumer_loans,clear,9574369,consumer_loans,fraud,1.0,Dealing with your lender or servicer,Problem with customer service,disagree,False,True,True,True
+99,fraud,deposits,clear,8681878,deposits,fraud,1.0,Managing an account,Problem using a debit or ATM card,disagree,False,True,True,True
+100,deposits,,clear,9851675,deposits,deposits,1.0,Managing an account,Banking errors,agree,True,True,True,True
+101,fraud,cards,clear,6804176,cards,fraud,0.99,Getting a credit card,Sent card you never applied for,disagree,False,True,True,True
+102,credit_reporting,,clear,8780524,credit_reporting,credit_reporting,1.0,Incorrect information on your report,Information belongs to someone else,agree,True,True,True,True
+103,cards,,clear,10163079,cards,deposits,0.99,Fees or interest,Problem with fees,disagree,True,False,True,False
+104,consumer_loans,,clear,7958863,consumer_loans,consumer_loans,0.99,Problems at the end of the loan or lease,Unable to receive car title or other problem after the loan is paid off,agree,True,True,True,True
+105,fraud,credit_reporting,clear,8881147,cards,fraud,1.0,Closing your account,Company closed your account,disagree,False,True,False,True
+106,fraud,cards,clear,9175557,cards,fraud,1.0,Problem with a purchase shown on your statement,Card was charged for something you did not purchase with the card,disagree,False,True,True,True
+107,mortgage,,clear,7680151,mortgage,mortgage,1.0,Trouble during payment process,Trying to communicate with the company to fix an issue while managing or servicing your loan,agree,True,True,True,True
+108,consumer_loans,mortgage,ambiguous,8005936,mortgage,consumer_loans,0.99,Applying for a mortgage or refinancing an existing mortgage,Trying to communicate with the company to fix an issue with the application process,disagree,False,True,True,True
+109,credit_reporting,,clear,8864006,fraud,credit_reporting,1.0,Problem with fraud alerts or security freezes,,disagree,False,True,False,True
+110,debt_collection,,clear,7383448,debt_collection,debt_collection,1.0,Attempts to collect debt not owed,Debt is not yours,agree,True,True,True,True
+111,fraud,debt_collection,clear,8798502,debt_collection,fraud,0.99,Attempts to collect debt not owed,Debt is not yours,disagree,False,True,True,True
+112,debt_collection,,clear,10463717,consumer_loans,debt_collection,1.0,Problem when making payments,,disagree,False,True,False,True
+113,fraud,cards,clear,9168772,cards,fraud,0.99,Problem with a purchase shown on your statement,Card was charged for something you did not purchase with the card,disagree,False,True,True,True
+114,fraud,credit_reporting,clear,10588667,credit_reporting,fraud,1.0,Improper use of your report,Credit inquiries on your report that you don't recognize,disagree,False,True,True,True
+115,debt_collection,,clear,10092881,debt_collection,debt_collection,1.0,Attempts to collect debt not owed,Debt was already discharged in bankruptcy and is no longer owed,agree,True,True,True,True
+116,fraud,deposits,clear,7118746,deposits,fraud,1.0,Managing an account,Problem using a debit or ATM card,disagree,False,True,True,True
+117,payments,deposits,ambiguous,7118352,fraud,fraud,0.99,Fraud or scam,,agree,False,False,False,False
+118,fraud,consumer_loans,clear,8390668,mortgage,fraud,1.0,Struggling to pay mortgage,"An existing modification, forbearance plan, short sale, or other loss mitigation relief",disagree,False,True,False,True
+119,deposits,,clear,7800411,fraud,deposits,1.0,Problem with a lender or other company charging your account,Transaction was not authorized,disagree,False,True,False,True
+120,fraud,cards,clear,7531970,cards,fraud,0.99,Getting a credit card,Sent card you never applied for,disagree,False,True,True,True
+121,debt_collection,,clear,7645530,debt_collection,debt_collection,1.0,Attempts to collect debt not owed,Debt was paid,agree,True,True,True,True
+122,fraud,deposits,clear,8922796,payments,fraud,1.0,Other transaction problem,,disagree,False,True,False,True
+123,credit_reporting,,clear,8389556,debt_collection,credit_reporting,1.0,Written notification about debt,Didn't receive enough information to verify debt,disagree,False,True,False,True
+124,fraud,deposits,clear,9312280,deposits,fraud,1.0,Managing an account,Funds not handled or disbursed as instructed,disagree,False,True,True,True
+125,fraud,cards,clear,8106280,payments,fraud,0.99,Trouble accessing funds in your mobile or digital wallet,,disagree,False,True,False,True
+126,fraud,deposits,clear,8215348,deposits,fraud,1.0,Problem caused by your funds being low,Overdrafts and overdraft fees,disagree,False,True,True,True
+127,fraud,cards,clear,8415835,cards,fraud,0.99,Problem with a purchase shown on your statement,Card was charged for something you did not purchase with the card,disagree,False,True,True,True
+128,mortgage,,clear,7961919,mortgage,mortgage,1.0,Trouble during payment process,"Escrow, taxes, or insurance",agree,True,True,True,True
+129,fraud,deposits,clear,7085268,deposits,fraud,1.0,Closing an account,Can't close your account,disagree,False,True,True,True
+130,fraud,,clear,9833361,deposits,fraud,1.0,Managing an account,Problem using a debit or ATM card,disagree,False,True,False,True
+131,fraud,credit_reporting,ambiguous,9310074,credit_reporting,fraud,0.99,Incorrect information on your report,Information belongs to someone else,disagree,False,True,True,True
+132,fraud,cards,clear,7771050,cards,fraud,1.0,Getting a credit card,Application denied,disagree,False,True,True,True
+133,debt_collection,credit_reporting,ambiguous,8106270,credit_reporting,debt_collection,0.99,Improper use of your report,Reporting company used your report improperly,disagree,False,True,True,True
+134,credit_reporting,,clear,9698643,credit_reporting,credit_reporting,1.0,Improper use of your report,Reporting company used your report improperly,agree,True,True,True,True
+135,credit_reporting,debt_collection,clear,8454398,debt_collection,credit_reporting,0.99,Threatened to contact someone or share information improperly,Talked to a third-party about your debt,disagree,False,True,True,True
+136,credit_reporting,,clear,6893103,consumer_loans,credit_reporting,0.99,Problems at the end of the loan or lease,Problem while selling or giving up the vehicle,disagree,False,True,False,True
+137,payments,,clear,10413985,deposits,payments,0.99,Closing an account,Company closed your account,disagree,False,True,False,True
+138,fraud,cards,clear,8446774,cards,fraud,0.99,Problem with a purchase shown on your statement,Credit card company isn't resolving a dispute about a purchase on your statement,disagree,False,True,True,True
+139,fraud,deposits,clear,6953859,deposits,fraud,1.0,Managing an account,Funds not handled or disbursed as instructed,disagree,False,True,True,True
+140,fraud,deposits,clear,8078948,payments,fraud,1.0,Other transaction problem,,disagree,False,True,False,True
+141,credit_reporting,,clear,7913200,debt_collection,credit_reporting,1.0,Written notification about debt,Didn't receive enough information to verify debt,disagree,False,True,False,True
+142,fraud,deposits,clear,7436259,deposits,fraud,0.99,Managing an account,Problem using a debit or ATM card,disagree,False,True,True,True
+143,fraud,cards,clear,9307874,cards,fraud,1.0,Problem with a purchase shown on your statement,Card was charged for something you did not purchase with the card,disagree,False,True,True,True
+144,consumer_loans,,clear,8744735,consumer_loans,consumer_loans,1.0,Managing the loan or lease,Problem with the interest rate,agree,True,True,True,True
+145,debt_collection,,clear,10579739,debt_collection,debt_collection,1.0,False statements or representation,Attempted to collect wrong amount,agree,True,True,True,True
+146,mortgage,fraud,ambiguous,8619983,mortgage,fraud,1.0,Incorrect information on your report,Account information incorrect,disagree,True,False,True,True
+147,credit_reporting,debt_collection,ambiguous,7876122,debt_collection,credit_reporting,1.0,Took or threatened to take negative or legal action,Threatened or suggested your credit would be damaged,disagree,False,True,True,True
+148,payments,,clear,9138991,fraud,payments,1.0,Fraud or scam,,disagree,False,True,False,True
+149,deposits,,clear,6835161,payments,deposits,1.0,Problem with customer service,,disagree,False,True,False,True
+150,fraud,credit_reporting,ambiguous,9866111,fraud,credit_reporting,0.99,Attempts to collect debt not owed,Debt was result of identity theft,disagree,True,False,True,True
+151,credit_reporting,consumer_loans,ambiguous,9418581,consumer_loans,credit_reporting,0.99,Improper use of your report,Reporting company used your report improperly,disagree,False,True,True,True
+152,fraud,deposits,clear,10150696,deposits,fraud,1.0,Managing an account,Deposits and withdrawals,disagree,False,True,True,True
+153,fraud,deposits,clear,7787373,deposits,fraud,1.0,Problem caused by your funds being low,Non-sufficient funds and associated fees,disagree,False,True,True,True
+154,fraud,,clear,11021707,cards,fraud,1.0,Problem with a purchase shown on your statement,Credit card company isn't resolving a dispute about a purchase on your statement,disagree,False,True,False,True
+155,fraud,deposits,clear,8137069,deposits,fraud,0.99,Managing an account,Deposits and withdrawals,disagree,False,True,True,True
+156,mortgage,,clear,7878602,mortgage,mortgage,1.0,Trouble during payment process,"Escrow, taxes, or insurance",agree,True,True,True,True
+157,fraud,credit_reporting,ambiguous,9559285,credit_reporting,fraud,1.0,Incorrect information on your report,Information belongs to someone else,disagree,False,True,True,True
+158,credit_reporting,,clear,7094559,credit_reporting,credit_reporting,1.0,Incorrect information on your report,Account status incorrect,agree,True,True,True,True
+159,credit_reporting,,clear,10031490,debt_collection,credit_reporting,1.0,False statements or representation,Attempted to collect wrong amount,disagree,False,True,False,True
+160,fraud,deposits,clear,7842235,deposits,fraud,1.0,Managing an account,Problem using a debit or ATM card,disagree,False,True,True,True
+161,credit_reporting,,clear,8273171,fraud,credit_reporting,1.0,Problem with fraud alerts or security freezes,,disagree,False,True,False,True
+162,fraud,deposits,clear,10587203,fraud,fraud,1.0,Fraud or scam,,agree,True,True,True,True
+163,debt_collection,consumer_loans,ambiguous,8249256,consumer_loans,debt_collection,1.0,Struggling to pay your loan,,disagree,False,True,True,True
+164,fraud,consumer_loans,clear,8344706,deposits,fraud,1.0,Managing an account,Problem making or receiving payments,disagree,False,True,False,True
+165,fraud,credit_reporting,ambiguous,8086667,credit_reporting,fraud,0.99,Problem with a company's investigation into an existing problem,Their investigation did not fix an error on your report,disagree,False,True,True,True
+166,fraud,consumer_loans,clear,9260809,consumer_loans,fraud,0.99,Getting the loan,,disagree,False,True,True,True
+167,fraud,deposits,clear,8734800,deposits,fraud,1.0,Managing an account,Problem using a debit or ATM card,disagree,False,True,True,True
+168,fraud,cards,clear,10400371,cards,fraud,1.0,Problem with a purchase shown on your statement,Credit card company isn't resolving a dispute about a purchase on your statement,disagree,False,True,True,True
+169,fraud,deposits,ambiguous,10403810,deposits,fraud,1.0,Problem with a lender or other company charging your account,Can't stop withdrawals from your account,disagree,False,True,True,True
+170,consumer_loans,,clear,7573535,consumer_loans,consumer_loans,1.0,Struggling to repay your loan,Problem with your payment plan,agree,True,True,True,True
+171,consumer_loans,,clear,8203488,consumer_loans,consumer_loans,1.0,Dealing with your lender or servicer,Need information about your loan balance or loan terms,agree,True,True,True,True
+172,credit_reporting,,clear,9388943,debt_collection,credit_reporting,0.99,Attempts to collect debt not owed,Debt is not yours,disagree,False,True,False,True
+173,payments,,clear,9540975,payments,payments,1.0,Money was not available when promised,,agree,True,True,True,True
+174,fraud,deposits,clear,9576743,deposits,fraud,1.0,Managing an account,Deposits and withdrawals,disagree,False,True,True,True
+175,credit_reporting,,clear,10528961,fraud,credit_reporting,1.0,Attempts to collect debt not owed,Debt was result of identity theft,disagree,False,True,False,True
+176,cards,consumer_loans;deposits,ambiguous,8149561,deposits,debt_collection,0.99,Managing an account,Funds not handled or disbursed as instructed,disagree,False,False,True,False
+177,fraud,,clear,9576679,deposits,fraud,1.0,Managing an account,Problem making or receiving payments,disagree,False,True,False,True
+178,deposits,fraud,ambiguous,10879337,deposits,fraud,1.0,Managing an account,Problem using a debit or ATM card,disagree,True,False,True,True
+179,fraud,credit_reporting,ambiguous,7967384,credit_reporting,fraud,1.0,Incorrect information on your report,Information belongs to someone else,disagree,False,True,True,True
+180,fraud,deposits,clear,6836521,deposits,fraud,1.0,Managing an account,Problem using a debit or ATM card,disagree,False,True,True,True
+181,payments,,clear,8771443,payments,payments,1.0,Other transaction problem,,agree,True,True,True,True
+182,fraud,deposits,ambiguous,7881932,deposits,fraud,1.0,Managing an account,Funds not handled or disbursed as instructed,disagree,False,True,True,True
+183,consumer_loans,,clear,7124276,fraud,consumer_loans,1.0,Getting a loan or lease,Fraudulent loan,disagree,False,True,False,True
+184,debt_collection,,clear,6832550,cards,debt_collection,1.0,Struggling to pay your bill,Credit card company won't work with you while you're going through financial hardship,disagree,False,True,False,True
+185,fraud,deposits,clear,7906793,deposits,fraud,1.0,Managing an account,Problem using a debit or ATM card,disagree,False,True,True,True
+186,fraud,,clear,9494497,deposits,fraud,1.0,Managing an account,Deposits and withdrawals,disagree,False,True,False,True
+187,mortgage,,clear,11083317,debt_collection,mortgage,0.99,False statements or representation,Attempted to collect wrong amount,disagree,False,True,False,True
+188,fraud,deposits,clear,8013289,fraud,fraud,1.0,Problem with a lender or other company charging your account,Transaction was not authorized,agree,True,True,True,True
+189,deposits,,clear,10516999,payments,deposits,1.0,Money was not available when promised,,disagree,False,True,False,True
+190,fraud,,clear,10412090,deposits,fraud,1.0,Closing an account,Can't close your account,disagree,False,True,False,True
+191,mortgage,,clear,9138561,mortgage,mortgage,1.0,Trouble during payment process,Trying to communicate with the company to fix an issue while managing or servicing your loan,agree,True,True,True,True
+192,mortgage,,clear,7216863,mortgage,mortgage,1.0,Closing on a mortgage,,agree,True,True,True,True
+193,fraud,deposits,clear,7022898,deposits,fraud,1.0,Managing an account,Funds not handled or disbursed as instructed,disagree,False,True,True,True
+194,credit_reporting,,clear,7111647,consumer_loans,credit_reporting,1.0,Improper use of your report,Reporting company used your report improperly,disagree,False,True,False,True
+195,mortgage,,clear,7937757,mortgage,mortgage,1.0,Applying for a mortgage or refinancing an existing mortgage,Loan estimate or other related disclosures,agree,True,True,True,True
+196,fraud,cards,clear,9047695,deposits,fraud,1.0,Managing an account,Deposits and withdrawals,disagree,False,True,False,True
+197,deposits,,clear,9247272,deposits,deposits,1.0,Closing an account,Company closed your account,agree,True,True,True,True
+198,credit_reporting,,clear,9728316,cards,credit_reporting,0.99,"Advertising and marketing, including promotional offers",Confusing or misleading advertising about the credit card,disagree,False,True,False,True
+199,credit_reporting,,clear,7574769,cards,credit_reporting,1.0,Problem with a company's investigation into an existing problem,Their investigation did not fix an error on your report,disagree,False,True,False,True
+200,fraud,deposits,clear,7247838,deposits,fraud,1.0,Managing an account,Problem using a debit or ATM card,disagree,False,True,True,True
