@@ -1,0 +1,19 @@
+{
+  "name": "dmn-check",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "bpmn-moddle": "^10.3.1",
+    "dmn-moddle": "^12.2.1",
+    "feelin": "^8.2.0",
+    "zeebe-bpmn-moddle": "^2.0.0"
+  }
+}

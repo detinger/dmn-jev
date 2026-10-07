@@ -1,0 +1,34 @@
+What we know and what we do not know about DMN Figl Mendling
+Extracting Decision Model and Notation models from text using deep learning techniques
+Automated decision-making with DMN: from decision trees to decision tables Etinger
+Extracting tree-structured representations of trained networks Craven
+Stop explaining black box machine learning models for high stakes decisions
+A survey of methods for explaining black box models Guidotti
+Concept bottleneck models Koh
+On calibration of modern neural networks Guo
+Obtaining well calibrated probabilities using Bayesian binning
+Transforming classifier scores into accurate multiclass probability estimates
+Verification of forecasts expressed in terms of probability Brier
+On optimum recognition error and reject tradeoff Chow
+Learn then test: Calibrating predictive algorithms to achieve risk control
+Conformal risk control Angelopoulos Bates Fisch
+Predict responsibly: improving fairness and accuracy by learning to defer Madras
+Consistent estimators for learning to defer to an expert Mozannar Sontag
+Scikit-learn: Machine learning in Python Pedregosa
+Predictive learning via rule ensembles Friedman Popescu
+Decision mining in ProM Rozinat van der Aalst
+Data-aware process mining: discovering decisions in processes using alignments de Leoni
+Explainable Artificial Intelligence (XAI): Concepts, taxonomies, opportunities and challenges toward responsible AI
+Why should I trust you? Explaining the predictions of any classifier Ribeiro
+Selective classification for deep neural networks Geifman El-Yaniv
+Fundamentals of Business Process Management Dumas La Rosa Mendling Reijers
+Can LLMs express their uncertainty? An empirical evaluation of confidence elicitation
+Just ask for calibration: strategies for eliciting calibrated confidence scores from language models
+Thinking, fast and slow Kahneman
+Extracting process-aware decision models from object-centric process data
+Distilling a neural network into a soft decision tree Frosst Hinton
+Interpreting blackbox models via model extraction Bastani
+Language models (mostly) know what they know Kadavath
+Want to reduce labeling cost? GPT-3 can help
+Algorithmic learning in a random world Vovk
+The algorithmic automation problem: prediction, triage, and human effort Raghu

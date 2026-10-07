@@ -1,0 +1,70 @@
+# jevdmn — typed probabilistic decisions → verified DMN tables + risk-controlled gate
+
+Code and manuscript for *From typed probabilistic answers to auditable decision tables:
+distilling a System One model into DMN with risk-controlled automation* (target: Expert Systems with Applications).
+
+A System One model (TypeSafe **Jev**) answers typed questions about a case (choice / noul / score) with a
+probability distribution per answer. The pipeline
+
+1. **distils** Jev's holistic decisions on unlabelled cases into a DMN decision table over Jev's typed answers
+   (decision tree → rules → merged UNIQUE table, FEEL entries);
+2. **verifies** the table (overlaps and gaps by box algebra, DMN 1.3 XSD, XML round trip, independent FEEL engine);
+3. **learns a confidence gate** from Jev's probabilities and certifies its threshold with Learn-then-Test,
+   so that the error rate of automated cases is ≤ ε with probability ≥ 1 − δ;
+4. **exports** a DRD (business table, gate, outcome) and a Camunda 8 BPMN process.
+
+## Layout
+
+```
+configs/cfpb.yaml           question schema (14 facts + 2 holistic decisions) and task definitions
+src/jevdmn/
+  data/cfpb.py              corpus, labels, sampling, splits (CFPB complaints)
+  extractors/jev.py         System One API client with a persistent request cache (cache/jev)
+  extractors/simulated.py   offline stand-in for pipeline development (never for results)
+  features.py, schema.py    typed answers → DMN inputs, probability signals, tree encodings
+  dmn/table.py              domains, conditions, rules, evaluation, FEEL rendering
+  dmn/tree2table.py         tree paths → rules (threshold snapping)
+  dmn/verify.py             overlaps, gaps, rule merging, FIRST-hit variant
+  dmn/writer.py, reader.py  DMN 1.3 XML with DMNDI; FEEL subset parser for round trips
+  gating.py                 risk–coverage, Learn-then-Test (split A fixes candidates, split B tests), learned gate
+  calibration.py, metrics.py
+  experiment.py             RQ1–RQ4 for one task
+  bpmn.py                   BPMN 2.0 process with Zeebe extensions
+scripts/                    extract.py, run_experiments.py, check_dmn_external.py, robustness.py,
+                            data_stats.py, make_paper_assets.py
+tools/dmn-check/            Node evaluator (dmn-moddle + feelin) for the independent FEEL check
+paper/                      main.tex (Elsevier CAS), refs.bib, figures/, generated/ (from scripts)
+```
+
+## Reproduce
+
+```bash
+uv venv --python 3.12 .venv && uv pip install -e ".[dev]"
+(cd tools/dmn-check && npm install)
+cp .env.example .env            # set TYPESAFE_API_KEY; model pinned to jev-1.13.0
+
+# data (≈1.8 GB download): official CFPB snapshot + narrative mirror
+#   data/raw/complaints.csv.zip          https://files.consumerfinance.gov/ccdb/complaints.csv.zip
+#   data/raw/hf_cfpb/*.parquet           huggingface.co/datasets/davidheineman/consumer-finance-complaints-large
+python -c "from jevdmn.data import cfpb; c=cfpb.build_corpus(); c.to_parquet('data/interim/cfpb_corpus.parquet'); cfpb.draw_sample(c).to_parquet('data/interim/cfpb_sample.parquet')"
+python scripts/data_stats.py
+
+python scripts/extract.py --extractor jev --limit 20     # smoke test (written to *_smoke.jsonl)
+python scripts/extract.py --extractor jev                # 17,674 requests, cached in cache/jev
+python scripts/run_experiments.py --extractor jev        # results/jev, models/jev
+python scripts/check_dmn_external.py --extractor jev     # XSD + feelin agreement
+python scripts/extract.py --extractor jev --subset 1000 --reverse-options && python scripts/robustness.py
+python scripts/make_paper_assets.py --extractor jev      # paper/generated/*
+cd paper && pdflatex main && bibtex main && pdflatex main && pdflatex main
+```
+
+Every number in the paper's results section is a `\res{key}` macro filled from `paper/generated/numbers.tex`;
+missing values print as red placeholders. Simulated runs write to `paper/generated_sim/` and are watermarked
+(`pdflatex "\def\gendir{generated_sim}\input{main}"` for a layout check only).
+
+## Status (2026-10-07)
+
+- Data pipeline, DMN/BPMN export, verification, gate and reporting: implemented and tested
+  (`pytest`: 11 tests; simulated end-to-end run; XSD-valid models; 100% agreement with feelin).
+- **Pending:** real Jev run (needs `TYPESAFE_API_KEY`), option-order robustness, optional LLM baseline
+  through `system-one-adapter` (needs an OpenAI/Anthropic key), interpretation paragraphs marked `TODO` in `paper/main.tex`.

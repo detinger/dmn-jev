@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/DMN/20151101/dmn.xsd" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/1.0" id="Flowers" name="DRD" namespace="http://camunda.org/schema/1.0/dmn">
+  <inputData id="InputData_0okys8r" name="Old flower data">
+    <extensionElements>
+      <biodi:bounds x="263" y="152" width="125" height="45" />
+    </extensionElements>
+  </inputData>
+  <knowledgeSource id="KnowledgeSource_0govaaf" name="Machine learning algortihm">
+    <extensionElements>
+      <biodi:bounds x="273" y="266" width="100" height="63" />
+      <biodi:edge source="InputData_0okys8r">
+        <biodi:waypoints x="325" y="197" />
+        <biodi:waypoints x="324" y="266" />
+      </biodi:edge>
+    </extensionElements>
+    <authorityRequirement>
+      <requiredInput href="#InputData_0okys8r" />
+    </authorityRequirement>
+  </knowledgeSource>
+  <decision id="fClassificator" name="Flower Classificator">
+    <extensionElements>
+      <biodi:bounds x="506" y="260" width="180" height="80" />
+      <biodi:edge source="KnowledgeSource_0govaaf">
+        <biodi:waypoints x="373" y="298" />
+        <biodi:waypoints x="506" y="299" />
+      </biodi:edge>
+      <biodi:edge source="InputData_0bwn7ox">
+        <biodi:waypoints x="776" y="298" />
+        <biodi:waypoints x="686" y="299" />
+      </biodi:edge>
+    </extensionElements>
+    <informationRequirement>
+      <requiredInput href="#InputData_0bwn7ox" />
+    </informationRequirement>
+    <authorityRequirement>
+      <requiredAuthority href="#KnowledgeSource_0govaaf" />
+    </authorityRequirement>
+    <decisionTable id="DecisionTable_1y0p9yd">
+      <input id="InputClause_05286qq">
+        <inputExpression id="LiteralExpression_1k6d74e" typeRef="string" />
+      </input>
+      <output id="OutputClause_0zlxinb" typeRef="string" />
+    </decisionTable>
+  </decision>
+  <inputData id="InputData_0bwn7ox" name="New flower data">
+    <extensionElements>
+      <biodi:bounds x="776" y="274" width="125" height="45" />
+    </extensionElements>
+  </inputData>
+</definitions>

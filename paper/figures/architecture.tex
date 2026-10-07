@@ -1,0 +1,67 @@
+% Architecture: BPMN process (top) and the decision requirements diagram it calls (bottom).
+\begin{tikzpicture}[
+    font=\footnotesize,
+    >=Stealth,
+    task/.style={draw, rounded corners=3pt, minimum width=2.15cm, minimum height=0.95cm, align=center, fill=white},
+    event/.style={draw, circle, minimum size=0.55cm, fill=white},
+    endevent/.style={draw, circle, line width=1.6pt, minimum size=0.55cm, fill=white},
+    gateway/.style={draw, diamond, aspect=1, minimum size=0.75cm, inner sep=0pt, fill=white},
+    decision/.style={draw, minimum width=2.6cm, minimum height=0.95cm, align=center, fill=white},
+    input/.style={draw, rounded corners=0.47cm, minimum width=2.6cm, minimum height=0.95cm, align=center, fill=white},
+    source/.style={draw, tape, tape bend top=none, minimum width=2.4cm, minimum height=0.95cm, align=center, fill=white},
+    flow/.style={->, thick},
+    req/.style={->, thin},
+    auth/.style={-{Circle[open]}, densely dashed, thin},
+    lbl/.style={font=\scriptsize, fill=white, inner sep=1pt},
+  ]
+  % ---------------- BPMN ----------------
+  \node[event] (start) at (0,0) {};
+  \node[task, right=0.45cm of start] (extract) {Extract typed\\facts (Jev)};
+  \node[task, right=0.45cm of extract] (decide) {Decide\\(DMN)};
+  \node[task, right=0.45cm of decide] (route) {Automate or\\review (DMN)};
+  \node[gateway, right=0.45cm of route] (gw) {\Large$\times$};
+  \node[task, above right=0.05cm and 0.6cm of gw] (apply) {Apply\\decision};
+  \node[task, below right=0.05cm and 0.6cm of gw] (review) {Review case\\(user task)};
+  \node[endevent, right=0.45cm of apply] (endA) {};
+  \node[task, right=0.45cm of review] (record) {Record label};
+  \node[endevent, right=0.45cm of record] (endB) {};
+  \draw[flow] (start) -- (extract);
+  \draw[flow] (extract) -- (decide);
+  \draw[flow] (decide) -- (route);
+  \draw[flow] (route) -- (gw);
+  \draw[flow] (gw) |- node[lbl, pos=0.75, above] {automatic} (apply);
+  \draw[flow] (gw) |- node[lbl, pos=0.75, below] {manual} (review);
+  \draw[flow] (apply) -- (endA);
+  \draw[flow] (review) -- (record);
+  \draw[flow] (record) -- (endB);
+  \begin{scope}[on background layer]
+    \node[draw, fill=black!3, rounded corners=2pt, inner sep=0.3cm,
+          fit=(start) (extract) (decide) (route) (gw) (apply) (review) (endA) (record) (endB),
+          label={[anchor=north west, font=\scriptsize\bfseries]north west:BPMN process}] (bpmn) {};
+  \end{scope}
+
+  % ---------------- DRD ----------------
+  \node[decision, below=2.0cm of decide, xshift=0.6cm] (outcome) {Automate or review\\{\scriptsize(UNIQUE, 3 rules)}};
+  \node[decision, below left=1.0cm and 0.25cm of outcome] (business) {Business decision\\{\scriptsize distilled table $T$}};
+  \node[decision, below right=1.0cm and 0.25cm of outcome] (gate) {Confidence gate\\{\scriptsize learned rules $G$}};
+  \node[input, below=0.95cm of business] (facts) {Typed facts $\tau(x)$\\{\scriptsize enum / boolean / level}};
+  \node[input, below=0.95cm of gate] (signals) {Probability signals\\$\sigma(x)$};
+  \node[input, right=0.5cm of outcome] (holistic) {Jev decision\\$\hat y_{M}(x)$};
+  \node[source, left=0.55cm of business] (teacher) {Jev as teacher\\{\scriptsize unlabelled pool}};
+  \node[source, right=0.55cm of gate] (calib) {Labelled calibration\\{\scriptsize LTT: $\varepsilon,\delta$}};
+  \draw[req] (facts) -- (business);
+  \draw[req] (signals) -- (gate);
+  \draw[req] (business) -- (outcome);
+  \draw[req] (gate) -- (outcome);
+  \draw[req] (holistic) -- (outcome);
+  \draw[auth] (teacher) -- (business);
+  \draw[auth] (calib) -- (gate);
+  \begin{scope}[on background layer]
+    \node[draw, fill=black!3, rounded corners=2pt, inner sep=0.3cm,
+          fit=(outcome) (business) (gate) (facts) (signals) (holistic) (teacher) (calib),
+          label={[anchor=north west, font=\scriptsize\bfseries]north west:Decision requirements diagram (DMN)}] (drd) {};
+  \end{scope}
+  \draw[->, densely dotted, thick] (decide.south) -- ++(0,-0.75) -| (business.north);
+  \draw[->, densely dotted, thick] (route.south) -- ++(0,-0.55) -| (outcome.north);
+  \draw[->, densely dotted, thick] (record.south) |- node[lbl, pos=0.25, right] {new labels: re-distil, recalibrate} ([yshift=-0.35cm]drd.north east);
+\end{tikzpicture}

@@ -1,0 +1,436 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" id="drd_routing" name="Handling queue (Jev + DMN)" namespace="https://fipu.unipu.hr/jevdmn" exporter="jevdmn" exporterVersion="0.1.0">
+  <itemDefinition id="type_product" name="t_product">
+    <typeRef>string</typeRef>
+    <allowedValues id="allowed_product">
+      <text>"credit_report","debt_collection","bank_account","credit_card","prepaid_card","money_transfer","mortgage","vehicle_loan","student_loan","personal_loan","other"</text>
+    </allowedValues>
+  </itemDefinition>
+  <itemDefinition id="type_queue_holistic" name="t_queue_holistic">
+    <typeRef>string</typeRef>
+    <allowedValues id="allowed_queue_holistic">
+      <text>"credit_reporting","debt_collection","deposits","cards","payments","mortgage","consumer_loans","fraud"</text>
+    </allowedValues>
+  </itemDefinition>
+  <decision id="decision_routing_decision" name="Handling queue">
+    <description>Distilled decision table (Route the complaint to the team that handles it.)</description>
+    <variable id="var_routing_decision" name="routing_decision" typeRef="string" />
+    <informationRequirement id="ir_product_to_routing_decision">
+      <requiredInput href="#input_product" />
+    </informationRequirement>
+    <informationRequirement id="ir_identity_theft_to_routing_decision">
+      <requiredInput href="#input_identity_theft" />
+    </informationRequirement>
+    <informationRequirement id="ir_scam_to_routing_decision">
+      <requiredInput href="#input_scam" />
+    </informationRequirement>
+    <authorityRequirement id="ar_ks_teacher_to_routing_decision">
+      <requiredAuthority href="#ks_teacher" />
+    </authorityRequirement>
+    <decisionTable id="table_routing_decision" hitPolicy="UNIQUE">
+      <input id="in_routing_decision_0" label="Product">
+        <inputExpression id="expr_routing_decision_0" typeRef="string">
+          <text>product</text>
+        </inputExpression>
+        <inputValues id="iv_routing_decision_0">
+          <text>"credit_report","debt_collection","bank_account","credit_card","prepaid_card","money_transfer","mortgage","vehicle_loan","student_loan","personal_loan","other"</text>
+        </inputValues>
+      </input>
+      <input id="in_routing_decision_1" label="Identity theft">
+        <inputExpression id="expr_routing_decision_1" typeRef="boolean">
+          <text>identity_theft</text>
+        </inputExpression>
+      </input>
+      <input id="in_routing_decision_2" label="Scam victim">
+        <inputExpression id="expr_routing_decision_2" typeRef="boolean">
+          <text>scam</text>
+        </inputExpression>
+      </input>
+      <output id="out_routing_decision" name="routing_decision" label="Handling queue" typeRef="string">
+        <outputValues id="ov_routing_decision">
+          <text>"cards","consumer_loans","credit_reporting","debt_collection","deposits","fraud","mortgage","payments"</text>
+        </outputValues>
+      </output>
+      <annotation name="Support" />
+      <annotation name="Purity" />
+      <rule id="rule_routing_decision_1">
+        <inputEntry id="ie_routing_decision_1_0">
+          <text>"credit_card","prepaid_card"</text>
+        </inputEntry>
+        <inputEntry id="ie_routing_decision_1_1">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_routing_decision_1_2">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="oe_routing_decision_1">
+          <text>"cards"</text>
+        </outputEntry>
+        <annotationEntry>
+          <text>879</text>
+        </annotationEntry>
+        <annotationEntry>
+          <text>0.628</text>
+        </annotationEntry>
+      </rule>
+      <rule id="rule_routing_decision_2">
+        <inputEntry id="ie_routing_decision_2_0">
+          <text>"vehicle_loan","student_loan","personal_loan","other"</text>
+        </inputEntry>
+        <inputEntry id="ie_routing_decision_2_1">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_routing_decision_2_2">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="oe_routing_decision_2">
+          <text>"consumer_loans"</text>
+        </outputEntry>
+        <annotationEntry>
+          <text>940</text>
+        </annotationEntry>
+        <annotationEntry>
+          <text>0.599</text>
+        </annotationEntry>
+      </rule>
+      <rule id="rule_routing_decision_3">
+        <inputEntry id="ie_routing_decision_3_0">
+          <text>"credit_report"</text>
+        </inputEntry>
+        <inputEntry id="ie_routing_decision_3_1">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_routing_decision_3_2">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="oe_routing_decision_3">
+          <text>"credit_reporting"</text>
+        </outputEntry>
+        <annotationEntry>
+          <text>792</text>
+        </annotationEntry>
+        <annotationEntry>
+          <text>0.641</text>
+        </annotationEntry>
+      </rule>
+      <rule id="rule_routing_decision_4">
+        <inputEntry id="ie_routing_decision_4_0">
+          <text>"debt_collection"</text>
+        </inputEntry>
+        <inputEntry id="ie_routing_decision_4_1">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="ie_routing_decision_4_2">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="oe_routing_decision_4">
+          <text>"debt_collection"</text>
+        </outputEntry>
+        <annotationEntry>
+          <text>764</text>
+        </annotationEntry>
+        <annotationEntry>
+          <text>0.647</text>
+        </annotationEntry>
+      </rule>
+      <rule id="rule_routing_decision_5">
+        <inputEntry id="ie_routing_decision_5_0">
+          <text>"bank_account"</text>
+        </inputEntry>
+        <inputEntry id="ie_routing_decision_5_1">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_routing_decision_5_2">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="oe_routing_decision_5">
+          <text>"deposits"</text>
+        </outputEntry>
+        <annotationEntry>
+          <text>857</text>
+        </annotationEntry>
+        <annotationEntry>
+          <text>0.627</text>
+        </annotationEntry>
+      </rule>
+      <rule id="rule_routing_decision_6">
+        <inputEntry id="ie_routing_decision_6_0">
+          <text>"debt_collection"</text>
+        </inputEntry>
+        <inputEntry id="ie_routing_decision_6_1">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="ie_routing_decision_6_2">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="oe_routing_decision_6">
+          <text>"fraud"</text>
+        </outputEntry>
+        <annotationEntry>
+          <text>139</text>
+        </annotationEntry>
+        <annotationEntry>
+          <text>0.489</text>
+        </annotationEntry>
+      </rule>
+      <rule id="rule_routing_decision_7">
+        <inputEntry id="ie_routing_decision_7_0">
+          <text>"money_transfer"</text>
+        </inputEntry>
+        <inputEntry id="ie_routing_decision_7_1">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_routing_decision_7_2">
+          <text>true</text>
+        </inputEntry>
+        <outputEntry id="oe_routing_decision_7">
+          <text>"fraud"</text>
+        </outputEntry>
+        <annotationEntry>
+          <text>120</text>
+        </annotationEntry>
+        <annotationEntry>
+          <text>0.508</text>
+        </annotationEntry>
+      </rule>
+      <rule id="rule_routing_decision_8">
+        <inputEntry id="ie_routing_decision_8_0">
+          <text>"mortgage"</text>
+        </inputEntry>
+        <inputEntry id="ie_routing_decision_8_1">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_routing_decision_8_2">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="oe_routing_decision_8">
+          <text>"mortgage"</text>
+        </outputEntry>
+        <annotationEntry>
+          <text>731</text>
+        </annotationEntry>
+        <annotationEntry>
+          <text>0.713</text>
+        </annotationEntry>
+      </rule>
+      <rule id="rule_routing_decision_9">
+        <inputEntry id="ie_routing_decision_9_0">
+          <text>"money_transfer"</text>
+        </inputEntry>
+        <inputEntry id="ie_routing_decision_9_1">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="ie_routing_decision_9_2">
+          <text>false</text>
+        </inputEntry>
+        <outputEntry id="oe_routing_decision_9">
+          <text>"payments"</text>
+        </outputEntry>
+        <annotationEntry>
+          <text>778</text>
+        </annotationEntry>
+        <annotationEntry>
+          <text>0.635</text>
+        </annotationEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <decision id="decision_routing_gate" name="Confidence gate">
+    <description>Data-derived confidence gate</description>
+    <variable id="var_routing_gate" name="routing_gate" typeRef="string" />
+    <authorityRequirement id="ar_ks_calibration_to_routing_gate">
+      <requiredAuthority href="#ks_calibration" />
+    </authorityRequirement>
+    <decisionTable id="table_routing_gate" hitPolicy="UNIQUE">
+      <output id="out_routing_gate" name="routing_gate" label="Confidence gate" typeRef="string">
+        <outputValues id="ov_routing_gate">
+          <text>"auto","review"</text>
+        </outputValues>
+      </output>
+      <annotation name="Support" />
+      <annotation name="Purity" />
+      <rule id="rule_routing_gate_1">
+        <outputEntry id="oe_routing_gate_1">
+          <text>"auto"</text>
+        </outputEntry>
+        <annotationEntry>
+          <text>1000</text>
+        </annotationEntry>
+        <annotationEntry>
+          <text>0.808</text>
+        </annotationEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <decision id="decision_routing_route" name="Automate or review">
+    <description>Automate only if the gate accepts and the table agrees with Jev</description>
+    <variable id="var_routing_route" name="routing_route" typeRef="string" />
+    <informationRequirement id="ir_routing_decision_to_routing_route">
+      <requiredDecision href="#decision_routing_decision" />
+    </informationRequirement>
+    <informationRequirement id="ir_routing_gate_to_routing_route">
+      <requiredDecision href="#decision_routing_gate" />
+    </informationRequirement>
+    <informationRequirement id="ir_queue_holistic_to_routing_route">
+      <requiredInput href="#input_queue_holistic" />
+    </informationRequirement>
+    <decisionTable id="table_routing_route" hitPolicy="UNIQUE">
+      <input id="in_routing_route_0" label="Confidence gate">
+        <inputExpression id="expr_routing_route_0" typeRef="string">
+          <text>routing_gate</text>
+        </inputExpression>
+        <inputValues id="iv_routing_route_0">
+          <text>"auto","review"</text>
+        </inputValues>
+      </input>
+      <input id="in_routing_route_1" label="Table agrees with Jev">
+        <inputExpression id="expr_routing_route_1" typeRef="boolean">
+          <text>routing_decision = queue_holistic</text>
+        </inputExpression>
+      </input>
+      <output id="out_routing_route" name="routing_route" label="Automate or review" typeRef="string">
+        <outputValues id="ov_routing_route">
+          <text>"automatic","manual"</text>
+        </outputValues>
+      </output>
+      <annotation name="Support" />
+      <annotation name="Purity" />
+      <rule id="rule_routing_route_1">
+        <inputEntry id="ie_routing_route_1_0">
+          <text>"auto"</text>
+        </inputEntry>
+        <inputEntry id="ie_routing_route_1_1">
+          <text>true</text>
+        </inputEntry>
+        <outputEntry id="oe_routing_route_1">
+          <text>"automatic"</text>
+        </outputEntry>
+        <annotationEntry>
+          <text>0</text>
+        </annotationEntry>
+        <annotationEntry>
+          <text />
+        </annotationEntry>
+      </rule>
+      <rule id="rule_routing_route_2">
+        <inputEntry id="ie_routing_route_2_0">
+          <text>"auto"</text>
+        </inputEntry>
+        <inputEntry id="ie_routing_route_2_1">
+          <text>false</text>
+        </inputEntry>
+        <outputEntry id="oe_routing_route_2">
+          <text>"manual"</text>
+        </outputEntry>
+        <annotationEntry>
+          <text>0</text>
+        </annotationEntry>
+        <annotationEntry>
+          <text />
+        </annotationEntry>
+      </rule>
+      <rule id="rule_routing_route_3">
+        <inputEntry id="ie_routing_route_3_0">
+          <text>"review"</text>
+        </inputEntry>
+        <inputEntry id="ie_routing_route_3_1">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="oe_routing_route_3">
+          <text>"manual"</text>
+        </outputEntry>
+        <annotationEntry>
+          <text>0</text>
+        </annotationEntry>
+        <annotationEntry>
+          <text />
+        </annotationEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="input_product" name="Product">
+    <description>Jev typed answer to: Which financial product or service is the complaint mainly about?</description>
+    <variable id="var_product" name="product" typeRef="t_product" />
+  </inputData>
+  <inputData id="input_identity_theft" name="Identity theft">
+    <description>Jev typed answer to: The consumer says they are a victim of identity theft, meaning someone used their personal information to open an account, take a loan, or create a debt in their name.</description>
+    <variable id="var_identity_theft" name="identity_theft" typeRef="boolean" />
+  </inputData>
+  <inputData id="input_scam" name="Scam victim">
+    <description>Jev typed answer to: The consumer says a scammer tricked them into sending money or giving access to their account.</description>
+    <variable id="var_scam" name="scam" typeRef="boolean" />
+  </inputData>
+  <inputData id="input_queue_holistic" name="Jev decision (Handling queue)">
+    <description>Jev holistic answer to: Which team should handle this complaint?</description>
+    <variable id="var_queue_holistic" name="queue_holistic" typeRef="t_queue_holistic" />
+  </inputData>
+  <knowledgeSource id="ks_teacher" name="Jev (simulated-0) holistic decisions">
+    <description>Rules distilled from Jev decisions on 6000 unlabelled cases (decision tree, merged rules).</description>
+  </knowledgeSource>
+  <knowledgeSource id="ks_calibration" name="Labelled calibration set">
+    <description>Gate learned on half of the calibration set; threshold by Learn-then-Test at eps=0.05, delta=0.05.</description>
+  </knowledgeSource>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram id="DMNDiagram_1">
+      <dmndi:DMNShape id="shape_decision_routing_route" dmnElementRef="decision_routing_route">
+        <dc:Bounds x="315" y="0" width="180" height="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="shape_decision_routing_decision" dmnElementRef="decision_routing_decision">
+        <dc:Bounds x="210" y="200" width="180" height="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="shape_decision_routing_gate" dmnElementRef="decision_routing_gate">
+        <dc:Bounds x="420" y="200" width="180" height="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="shape_input_product" dmnElementRef="input_product">
+        <dc:Bounds x="0" y="400" width="180" height="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="shape_input_identity_theft" dmnElementRef="input_identity_theft">
+        <dc:Bounds x="210" y="400" width="180" height="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="shape_input_scam" dmnElementRef="input_scam">
+        <dc:Bounds x="420" y="400" width="180" height="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="shape_input_queue_holistic" dmnElementRef="input_queue_holistic">
+        <dc:Bounds x="630" y="400" width="180" height="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="shape_ks_teacher" dmnElementRef="ks_teacher">
+        <dc:Bounds x="870" y="200" width="180" height="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="shape_ks_calibration" dmnElementRef="ks_calibration">
+        <dc:Bounds x="1080" y="200" width="180" height="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="edge_ir_product_to_routing_decision" dmnElementRef="ir_product_to_routing_decision">
+        <di:waypoint x="90" y="400" />
+        <di:waypoint x="300" y="280" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="edge_ir_identity_theft_to_routing_decision" dmnElementRef="ir_identity_theft_to_routing_decision">
+        <di:waypoint x="300" y="400" />
+        <di:waypoint x="300" y="280" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="edge_ir_scam_to_routing_decision" dmnElementRef="ir_scam_to_routing_decision">
+        <di:waypoint x="510" y="400" />
+        <di:waypoint x="300" y="280" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="edge_ar_ks_teacher_to_routing_decision" dmnElementRef="ar_ks_teacher_to_routing_decision">
+        <di:waypoint x="870" y="240" />
+        <di:waypoint x="390" y="240" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="edge_ar_ks_calibration_to_routing_gate" dmnElementRef="ar_ks_calibration_to_routing_gate">
+        <di:waypoint x="1080" y="240" />
+        <di:waypoint x="600" y="240" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="edge_ir_routing_decision_to_routing_route" dmnElementRef="ir_routing_decision_to_routing_route">
+        <di:waypoint x="300" y="200" />
+        <di:waypoint x="405" y="80" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="edge_ir_routing_gate_to_routing_route" dmnElementRef="ir_routing_gate_to_routing_route">
+        <di:waypoint x="510" y="200" />
+        <di:waypoint x="405" y="80" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="edge_ir_queue_holistic_to_routing_route" dmnElementRef="ir_queue_holistic_to_routing_route">
+        <di:waypoint x="720" y="400" />
+        <di:waypoint x="405" y="80" />
+      </dmndi:DMNEdge>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>
