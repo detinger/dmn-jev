@@ -67,7 +67,9 @@ def main() -> None:
     cases = [(str(r.complaint_id), state_for(r._asdict(), schema.max_words)) for r in sample.itertuples()]
     if args.extractor == "jev":
         from jevdmn.extractors.jev import JevExtractor
-        extractor = JevExtractor(model=schema.model)
+        # request_key sorts keys, so option order does not change it: reversed runs need their own cache.
+        extractor = JevExtractor(model=schema.model,
+                                 cache_dir="cache/jev_reversed" if args.reverse_options else "cache/jev")
     else:
         from jevdmn.extractors.simulated import SimulatedExtractor
         records = {str(r["complaint_id"]): r for r in sample.to_dict("records")}

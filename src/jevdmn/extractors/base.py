@@ -31,6 +31,7 @@ class Extractor(Protocol):
 
 
 def request_key(model: str, state, questions: dict) -> str:
+    # sort_keys makes the key blind to option order; option-order runs use a separate cache directory.
     blob = json.dumps({"model": model, "state": state, "questions": questions}, sort_keys=True)
     return hashlib.sha256(blob.encode()).hexdigest()
 
