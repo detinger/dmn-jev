@@ -1,3 +1,5 @@
+> **Zamijenjeno (7. 10. 2026):** faze 1–6 ovog plana su završene. Aktualni plan je [plan-to-submission.md](plan-to-submission.md).
+
 # Plan nastavka: od gotovog pipelinea do predaje rada
 
 **Rad:** *Auditable decisions from unstructured text: typed language-model answers, DMN tables and risk-controlled human review*
