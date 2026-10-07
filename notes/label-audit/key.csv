@@ -1,0 +1,201 @@
+audit_no,case_id,queue,jev,jev_conf,issue,sub_issue
+1,10536087,debt_collection,credit_reporting,0.99,Took or threatened to take negative or legal action,Threatened or suggested your credit would be damaged
+2,8608332,fraud,credit_reporting,1.0,Attempts to collect debt not owed,Debt was result of identity theft
+3,7068506,payments,fraud,1.0,Other transaction problem,
+4,6927604,consumer_loans,credit_reporting,1.0,Incorrect information on your report,Account information incorrect
+5,7179751,debt_collection,consumer_loans,0.99,Took or threatened to take negative or legal action,Seized or attempted to seize your property
+6,9929507,deposits,fraud,1.0,Closing an account,Company closed your account
+7,8103366,fraud,fraud,0.99,Problem with fraud alerts or security freezes,
+8,9319172,consumer_loans,consumer_loans,1.0,Charged fees or interest you didn't expect,
+9,7693197,deposits,fraud,1.0,Managing an account,Problem making or receiving payments
+10,7771850,payments,payments,0.99,"Managing, opening, or closing your mobile wallet account",
+11,6861486,mortgage,mortgage,1.0,Struggling to pay mortgage,
+12,8363893,debt_collection,debt_collection,0.99,Communication tactics,Frequent or repeated calls
+13,8239720,consumer_loans,debt_collection,1.0,Problem when making payments,
+14,6982627,fraud,deposits,0.99,Problem with a lender or other company charging your account,Transaction was not authorized
+15,7520428,consumer_loans,fraud,1.0,Struggling to pay your loan,
+16,7301792,fraud,credit_reporting,1.0,Attempts to collect debt not owed,Debt was result of identity theft
+17,7031004,debt_collection,debt_collection,1.0,Communication tactics,"Used obscene, profane, or other abusive language"
+18,10735260,deposits,payments,1.0,Managing an account,Problem using a debit or ATM card
+19,7912551,cards,credit_reporting,1.0,Problem with a purchase shown on your statement,Credit card company isn't resolving a dispute about a purchase on your statement
+20,9590708,credit_reporting,credit_reporting,1.0,Problem with a company's investigation into an existing problem,Their investigation did not fix an error on your report
+21,8422695,fraud,credit_reporting,1.0,Attempts to collect debt not owed,Debt was result of identity theft
+22,7199389,cards,fraud,1.0,Problem getting a card or closing an account,"Trouble getting, activating, or registering a card"
+23,10724074,fraud,deposits,1.0,Problem with a lender or other company charging your account,Transaction was not authorized
+24,7476024,credit_reporting,fraud,1.0,Improper use of your report,Credit inquiries on your report that you don't recognize
+25,9334957,deposits,fraud,1.0,Managing an account,Deposits and withdrawals
+26,6970303,cards,fraud,1.0,Problem with a purchase shown on your statement,Card was charged for something you did not purchase with the card
+27,10334784,mortgage,mortgage,1.0,Trouble during payment process,Payment process
+28,10263918,debt_collection,debt_collection,1.0,Attempts to collect debt not owed,Debt is not yours
+29,8372025,mortgage,debt_collection,0.99,Trouble during payment process,Loan sold or transferred to another company
+30,7895107,cards,fraud,1.0,"Advertising and marketing, including promotional offers",Confusing or misleading advertising about the credit card
+31,10474533,deposits,fraud,1.0,Managing an account,Deposits and withdrawals
+32,7937766,fraud,payments,0.99,Fraud or scam,
+33,7965409,deposits,fraud,1.0,Managing an account,Deposits and withdrawals
+34,8627783,deposits,payments,1.0,Managing an account,Problem making or receiving payments
+35,9020832,debt_collection,consumer_loans,0.99,Took or threatened to take negative or legal action,Seized or attempted to seize your property
+36,7805979,mortgage,mortgage,1.0,Closing on a mortgage,Changes in loan terms during or after closing
+37,9212573,debt_collection,fraud,0.99,Attempts to collect debt not owed,Debt is not yours
+38,8673107,deposits,fraud,1.0,Managing an account,Funds not handled or disbursed as instructed
+39,6978490,payments,fraud,1.0,Other transaction problem,
+40,9435977,cards,fraud,1.0,Problem with a purchase shown on your statement,Credit card company isn't resolving a dispute about a purchase on your statement
+41,8082752,deposits,payments,1.0,Managing an account,Deposits and withdrawals
+42,10367032,deposits,fraud,1.0,Managing an account,Problem using a debit or ATM card
+43,10210418,fraud,debt_collection,0.99,Attempts to collect debt not owed,Debt was result of identity theft
+44,8203402,consumer_loans,consumer_loans,0.99,Problems at the end of the loan or lease,Problem with paying off the loan
+45,7864836,debt_collection,credit_reporting,1.0,Written notification about debt,Didn't receive enough information to verify debt
+46,8539026,fraud,debt_collection,1.0,Attempts to collect debt not owed,Debt was result of identity theft
+47,8282827,deposits,fraud,1.0,Managing an account,Deposits and withdrawals
+48,8691469,deposits,payments,1.0,Managing an account,Problem making or receiving payments
+49,9400710,payments,payments,1.0,Money was not available when promised,
+50,7441069,deposits,fraud,1.0,Problem with a lender or other company charging your account,Money was taken from your account on the wrong day or for the wrong amount
+51,7922392,payments,payments,1.0,Money was not available when promised,
+52,10425711,fraud,credit_reporting,0.99,Problem with fraud alerts or security freezes,
+53,7162159,cards,fraud,1.0,Problem with a purchase shown on your statement,Card was charged for something you did not purchase with the card
+54,7887674,deposits,fraud,1.0,Managing an account,Funds not handled or disbursed as instructed
+55,9739882,mortgage,mortgage,0.99,Struggling to pay mortgage,Foreclosure
+56,9814585,debt_collection,debt_collection,1.0,Took or threatened to take negative or legal action,Sued you without properly notifying you of lawsuit
+57,8840740,debt_collection,credit_reporting,1.0,Attempts to collect debt not owed,Debt is not yours
+58,9446588,fraud,payments,1.0,Unauthorized transactions or other transaction problem,
+59,7772241,fraud,debt_collection,1.0,Problem with a lender or other company charging your account,Transaction was not authorized
+60,9636738,consumer_loans,credit_reporting,0.99,Incorrect information on your report,Account information incorrect
+61,8623070,deposits,fraud,1.0,Managing an account,Banking errors
+62,10012515,fraud,credit_reporting,1.0,Problem with fraud alerts or security freezes,
+63,7552793,mortgage,mortgage,1.0,Struggling to pay mortgage,"Applying for or obtaining a modification, forbearance plan, short sale, or deed-in-lieu"
+64,7604081,credit_reporting,credit_reporting,1.0,Incorrect information on your report,Personal information incorrect
+65,10156637,consumer_loans,consumer_loans,1.0,Repossession,Loan balance remaining after the vehicle is repossessed and sold
+66,9386165,payments,payments,1.0,Unexpected or other fees,
+67,7263162,cards,cards,1.0,Problem when making payments,Problem during payment process
+68,7111519,cards,fraud,1.0,Problem with a purchase shown on your statement,Card was charged for something you did not purchase with the card
+69,8201314,consumer_loans,credit_reporting,0.99,Incorrect information on your report,Account information incorrect
+70,10981109,cards,fraud,1.0,Problem with a purchase shown on your statement,Card was charged for something you did not purchase with the card
+71,10419461,fraud,credit_reporting,0.99,Problem with fraud alerts or security freezes,
+72,8326461,deposits,fraud,1.0,Managing an account,Funds not handled or disbursed as instructed
+73,10542539,consumer_loans,debt_collection,1.0,Struggling to pay your loan,
+74,8331182,payments,fraud,0.99,"Managing, opening, or closing your mobile wallet account",
+75,8428833,fraud,credit_reporting,1.0,Attempts to collect debt not owed,Debt was result of identity theft
+76,7864879,mortgage,mortgage,1.0,Trouble during payment process,"Escrow, taxes, or insurance"
+77,8037663,debt_collection,credit_reporting,1.0,Written notification about debt,Didn't receive enough information to verify debt
+78,9361687,deposits,payments,1.0,Managing an account,Deposits and withdrawals
+79,9691336,cards,credit_reporting,1.0,Credit monitoring or identity theft protection services,Problem with product or service terms changing
+80,8571092,credit_reporting,credit_reporting,1.0,Improper use of your report,Reporting company used your report improperly
+81,10037015,fraud,payments,1.0,Unauthorized transactions or other transaction problem,
+82,7652689,credit_reporting,credit_reporting,1.0,Problem with a company's investigation into an existing problem,Their investigation did not fix an error on your report
+83,9930164,credit_reporting,credit_reporting,1.0,Incorrect information on your report,Account status incorrect
+84,8602962,debt_collection,consumer_loans,1.0,Took or threatened to take negative or legal action,Collected or attempted to collect exempt funds
+85,10725270,deposits,credit_reporting,1.0,Managing an account,Banking errors
+86,7527768,payments,fraud,1.0,Lost or stolen money order,
+87,8396718,payments,fraud,1.0,Other transaction problem,
+88,6838585,deposits,fraud,1.0,Closing an account,Can't close your account
+89,8114576,credit_reporting,credit_reporting,1.0,Problem with a company's investigation into an existing problem,Their investigation did not fix an error on your report
+90,9153533,cards,credit_reporting,0.99,Incorrect information on your report,Account status incorrect
+91,7747110,deposits,fraud,1.0,Problem caused by your funds being low,Overdrafts and overdraft fees
+92,7434868,credit_reporting,credit_reporting,1.0,Problem with a credit reporting company's investigation into an existing problem,Investigation took more than 30 days
+93,8318226,cards,fraud,1.0,"Other features, terms, or problems",Problem with customer service
+94,8057835,deposits,fraud,1.0,Managing an account,Problem using a debit or ATM card
+95,6792382,deposits,fraud,1.0,Managing an account,Problem using a debit or ATM card
+96,7701646,payments,fraud,1.0,"Managing, opening, or closing your mobile wallet account",
+97,7721579,deposits,payments,0.99,Managing an account,Fee problem
+98,9574369,consumer_loans,fraud,1.0,Dealing with your lender or servicer,Problem with customer service
+99,8681878,deposits,fraud,1.0,Managing an account,Problem using a debit or ATM card
+100,9851675,deposits,deposits,1.0,Managing an account,Banking errors
+101,6804176,cards,fraud,0.99,Getting a credit card,Sent card you never applied for
+102,8780524,credit_reporting,credit_reporting,1.0,Incorrect information on your report,Information belongs to someone else
+103,10163079,cards,deposits,0.99,Fees or interest,Problem with fees
+104,7958863,consumer_loans,consumer_loans,0.99,Problems at the end of the loan or lease,Unable to receive car title or other problem after the loan is paid off
+105,8881147,cards,fraud,1.0,Closing your account,Company closed your account
+106,9175557,cards,fraud,1.0,Problem with a purchase shown on your statement,Card was charged for something you did not purchase with the card
+107,7680151,mortgage,mortgage,1.0,Trouble during payment process,Trying to communicate with the company to fix an issue while managing or servicing your loan
+108,8005936,mortgage,consumer_loans,0.99,Applying for a mortgage or refinancing an existing mortgage,Trying to communicate with the company to fix an issue with the application process
+109,8864006,fraud,credit_reporting,1.0,Problem with fraud alerts or security freezes,
+110,7383448,debt_collection,debt_collection,1.0,Attempts to collect debt not owed,Debt is not yours
+111,8798502,debt_collection,fraud,0.99,Attempts to collect debt not owed,Debt is not yours
+112,10463717,consumer_loans,debt_collection,1.0,Problem when making payments,
+113,9168772,cards,fraud,0.99,Problem with a purchase shown on your statement,Card was charged for something you did not purchase with the card
+114,10588667,credit_reporting,fraud,1.0,Improper use of your report,Credit inquiries on your report that you don't recognize
+115,10092881,debt_collection,debt_collection,1.0,Attempts to collect debt not owed,Debt was already discharged in bankruptcy and is no longer owed
+116,7118746,deposits,fraud,1.0,Managing an account,Problem using a debit or ATM card
+117,7118352,fraud,fraud,0.99,Fraud or scam,
+118,8390668,mortgage,fraud,1.0,Struggling to pay mortgage,"An existing modification, forbearance plan, short sale, or other loss mitigation relief"
+119,7800411,fraud,deposits,1.0,Problem with a lender or other company charging your account,Transaction was not authorized
+120,7531970,cards,fraud,0.99,Getting a credit card,Sent card you never applied for
+121,7645530,debt_collection,debt_collection,1.0,Attempts to collect debt not owed,Debt was paid
+122,8922796,payments,fraud,1.0,Other transaction problem,
+123,8389556,debt_collection,credit_reporting,1.0,Written notification about debt,Didn't receive enough information to verify debt
+124,9312280,deposits,fraud,1.0,Managing an account,Funds not handled or disbursed as instructed
+125,8106280,payments,fraud,0.99,Trouble accessing funds in your mobile or digital wallet,
+126,8215348,deposits,fraud,1.0,Problem caused by your funds being low,Overdrafts and overdraft fees
+127,8415835,cards,fraud,0.99,Problem with a purchase shown on your statement,Card was charged for something you did not purchase with the card
+128,7961919,mortgage,mortgage,1.0,Trouble during payment process,"Escrow, taxes, or insurance"
+129,7085268,deposits,fraud,1.0,Closing an account,Can't close your account
+130,9833361,deposits,fraud,1.0,Managing an account,Problem using a debit or ATM card
+131,9310074,credit_reporting,fraud,0.99,Incorrect information on your report,Information belongs to someone else
+132,7771050,cards,fraud,1.0,Getting a credit card,Application denied
+133,8106270,credit_reporting,debt_collection,0.99,Improper use of your report,Reporting company used your report improperly
+134,9698643,credit_reporting,credit_reporting,1.0,Improper use of your report,Reporting company used your report improperly
+135,8454398,debt_collection,credit_reporting,0.99,Threatened to contact someone or share information improperly,Talked to a third-party about your debt
+136,6893103,consumer_loans,credit_reporting,0.99,Problems at the end of the loan or lease,Problem while selling or giving up the vehicle
+137,10413985,deposits,payments,0.99,Closing an account,Company closed your account
+138,8446774,cards,fraud,0.99,Problem with a purchase shown on your statement,Credit card company isn't resolving a dispute about a purchase on your statement
+139,6953859,deposits,fraud,1.0,Managing an account,Funds not handled or disbursed as instructed
+140,8078948,payments,fraud,1.0,Other transaction problem,
+141,7913200,debt_collection,credit_reporting,1.0,Written notification about debt,Didn't receive enough information to verify debt
+142,7436259,deposits,fraud,0.99,Managing an account,Problem using a debit or ATM card
+143,9307874,cards,fraud,1.0,Problem with a purchase shown on your statement,Card was charged for something you did not purchase with the card
+144,8744735,consumer_loans,consumer_loans,1.0,Managing the loan or lease,Problem with the interest rate
+145,10579739,debt_collection,debt_collection,1.0,False statements or representation,Attempted to collect wrong amount
+146,8619983,mortgage,fraud,1.0,Incorrect information on your report,Account information incorrect
+147,7876122,debt_collection,credit_reporting,1.0,Took or threatened to take negative or legal action,Threatened or suggested your credit would be damaged
+148,9138991,fraud,payments,1.0,Fraud or scam,
+149,6835161,payments,deposits,1.0,Problem with customer service,
+150,9866111,fraud,credit_reporting,0.99,Attempts to collect debt not owed,Debt was result of identity theft
+151,9418581,consumer_loans,credit_reporting,0.99,Improper use of your report,Reporting company used your report improperly
+152,10150696,deposits,fraud,1.0,Managing an account,Deposits and withdrawals
+153,7787373,deposits,fraud,1.0,Problem caused by your funds being low,Non-sufficient funds and associated fees
+154,11021707,cards,fraud,1.0,Problem with a purchase shown on your statement,Credit card company isn't resolving a dispute about a purchase on your statement
+155,8137069,deposits,fraud,0.99,Managing an account,Deposits and withdrawals
+156,7878602,mortgage,mortgage,1.0,Trouble during payment process,"Escrow, taxes, or insurance"
+157,9559285,credit_reporting,fraud,1.0,Incorrect information on your report,Information belongs to someone else
+158,7094559,credit_reporting,credit_reporting,1.0,Incorrect information on your report,Account status incorrect
+159,10031490,debt_collection,credit_reporting,1.0,False statements or representation,Attempted to collect wrong amount
+160,7842235,deposits,fraud,1.0,Managing an account,Problem using a debit or ATM card
+161,8273171,fraud,credit_reporting,1.0,Problem with fraud alerts or security freezes,
+162,10587203,fraud,fraud,1.0,Fraud or scam,
+163,8249256,consumer_loans,debt_collection,1.0,Struggling to pay your loan,
+164,8344706,deposits,fraud,1.0,Managing an account,Problem making or receiving payments
+165,8086667,credit_reporting,fraud,0.99,Problem with a company's investigation into an existing problem,Their investigation did not fix an error on your report
+166,9260809,consumer_loans,fraud,0.99,Getting the loan,
+167,8734800,deposits,fraud,1.0,Managing an account,Problem using a debit or ATM card
+168,10400371,cards,fraud,1.0,Problem with a purchase shown on your statement,Credit card company isn't resolving a dispute about a purchase on your statement
+169,10403810,deposits,fraud,1.0,Problem with a lender or other company charging your account,Can't stop withdrawals from your account
+170,7573535,consumer_loans,consumer_loans,1.0,Struggling to repay your loan,Problem with your payment plan
+171,8203488,consumer_loans,consumer_loans,1.0,Dealing with your lender or servicer,Need information about your loan balance or loan terms
+172,9388943,debt_collection,credit_reporting,0.99,Attempts to collect debt not owed,Debt is not yours
+173,9540975,payments,payments,1.0,Money was not available when promised,
+174,9576743,deposits,fraud,1.0,Managing an account,Deposits and withdrawals
+175,10528961,fraud,credit_reporting,1.0,Attempts to collect debt not owed,Debt was result of identity theft
+176,8149561,deposits,debt_collection,0.99,Managing an account,Funds not handled or disbursed as instructed
+177,9576679,deposits,fraud,1.0,Managing an account,Problem making or receiving payments
+178,10879337,deposits,fraud,1.0,Managing an account,Problem using a debit or ATM card
+179,7967384,credit_reporting,fraud,1.0,Incorrect information on your report,Information belongs to someone else
+180,6836521,deposits,fraud,1.0,Managing an account,Problem using a debit or ATM card
+181,8771443,payments,payments,1.0,Other transaction problem,
+182,7881932,deposits,fraud,1.0,Managing an account,Funds not handled or disbursed as instructed
+183,7124276,fraud,consumer_loans,1.0,Getting a loan or lease,Fraudulent loan
+184,6832550,cards,debt_collection,1.0,Struggling to pay your bill,Credit card company won't work with you while you're going through financial hardship
+185,7906793,deposits,fraud,1.0,Managing an account,Problem using a debit or ATM card
+186,9494497,deposits,fraud,1.0,Managing an account,Deposits and withdrawals
+187,11083317,debt_collection,mortgage,0.99,False statements or representation,Attempted to collect wrong amount
+188,8013289,fraud,fraud,1.0,Problem with a lender or other company charging your account,Transaction was not authorized
+189,10516999,payments,deposits,1.0,Money was not available when promised,
+190,10412090,deposits,fraud,1.0,Closing an account,Can't close your account
+191,9138561,mortgage,mortgage,1.0,Trouble during payment process,Trying to communicate with the company to fix an issue while managing or servicing your loan
+192,7216863,mortgage,mortgage,1.0,Closing on a mortgage,
+193,7022898,deposits,fraud,1.0,Managing an account,Funds not handled or disbursed as instructed
+194,7111647,consumer_loans,credit_reporting,1.0,Improper use of your report,Reporting company used your report improperly
+195,7937757,mortgage,mortgage,1.0,Applying for a mortgage or refinancing an existing mortgage,Loan estimate or other related disclosures
+196,9047695,deposits,fraud,1.0,Managing an account,Deposits and withdrawals
+197,9247272,deposits,deposits,1.0,Closing an account,Company closed your account
+198,9728316,cards,credit_reporting,0.99,"Advertising and marketing, including promotional offers",Confusing or misleading advertising about the credit card
+199,7574769,cards,credit_reporting,1.0,Problem with a company's investigation into an existing problem,Their investigation did not fix an error on your report
+200,7247838,deposits,fraud,1.0,Managing an account,Problem using a debit or ATM card
