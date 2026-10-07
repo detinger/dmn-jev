@@ -1,0 +1,200 @@
+{
+  "task": "routing",
+  "extractor": "jev",
+  "models": [
+    "jev-1.13.0"
+  ],
+  "n_cases": 10000,
+  "splits": {
+    "pool": 6000,
+    "calibration": 2000,
+    "test": 2000
+  },
+  "class_balance": {
+    "cards": 0.125,
+    "payments": 0.125,
+    "debt_collection": 0.125,
+    "credit_reporting": 0.125,
+    "deposits": 0.125,
+    "fraud": 0.125,
+    "consumer_loans": 0.125,
+    "mortgage": 0.125
+  },
+  "distillation": {
+    "choice": {
+      "depth": 10,
+      "min_leaf": 20
+    },
+    "n_rules": 28,
+    "n_inputs": 11,
+    "mean_conditions": 3.7142857142857144,
+    "fidelity_test": {
+      "agreement": 0.8505,
+      "kappa": 0.8270061858306494
+    },
+    "fidelity_ci": [
+      0.8505,
+      0.8355,
+      0.8655
+    ],
+    "accuracy_test": {
+      "accuracy": 0.7185,
+      "macro_f1": 0.7247679877141906
+    }
+  },
+  "verification": {
+    "before_merge": {
+      "n_rules": 107,
+      "n_inputs": 14,
+      "mean_conditions": 5.5046728971962615,
+      "overlaps_conflicting": 0,
+      "overlaps_redundant": 0,
+      "gap_boxes": 0,
+      "gap_fraction": 0.0
+    },
+    "after_merge": {
+      "n_rules": 28,
+      "n_inputs": 11,
+      "mean_conditions": 3.7142857142857144,
+      "overlaps_conflicting": 0,
+      "overlaps_redundant": 0,
+      "gap_boxes": 0,
+      "gap_fraction": 0.0
+    },
+    "first_hit": {
+      "n_rules": 23,
+      "mean_conditions": 3.5217391304347827
+    }
+  },
+  "calibration": {
+    "holistic_test": {
+      "accuracy": 0.708,
+      "ece": 0.20332489898989894,
+      "ece_quantile": 0.20332489898989894,
+      "mce": 0.362,
+      "brier": 0.48115588123660846,
+      "mean_confidence": 0.9113248989898991,
+      "ece_isotonic": 0.016303519358575908,
+      "ece_isotonic_quantile": 0.01668224276283135
+    },
+    "holistic_calib": {
+      "accuracy": 0.7065,
+      "ece": 0.19763141414141427,
+      "ece_quantile": 0.19562141414141412,
+      "mce": 0.31427609427609426,
+      "brier": 0.48840970966227937,
+      "mean_confidence": 0.9021214141414142
+    }
+  },
+  "gate": {
+    "aurc": {
+      "jev_confidence": 0.18847863158973074,
+      "learned": 0.15815271031808037
+    },
+    "validity": [
+      {
+        "eps": 0.01,
+        "violation_rate": 0.0,
+        "mean_coverage": 0.0
+      },
+      {
+        "eps": 0.02,
+        "violation_rate": 0.0,
+        "mean_coverage": 0.0
+      },
+      {
+        "eps": 0.05,
+        "violation_rate": 0.0,
+        "mean_coverage": 0.0
+      },
+      {
+        "eps": 0.1,
+        "violation_rate": 0.0,
+        "mean_coverage": 0.0
+      }
+    ],
+    "agreement_rate_test": 0.8505,
+    "accuracy_when_agree": 0.7648442092886537,
+    "accuracy_when_disagree": 0.45484949832775917
+  },
+  "baselines": {
+    "jev_holistic": {
+      "accuracy": 0.708,
+      "macro_f1": 0.7148730815968339
+    },
+    "dmn_distil": {
+      "accuracy": 0.7185,
+      "macro_f1": 0.7247679877141906
+    },
+    "mcnemar_dmn_vs_jev": {
+      "a_only_correct": 136,
+      "b_only_correct": 115,
+      "p_value": 0.20671998222167962
+    },
+    "majority_class": {
+      "accuracy": 0.125,
+      "macro_f1": 0.027777777777777776
+    },
+    "classes": [
+      "credit_reporting",
+      "debt_collection",
+      "deposits",
+      "cards",
+      "payments",
+      "mortgage",
+      "consumer_loans",
+      "fraud"
+    ]
+  },
+  "operational": {
+    "jev_latency_ms_median": 282.6128749875352,
+    "jev_latency_ms_p95": 435.8891083218621,
+    "dmn_eval_us_per_case": 3.6846437498752493,
+    "input_tokens_mean": 1454.1161,
+    "cost_usd_per_1000": 0.0610728762,
+    "review_per_1000": 1000.0
+  },
+  "xml_roundtrip_agreement": 1.0,
+  "config": {
+    "depths": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      8,
+      10,
+      12,
+      null
+    ],
+    "min_leaf": [
+      5,
+      20,
+      50,
+      100
+    ],
+    "fidelity_tol": 0.01,
+    "eps_grid": [
+      0.01,
+      0.02,
+      0.05,
+      0.1
+    ],
+    "eps_primary": 0.05,
+    "delta": 0.05,
+    "gate_depth": 3,
+    "gate_min_leaf": 40,
+    "label_budgets": [
+      100,
+      250,
+      500,
+      1000,
+      2000,
+      null
+    ],
+    "budget_repeats": 5,
+    "resamples": 200,
+    "seed": 0
+  }
+}

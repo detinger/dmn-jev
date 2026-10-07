@@ -1,0 +1,192 @@
+{
+  "task": "relief",
+  "extractor": "jev",
+  "models": [
+    "jev-1.13.0"
+  ],
+  "n_cases": 8000,
+  "splits": {
+    "pool": 4799,
+    "test": 1601,
+    "calibration": 1600
+  },
+  "class_balance": {
+    "no_relief": 0.8324,
+    "relief": 0.1676
+  },
+  "distillation": {
+    "choice": {
+      "depth": 2,
+      "min_leaf": 5
+    },
+    "n_rules": 3,
+    "n_inputs": 2,
+    "mean_conditions": 1.6666666666666667,
+    "fidelity_test": {
+      "agreement": 0.8956901936289818,
+      "kappa": 0.7585879353109174
+    },
+    "fidelity_ci": [
+      0.8956901936289818,
+      0.8806995627732667,
+      0.9106808244846971
+    ],
+    "accuracy_test": {
+      "accuracy": 0.41161773891317927,
+      "macro_f1": 0.4053011542695988,
+      "f1_pos": 0.34401114206128136
+    }
+  },
+  "verification": {
+    "before_merge": {
+      "n_rules": 4,
+      "n_inputs": 2,
+      "mean_conditions": 2.0,
+      "overlaps_conflicting": 0,
+      "overlaps_redundant": 0,
+      "gap_boxes": 0,
+      "gap_fraction": 0.0
+    },
+    "after_merge": {
+      "n_rules": 3,
+      "n_inputs": 2,
+      "mean_conditions": 1.6666666666666667,
+      "overlaps_conflicting": 0,
+      "overlaps_redundant": 0,
+      "gap_boxes": 0,
+      "gap_fraction": 0.0
+    },
+    "first_hit": {
+      "n_rules": 2,
+      "mean_conditions": 1.0
+    }
+  },
+  "calibration": {
+    "holistic_test": {
+      "accuracy": 0.4834478450968145,
+      "ece": 0.26113054341036857,
+      "ece_quantile": 0.26113054341036857,
+      "mce": 0.34078688524590167,
+      "brier": 0.6277178013741412,
+      "mean_confidence": 0.7445783885071829,
+      "ece_isotonic": 0.045410731182765486,
+      "ece_isotonic_quantile": 0.03891354607628085
+    },
+    "holistic_calib": {
+      "accuracy": 0.516875,
+      "ece": 0.22525000000000003,
+      "ece_quantile": 0.22525000000000012,
+      "mce": 0.487272727272727,
+      "brier": 0.598407,
+      "mean_confidence": 0.7421249999999999
+    }
+  },
+  "gate": {
+    "aurc": {
+      "jev_confidence": 0.45781277273435644,
+      "learned": 0.345879070820225
+    },
+    "validity": [
+      {
+        "eps": 0.01,
+        "violation_rate": 0.0,
+        "mean_coverage": 0.0
+      },
+      {
+        "eps": 0.02,
+        "violation_rate": 0.0,
+        "mean_coverage": 0.0
+      },
+      {
+        "eps": 0.05,
+        "violation_rate": 0.0,
+        "mean_coverage": 0.0
+      },
+      {
+        "eps": 0.1,
+        "violation_rate": 0.0,
+        "mean_coverage": 0.0
+      }
+    ],
+    "agreement_rate_test": 0.8956901936289818,
+    "accuracy_when_agree": 0.44142259414225943,
+    "accuracy_when_disagree": 0.15568862275449102
+  },
+  "baselines": {
+    "jev_holistic": {
+      "accuracy": 0.4834478450968145,
+      "macro_f1": 0.4654208211114095,
+      "f1_pos": 0.36725325172149964
+    },
+    "dmn_distil": {
+      "accuracy": 0.41161773891317927,
+      "macro_f1": 0.4053011542695988,
+      "f1_pos": 0.34401114206128136
+    },
+    "mcnemar_dmn_vs_jev": {
+      "a_only_correct": 26,
+      "b_only_correct": 141,
+      "p_value": 2.5649644236428484e-20
+    },
+    "majority_class": {
+      "accuracy": 0.8319800124921923,
+      "macro_f1": 0.45414251619502216,
+      "f1_pos": 0.0
+    },
+    "classes": [
+      "relief",
+      "no_relief"
+    ]
+  },
+  "operational": {
+    "jev_latency_ms_median": 283.27354199427646,
+    "jev_latency_ms_p95": 429.86925418663293,
+    "dmn_eval_us_per_case": 0.44152092426081074,
+    "input_tokens_mean": 1454.0745,
+    "cost_usd_per_1000": 0.061071129,
+    "review_per_1000": 1000.0
+  },
+  "xml_roundtrip_agreement": 1.0,
+  "config": {
+    "depths": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      8,
+      10,
+      12,
+      null
+    ],
+    "min_leaf": [
+      5,
+      20,
+      50,
+      100
+    ],
+    "fidelity_tol": 0.01,
+    "eps_grid": [
+      0.01,
+      0.02,
+      0.05,
+      0.1
+    ],
+    "eps_primary": 0.05,
+    "delta": 0.05,
+    "gate_depth": 3,
+    "gate_min_leaf": 40,
+    "label_budgets": [
+      100,
+      250,
+      500,
+      1000,
+      2000,
+      null
+    ],
+    "budget_repeats": 5,
+    "resamples": 200,
+    "seed": 0
+  }
+}

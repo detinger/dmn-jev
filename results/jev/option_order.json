@@ -1,0 +1,15 @@
+{
+  "n": 1000,
+  "product": {
+    "agreement": 0.972,
+    "kappa": 0.9662286441403682,
+    "share_first_option_original": 0.096,
+    "share_first_option_reversed_order": 0.032
+  },
+  "queue_holistic": {
+    "agreement": 0.963,
+    "kappa": 0.9560617036183781,
+    "share_first_option_original": 0.116,
+    "share_first_option_reversed_order": 0.255
+  }
+}
