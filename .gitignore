@@ -11,5 +11,10 @@ paper/*.log
 paper/*.bbl
 paper/*.blg
 paper/*.out
+paper/*.abs
 paper/*.spl
 paper/*.synctex.gz
+paper/generated_sim/
+tools/dmn-check/node_modules/
+results/simulated/
+models/simulated/

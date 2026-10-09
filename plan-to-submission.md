@@ -42,7 +42,7 @@ Owners: **A** = authors (decision or knowledge only the authors have); **C** = c
 
 | # | Task | Owner | Done when |
 |---|---|---|---|
-| 1.1 | **Human check of the label audit.** Both authors independently annotate the 50 cases in `notes/label-audit/human_check.csv`, following `protocol.md`. Do not open `annotations_llm.csv`, `key.csv`, `joined.csv` or `results.json` before you finish. Each author works on their own copy of the file. | A (both) | Two filled files exist. |
+| 1.1 | **Human check of the label audit.** Both authors independently annotate the 50 cases in `notes/label-audit/human_check.csv`, following `protocol.md`. Use `notes/label-audit/annotation_tool.html` (open in a browser, load your copy of the CSV, export when done). Do not open `annotations_llm.csv`, `key.csv`, `joined.csv` or `results.json` before you finish. Each author exports their own `human_check_<initials>.csv`. | A (both) | Two filled files exist. |
 | 1.2 | Run `python scripts/label_audit_human.py <file>` for each annotator. Report κ for human vs. LLM, κ between the two humans, and human vs. CFPB/Jev on the disagreements. Add the keys to the assets script and replace the `TODO` in Limitations. | C | The sentence in Limitations has generated numbers. |
 | 1.3 | Nikola Tanković's CRediT roles (currently a placeholder: Writing – review & editing). | A | `\credit{}` is confirmed. |
 | 1.4 | Competing interests: any relationship with TypeSafe (early access, free credits, contacts). Also check the terms of use: may we publish the raw Jev responses? | A | The declaration is final, and we have a yes/no on publishing the responses. |
