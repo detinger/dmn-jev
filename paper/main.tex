@@ -2,11 +2,12 @@
 %% Build:  latexmk -pdf main.tex   (or: pdflatex main && bibtex main && pdflatex main && pdflatex main)
 %% Layout check with simulated numbers (never for submission):
 %%   pdflatex "\def\gendir{generated_sim}\input{main}"
+\PassOptionsToPackage{hyphens}{url} % let long URLs in the references break at hyphens
 \documentclass[a4paper,fleqn]{cas-sc}
 
 \usepackage[authoryear,longnamesfirst]{natbib}
 \usepackage{amsmath,amssymb,amsthm}
-\usepackage{booktabs,multirow,makecell}
+\usepackage{booktabs,multirow,makecell,tabularx}
 \usepackage{graphicx}
 \usepackage{xcolor}
 \usepackage[ruled,linesnumbered,vlined]{algorithm2e}
@@ -161,7 +162,7 @@ Figure~\ref{fig:architecture} shows the architecture. A case $x$, here a complai
   \caption{Mapping of System One answer types to DMN. $p$ denotes the probability of the most likely answer; $n$ the number of options; $m^\star$ the most likely score level and $\bar d$ the mean absolute deviation of a uniform distribution over the levels.}
   \label{tab:types}
   \small
-  \begin{tabular}{@{}llllp{4.3cm}@{}}
+  \begin{tabularx}{\textwidth}{@{}l>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}p{2.4cm}>{\raggedright\arraybackslash}p{2.6cm}>{\raggedright\arraybackslash}X@{}}
     \toprule
     Question & Model output & Typed value $\tau_j(x)$ & DMN type & Signals in $\sigma(x)$ \\
     \midrule
@@ -169,7 +170,7 @@ Figure~\ref{fig:architecture} shows the architecture. A case $x$, here a complai
     Noul & probability of ``true'' & $p \ge 0.5$ & boolean & $p$, confidence $|2p-1|$ \\
     Score & distribution over $L\le 10$ levels & level $m^\star$ & number in $\{0,\dots,L-1\}$ & $p$, confidence $1-\frac{\sum_\ell \pi_\ell |\ell-m^\star|}{\bar d}$, margin \\
     \bottomrule
-  \end{tabular}
+  \end{tabularx}
 \end{table}
 
 Table~\ref{tab:types} gives the mapping from answers to DMN inputs. The typed value $\tau_j(x)$ is the most likely answer; together the typed values form the vector $\tau(x)\in D=D_1\times\dots\times D_m$. The signals $\sigma(x)$ summarise how certain each answer is; the confidence formulas are those of the vendor \citep{typesafe2026docs}. The model's holistic decision is $\hat y_M(x)=\arg\max_{c\in C}\pi_h(x)_c$ and the ground-truth decision, where available, is $y(x)$.
@@ -262,24 +263,24 @@ The DRD of Figure~\ref{fig:architecture} is deployed together with a BPMN proces
 \subsection{Cases and data}\label{sec:data}
 We use two public data sets. The first is the CFPB Consumer Complaint Database \citep{cfpb2026}, in which companies record how they closed each complaint; its narratives have been analysed, for example, with topic models to support complaint handling \citep{bastani2019}. The CFPB stopped publishing complaint narratives on 14~September~2026 \citep{cfpbnarratives2026}; we therefore take narratives from a public mirror of the database with complaints up to 2~January~2025 \citep{heineman2025} and join them by complaint identifier with the official bulk snapshot of 6~October~2026, which supplies the final company response. Only \res{data.labelchanged} of the joined complaints changed their response between the two snapshots, mostly from ``In progress'' to a final response. We keep complaints received between 1~April~2023 and 31~December~2024 with a narrative of at least 30 words, a closed response and a product in one of the ten product categories listed in Table~\ref{tab:tasks}, and drop exact duplicates of normalised narratives, which are common among templated letters and would otherwise leak between splits. This leaves \res{data.corpus} complaints.
 
-The second is the Employment Scam Aegean Dataset (EMSCAD) \citep{vidros2017}: \num{17880} job postings published on a recruiting platform in 2012--2014, of which 866 were labelled fraudulent by the platform's staff. Its labels come from a dedicated review rather than from the parties of a dispute, which makes it a useful contrast to the CFPB labels. The original site of the corpus is no longer online; we use a public copy whose counts match the published ones and record its checksum. The model sees the posting as a short document with the title, location, salary, employment type, company profile, description, requirements and benefits; the platform's metadata (company logo, screening questions, telecommuting flag) are withheld, as the structured CFPB fields are. Postings with fewer than 30 words and postings whose description duplicates an earlier one, often the same posting for several locations, are removed, leaving \res{jobfraud.cases} postings of which \res{jobfraud.posrate} are fraudulent.
+The second is the Employment Scam Aegean Dataset (EMSCAD) \citep{vidros2017}: 17{,}880 job postings published on a recruiting platform in 2012--2014, of which 866 were labelled fraudulent by the platform's staff. Its labels come from a dedicated review rather than from the parties of a dispute, which makes it a useful contrast to the CFPB labels. The original site of the corpus is no longer online; we use a public copy whose counts match the published ones and record its checksum. The model sees the posting as a short document with the title, location, salary, employment type, company profile, description, requirements and benefits; the platform's metadata (company logo, screening questions, telecommuting flag) are withheld, as the structured CFPB fields are. Postings with fewer than 30 words and postings whose description duplicates an earlier one, often the same posting for several locations, are removed, leaving \res{jobfraud.cases} postings of which \res{jobfraud.posrate} are fraudulent.
 
 \begin{table}[pos=tbp]
   \centering
   \caption{Decision tasks. Ground truth comes from fields recorded by the CFPB and from the EMSCAD labels; the model sees only the text.}
   \label{tab:tasks}
   \small
-  \begin{tabular}{@{}p{2.3cm}p{5.6cm}p{6.3cm}@{}}
+  \begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{2.3cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X@{}}
     \toprule
     Task & Cases and classes & Ground truth \\
     \midrule
     Monetary relief & \res{data.reliefn} random complaints about checking or savings accounts, credit and prepaid cards and money transfers; classes \feel{relief}, \feel{no\_relief} (\res{data.reliefpos} relief) & company response ``Closed with monetary relief'' versus ``Closed with explanation'' or ``Closed with non-monetary relief'' \\
     \addlinespace
-    Routing & \res{data.routingn} complaints, \num{1250} per queue; eight queues: credit reporting, debt collection, deposits, cards, payments, mortgage, consumer loans, fraud & product group selected by the consumer; complaints whose issue or sub-issue denotes fraud, identity theft or unauthorised activity go to the fraud queue (14 issue/sub-issue pairs, listed in the repository) \\
+    Routing & \res{data.routingn} complaints, 1{,}250 per queue; eight queues: credit reporting, debt collection, deposits, cards, payments, mortgage, consumer loans, fraud & product group selected by the consumer; complaints whose issue or sub-issue denotes fraud, identity theft or unauthorised activity go to the fraud queue (14 issue/sub-issue pairs, listed in the repository) \\
     \addlinespace
     Job-posting fraud & all \res{jobfraud.cases} deduplicated EMSCAD postings; classes \feel{fraudulent}, \feel{legitimate} (\res{jobfraud.posrate} fraudulent) & label assigned by the platform's staff \citep{vidros2017} \\
     \bottomrule
-  \end{tabular}
+  \end{tabularx}
 \end{table}
 
 From this corpus we draw two samples with a fixed seed (Table~\ref{tab:tasks}). The relief task is a real business decision taken by the company after handling the complaint; among the \res{data.banking} banking complaints of the corpus, \res{data.bankingrelief} were resolved with monetary relief. The routing task uses the consumer's own classification as a proxy for the correct handling queue, simulating an intake channel such as e-mail or a call centre where no category is selected; the fraud queue makes the routing depend on more than the product. The union of both samples has \res{data.sample} complaints with a median length of \res{data.wordsmedian} words (interquartile range \res{data.wordsiqr}); \res{data.truncated} narratives longer than 1{,}500 words are truncated. Each task is split, stratified by its ground truth, into a pool (60\%), a calibration set (20\%) and a test set (20\%): \res{data.reliefpool}/\res{data.reliefcalibration}/\res{data.relieftest} cases for relief and \res{data.routingpool}/\res{data.routingcalibration}/\res{data.routingtest} for routing. The EMSCAD postings are split in the same way (\res{jobfraud.pool}/\res{jobfraud.calibration}/\res{jobfraud.test}). Ground truth of the pool is never used by the distilled table.
@@ -456,7 +457,7 @@ The distilled tables reproduced the model's decisions on \res{routing.fidelity} 
 Future work will apply the method to processes with richer state, combine distillation with the labels that reviewers produce, and study how tables and gates should be maintained when the underlying model is updated.
 
 %% =======================================================================================
-\section*{CRediT authorship contribution statement}
+%% \printcredits typesets its own "CRediT authorship contribution statement" heading.
 \printcredits
 
 \section*{Declaration of competing interest}

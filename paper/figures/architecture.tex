@@ -7,7 +7,7 @@
     endevent/.style={draw, circle, line width=1.6pt, minimum size=0.55cm, fill=white},
     gateway/.style={draw, diamond, aspect=1, minimum size=0.75cm, inner sep=0pt, fill=white},
     decision/.style={draw, minimum width=2.6cm, minimum height=0.95cm, align=center, fill=white},
-    input/.style={draw, rounded corners=0.47cm, minimum width=2.6cm, minimum height=0.95cm, align=center, fill=white},
+    input/.style={draw, rounded corners=0.47cm, minimum width=2.6cm, inner xsep=0.3cm, minimum height=0.95cm, align=center, fill=white},
     source/.style={draw, tape, tape bend top=none, minimum width=2.4cm, minimum height=0.95cm, align=center, fill=white},
     flow/.style={->, thick},
     req/.style={->, thin},
@@ -59,9 +59,9 @@
   \begin{scope}[on background layer]
     \node[draw, fill=black!3, rounded corners=2pt, inner sep=0.3cm,
           fit=(outcome) (business) (gate) (facts) (signals) (holistic) (teacher) (calib),
-          label={[anchor=north west, font=\scriptsize\bfseries]north west:Decision requirements diagram (DMN)}] (drd) {};
+          label={[anchor=north west, font=\scriptsize\bfseries, align=left]north west:Decision requirements\\diagram (DMN)}] (drd) {};
   \end{scope}
   \draw[->, densely dotted, thick] (decide.south) -- ++(0,-0.75) -| (business.north);
   \draw[->, densely dotted, thick] (route.south) -- ++(0,-0.55) -| (outcome.north);
-  \draw[->, densely dotted, thick] (record.south) |- node[lbl, pos=0.25, right] {new labels: re-distil, recalibrate} ([yshift=-0.35cm]drd.north east);
+  \draw[->, densely dotted, thick] (record.south) |- node[lbl, pos=0.25, left] {new labels: re-distil, recalibrate} ([yshift=-0.35cm]drd.north east);
 \end{tikzpicture}

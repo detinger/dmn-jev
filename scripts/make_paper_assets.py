@@ -44,6 +44,16 @@ def num(x, d=3):
     return f"{x:.{d}f}"
 
 
+def count(x):
+    return f"{x:,.0f}".replace(",", "{,}")
+
+
+def pval(p):
+    """p-value for use in math mode: 0.0902, or 2.11\\times 10^{-9} instead of 2.11e-09."""
+    m, _, e = f"{p:.3g}".partition("e")
+    return rf"{m}\times 10^{{{int(e)}}}" if e else m
+
+
 class Numbers:
     def __init__(self):
         self.items: dict[str, str] = {}
@@ -92,7 +102,7 @@ def numbers_for(n: Numbers, task: str, r: dict) -> None:
     n[p + "f1dmn"] = num(base["dmn_distil"]["macro_f1"], 3)
     n[p + "f1jev"] = num(base["jev_holistic"]["macro_f1"], 3)
     n[p + "accmajority"] = pct(base["majority_class"]["accuracy"])
-    n[p + "mcnemarp"] = f"{base['mcnemar_dmn_vs_jev']['p_value']:.3g}"
+    n[p + "mcnemarp"] = pval(base['mcnemar_dmn_vs_jev']['p_value'])
     n[p + "ece"] = num(cal["ece"], 3)
     n[p + "eceiso"] = num(cal.get("ece_isotonic", float("nan")), 3)
     n[p + "brier"] = num(cal["brier"], 3)
@@ -138,8 +148,8 @@ def numbers_for(n: Numbers, task: str, r: dict) -> None:
     n[p + "latp95"] = f"{o['jev_latency_ms_p95']:.0f}"
     n[p + "dmnus"] = f"{o['dmn_eval_us_per_case']:.1f}"
     n[p + "cost"] = f"{o['cost_usd_per_1000']:.4f}"
-    n[p + "tokens"] = f"{o['input_tokens_mean']:.0f}"
-    n[p + "review"] = f"{o['review_per_1000']:.0f}"
+    n[p + "tokens"] = count(o['input_tokens_mean'])
+    n[p + "review"] = count(o['review_per_1000'])
     n[p + "models"] = ", ".join(s["models"])
     lc = r["lc"]
     full = lc[lc["labels"] == lc["labels"].max()]
@@ -209,7 +219,8 @@ def tab_gate(results: dict, out: Path, eps=(0.05, 0.10)) -> None:
 
 def tab_baselines(results: dict, out: Path) -> None:
     lines = [r"\begin{tabular}{@{}llrrrrc@{}}", r"\toprule",
-             r"Task & Method & Labels & Acc. (\%) & Bal. acc. (\%) & Recall$_+$ (\%) & Auditable logic \\", r"\midrule"]
+             r"Task & Method & Labels & \makecell[rb]{Acc.\\(\%)} & \makecell[rb]{Bal.\ acc.\\(\%)} & "
+             r"\makecell[rb]{Recall$_+$\\(\%)} & \makecell[cb]{Auditable\\logic} \\", r"\midrule"]
     for t, r in results.items():
         s, b, lc = r["summary"], r["summary"]["baselines"], r["lc"]
         full = lc[lc["labels"] == lc["labels"].max()]
@@ -311,9 +322,13 @@ def fig_risk_coverage(results: dict, out: Path, eps_marks=(0.02, 0.05, 0.10)) ->
             ax.plot(100 * df["coverage"], 100 * df["risk"], color=col, linestyle=ls, label=lab)
         top = max(df.loc[df["coverage"] >= 0.05, "risk"].max() for df in (r["rc_conf"], r["rc_learned"]))
         top = 100 * max(top, max(eps_marks)) * 1.15
-        for e in eps_marks:
+        x, prev = 99, None
+        for e in sorted(eps_marks, reverse=True):
             ax.axhline(100 * e, color=MUTED, linewidth=0.6)
-            ax.text(99, 100 * e + 0.012 * top, rf"$\varepsilon$ = {e:g}", ha="right", va="bottom", fontsize=6.5, color=MUTED)
+            # shift a label left when its line is too close to the one above for the labels to stack
+            x = 77 if prev is not None and x == 99 and 100 * (prev - e) < 0.06 * top else 99
+            ax.text(x, 100 * e + 0.012 * top, rf"$\varepsilon$ = {e:g}", ha="right", va="bottom", fontsize=6.5, color=MUTED)
+            prev = e
         ax.set_xlim(0, 100)
         ax.set_ylim(0, top)
         ax.set_xlabel("Cases automated (%)")
